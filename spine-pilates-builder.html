@@ -1,0 +1,597 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spine — Mat Pilates class builder</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root{
+  --paper:#EEE9E0;
+  --paper-2:#E6E0D5;
+  --card:#F6F2EB;
+  --ink:#22261F;
+  --ink-soft:#54584C;
+  --ink-faint:#8A8C80;
+  --pine:#2C3B30;
+  --pine-deep:#1B2620;
+  --sage:#6F9075;
+  --sage-deep:#577A5E;
+  --mist:#C6D2C3;
+  --honey:#C2933F;
+  --line:rgba(34,38,31,.14);
+  --line-soft:rgba(34,38,31,.08);
+  --shadow:0 1px 2px rgba(34,38,31,.06),0 8px 24px rgba(34,38,31,.06);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:'Hanken Grotesk',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.45;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--sage-deep);outline-offset:2px;border-radius:6px}
+.mono{font-family:'DM Mono',monospace;font-feature-settings:"tnum"}
+.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* shell */
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+header.top{padding:26px 0 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:14px}
+.brand h1{font-family:'Fraunces',serif;font-weight:500;font-size:38px;letter-spacing:-.01em;margin:0;line-height:1}
+.brand .tag{font-size:13.5px;color:var(--ink-soft)}
+.brand .dot{width:7px;height:7px;border-radius:50%;background:var(--sage);display:inline-block;margin-bottom:5px}
+
+.grid{display:grid;grid-template-columns:1.32fr 1fr;gap:26px;align-items:start;padding-bottom:60px}
+
+/* panels */
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.panel-h h2{font-family:'Fraunces',serif;font-weight:500;font-size:21px;margin:0;letter-spacing:-.01em}
+
+/* filters */
+.filters{display:flex;flex-direction:column;gap:9px;margin-bottom:16px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-size:12.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);transition:.15s}
+.chip:hover{border-color:var(--sage)}
+.chip.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.chip.lvl.on{background:var(--sage-deep);border-color:var(--sage-deep)}
+
+/* library */
+.lib{display:flex;flex-direction:column;gap:9px}
+.ex{background:var(--card);border:1px solid var(--line-soft);border-radius:13px;padding:13px 14px;display:flex;gap:13px;align-items:flex-start;box-shadow:var(--shadow);transition:.15s}
+.ex:hover{transform:translateY(-1px);border-color:var(--line)}
+.ex .add{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:var(--ink);color:var(--card);font-size:20px;line-height:1;display:grid;place-items:center;align-self:center;transition:.15s}
+.ex .add:hover{background:var(--sage-deep)}
+.ex .body{flex:1;min-width:0}
+.ex .name{font-weight:600;font-size:15px;letter-spacing:-.005em}
+.ex .cue{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+.ex .meta{display:flex;gap:7px;align-items:center;margin-top:7px;flex-wrap:wrap}
+.tagx{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--paper-2);color:var(--ink-soft)}
+.tagx.flex{background:#E7DCC8;color:#7a5a1f}
+.tagx.ext{background:#D8E2D4;color:#3f5a40}
+.tagx.rot{background:#DED7E0;color:#5a4a66}
+.tagx.stab{background:#D6DDE3;color:#3f5663}
+.tagx.dur{margin-left:auto;background:transparent;color:var(--ink-faint)}
+
+/* sequence column */
+.seqcol{position:sticky;top:18px}
+.seqcard{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:18px 18px 20px;box-shadow:var(--shadow)}
+.summary{display:flex;align-items:center;gap:16px;margin-bottom:6px}
+.summary .total{font-family:'DM Mono',monospace;font-size:30px;letter-spacing:-.02em}
+.summary .count{font-size:12.5px;color:var(--ink-soft)}
+.summary .actions{margin-left:auto;display:flex;gap:8px}
+.run{background:var(--pine);color:#F1EFE8;font-weight:600;font-size:14px;padding:10px 18px;border-radius:11px;display:flex;align-items:center;gap:8px;transition:.15s}
+.run:hover{background:var(--pine-deep)}
+.run:disabled{opacity:.4;cursor:not-allowed}
+.ghostbtn{background:transparent;border:1px solid var(--line);border-radius:11px;padding:10px 13px;font-size:13px;color:var(--ink-soft)}
+.ghostbtn:hover{border-color:var(--sage)}
+
+/* balance meter */
+.balance{margin:16px 0 2px;border-top:1px solid var(--line-soft);padding-top:14px}
+.balance .lab{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+.bar{height:9px;border-radius:999px;background:var(--paper);overflow:hidden;display:flex}
+.bar .flex{background:#C9A25A}
+.bar .ext{background:var(--sage)}
+.tip{font-size:12px;color:var(--honey);margin-top:9px;display:none;align-items:flex-start;gap:6px}
+.tip.show{display:flex}
+.tip .ic{flex:0 0 auto}
+
+/* spine list */
+.spine{margin-top:18px;display:flex;flex-direction:column}
+.vert{position:relative;display:flex;gap:12px;align-items:center;padding:4px 0}
+.vert .stem{position:relative;flex:0 0 auto;width:26px;display:flex;justify-content:center}
+.vert .node{width:14px;height:14px;border-radius:50%;background:var(--sage);border:2px solid var(--paper-2);z-index:2;box-shadow:0 0 0 1px var(--sage-deep)}
+.vert::before{content:"";position:absolute;left:25px;top:-6px;bottom:-6px;width:2px;background:var(--mist);z-index:1}
+.vert:first-child::before{top:50%}
+.vert:last-child::before{bottom:50%}
+.vert .pill{flex:1;background:var(--card);border:1px solid var(--line-soft);border-radius:11px;padding:9px 11px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.vert .pname{font-weight:600;font-size:13.5px;flex:1;min-width:0}
+.vert .pname small{display:block;font-weight:400;color:var(--ink-faint);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-family:'DM Mono',monospace;margin-top:1px}
+.dur-ctrl{display:flex;align-items:center;gap:2px;flex:0 0 auto}
+.dur-ctrl button{width:22px;height:22px;border-radius:6px;border:1px solid var(--line);font-size:14px;color:var(--ink-soft);display:grid;place-items:center;line-height:1}
+.dur-ctrl button:hover{border-color:var(--sage);color:var(--ink)}
+.dur-ctrl .v{font-family:'DM Mono',monospace;font-size:12px;min-width:38px;text-align:center}
+.row-tools{display:flex;flex-direction:column;gap:1px;flex:0 0 auto;margin-left:2px}
+.row-tools button{width:20px;height:16px;color:var(--ink-faint);font-size:11px;display:grid;place-items:center;line-height:1}
+.row-tools button:hover{color:var(--ink)}
+.del{flex:0 0 auto;width:24px;height:24px;border-radius:6px;color:var(--ink-faint);font-size:16px;display:grid;place-items:center}
+.del:hover{color:#9a4b3b;background:#ead9d3}
+
+.empty{text-align:center;padding:30px 16px;color:var(--ink-soft)}
+.empty .big{font-family:'Fraunces',serif;font-size:18px;color:var(--ink);margin-bottom:4px}
+.empty .sample{margin-top:14px}
+
+/* saved bar */
+.saved{margin-top:18px;border-top:1px solid var(--line-soft);padding-top:14px}
+.saverow{display:flex;gap:8px;margin-bottom:10px}
+.saverow input{flex:1;font-family:inherit;font-size:13px;padding:9px 11px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.saverow input:focus{outline:none;border-color:var(--sage)}
+.saverow button{background:var(--ink);color:var(--card);border-radius:9px;padding:0 15px;font-size:13px;font-weight:600}
+.saverow button:hover{background:var(--sage-deep)}
+.plan-list{display:flex;flex-direction:column;gap:6px}
+.plan{display:flex;align-items:center;gap:10px;font-size:13px;padding:8px 10px;border-radius:9px;background:var(--card);border:1px solid var(--line-soft)}
+.plan .pn{flex:1;font-weight:500}
+.plan .pm{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-faint)}
+.plan button{font-size:12px;color:var(--sage-deep);font-weight:600}
+.plan button.x{color:var(--ink-faint)}
+.plan button:hover{text-decoration:underline}
+.muted{color:var(--ink-faint);font-size:12.5px}
+
+/* RUN overlay */
+.overlay{position:fixed;inset:0;background:var(--pine-deep);color:#EDEAE0;z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px}
+.overlay.on{display:flex}
+.ov-top{position:absolute;top:0;left:0;right:0;padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+.ov-progress{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(237,234,224,.6)}
+.ov-close{color:rgba(237,234,224,.7);font-size:14px;display:flex;gap:7px;align-items:center}
+.ov-close:hover{color:#fff}
+.progbar{position:absolute;top:0;left:0;height:3px;background:var(--sage);transition:width .25s linear}
+
+.orb-wrap{position:relative;width:280px;height:280px;display:grid;place-items:center;margin-bottom:10px}
+.orb{width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 38% 34%,rgba(159,189,160,.55),rgba(111,144,117,.18) 60%,transparent 72%);border:1px solid rgba(198,210,195,.35);animation:breathe 9s ease-in-out infinite}
+.orb-ring{position:absolute;width:230px;height:230px;border-radius:50%;border:1px solid rgba(198,210,195,.16);animation:breathe 9s ease-in-out infinite}
+.breath-label{position:absolute;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:rgba(237,234,224,.85)}
+.breath-label .inh{animation:inh 9s ease-in-out infinite}
+.breath-label .exh{position:absolute;left:0;right:0;animation:exh 9s ease-in-out infinite;opacity:0}
+
+@keyframes breathe{0%,100%{transform:scale(.82)}45%{transform:scale(1.12)}55%{transform:scale(1.12)}}
+@keyframes inh{0%,40%{opacity:1}50%,100%{opacity:0}}
+@keyframes exh{0%,45%{opacity:0}55%,95%{opacity:1}100%{opacity:0}}
+
+.ov-phase{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin-bottom:8px}
+.ov-name{font-family:'Fraunces',serif;font-weight:500;font-size:34px;letter-spacing:-.01em;margin:0 0 14px;max-width:640px}
+.ov-time{font-family:'DM Mono',monospace;font-size:58px;letter-spacing:-.02em;line-height:1;margin-bottom:18px}
+.ov-cue{font-size:16px;max-width:540px;color:rgba(237,234,224,.92);line-height:1.5}
+.ov-breath{font-size:13px;color:rgba(237,234,224,.55);margin-top:10px}
+.ov-next{margin-top:22px;font-size:12.5px;color:rgba(237,234,224,.5)}
+.ov-next b{color:rgba(237,234,224,.8);font-weight:600}
+
+.ov-ctrl{position:absolute;bottom:30px;display:flex;align-items:center;gap:14px}
+.ov-ctrl button{color:#EDEAE0;border:1px solid rgba(237,234,224,.25);border-radius:999px;padding:11px 16px;font-size:13.5px;display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.02)}
+.ov-ctrl button:hover{background:rgba(255,255,255,.08)}
+.ov-ctrl .main{background:#EDEAE0;color:var(--pine-deep);font-weight:700;border-color:transparent;padding:12px 26px}
+.ov-ctrl .main:hover{background:#fff}
+.ov-ctrl .ico{width:42px;height:42px;padding:0;justify-content:center}
+.done-card{max-width:420px}
+.done-card .ov-name{margin-bottom:8px}
+
+@media (max-width:880px){
+  .grid{grid-template-columns:1fr;gap:30px}
+  .seqcol{position:static}
+  .brand h1{font-size:32px}
+  .ov-name{font-size:27px}
+  .ov-time{font-size:46px}
+}
+@media (prefers-reduced-motion:reduce){
+  .orb,.orb-ring{animation:none;transform:scale(1)}
+  .breath-label .inh,.breath-label .exh{animation:none}
+  .breath-label .exh{opacity:0}
+  *{transition:none!important}
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Spine</h1>
+      <span class="dot"></span>
+      <span class="tag">Build your mat flow, then run it.</span>
+    </div>
+    <div class="eyebrow" id="clock">Mat Pilates · class builder</div>
+  </header>
+
+  <div class="grid">
+    <!-- LIBRARY -->
+    <section>
+      <div class="panel-h"><h2>Library</h2><span class="muted" id="libcount"></span></div>
+      <div class="filters">
+        <div class="chips" id="phaseChips"></div>
+        <div class="chips" id="lvlChips"></div>
+      </div>
+      <div class="lib" id="lib"></div>
+    </section>
+
+    <!-- SEQUENCE -->
+    <aside class="seqcol">
+      <div class="seqcard">
+        <div class="panel-h" style="margin-bottom:10px"><h2>Your class</h2></div>
+        <div class="summary">
+          <div>
+            <div class="total" id="total">0:00</div>
+            <div class="count" id="count">no exercises yet</div>
+          </div>
+          <div class="actions">
+            <button class="ghostbtn" id="clearBtn" title="Clear class">Clear</button>
+            <button class="run" id="runBtn" disabled>▶ Run class</button>
+          </div>
+        </div>
+
+        <div class="balance" id="balanceBox" style="display:none">
+          <div class="lab"><span>Flexion <b id="flexMin">0</b></span><span>Balance</span><span><b id="extMin">0</b> Extension</span></div>
+          <div class="bar"><div class="flex" id="flexBar" style="width:50%"></div><div class="ext" id="extBar" style="width:50%"></div></div>
+          <div class="tip" id="balTip"><span class="ic">◆</span><span id="balTipText"></span></div>
+        </div>
+
+        <div class="spine" id="spine"></div>
+
+        <div class="saved" id="savedWrap" style="display:none">
+          <div class="eyebrow" style="margin-bottom:10px">Saved classes</div>
+          <div class="saverow">
+            <input id="planName" placeholder="Name this class…" maxlength="40">
+            <button id="saveBtn">Save</button>
+          </div>
+          <div class="plan-list" id="planList"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- RUN OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="progbar" id="progbar" style="width:0%"></div>
+  <div class="ov-top">
+    <span class="ov-progress" id="ovProgress">1 / 1</span>
+    <button class="ov-close" id="ovClose">✕ End</button>
+  </div>
+
+  <div id="runStage" style="display:flex;flex-direction:column;align-items:center">
+    <div class="orb-wrap">
+      <div class="orb-ring"></div>
+      <div class="orb"></div>
+      <div class="breath-label"><span class="inh">Inhale</span><span class="exh">Exhale</span></div>
+    </div>
+    <div class="ov-phase" id="ovPhase">Warm-Up</div>
+    <h2 class="ov-name" id="ovName">—</h2>
+    <div class="ov-time mono" id="ovTime">0:00</div>
+    <div class="ov-cue" id="ovCue"></div>
+    <div class="ov-breath" id="ovBreath"></div>
+    <div class="ov-next" id="ovNext"></div>
+  </div>
+
+  <div class="done-card" id="doneStage" style="display:none">
+    <div class="ov-phase">Class complete</div>
+    <h2 class="ov-name">Beautifully done.</h2>
+    <div class="ov-cue">Cue your students to roll to one side and press up slowly. Let the work settle.</div>
+  </div>
+
+  <div class="ov-ctrl" id="ovCtrl">
+    <button id="ovPrev" class="ico" title="Previous">⏮</button>
+    <button id="ovPause" class="main">Pause</button>
+    <button id="ovNextBtn" class="ico" title="Skip">⏭</button>
+    <button id="ovMute" class="ico" title="Mute chime">🔔</button>
+  </div>
+</div>
+
+<script>
+/* ---------- exercise library (grounded in mat Pilates practice) ---------- */
+const PHASES = ["Warm-Up","Core","Spine","Hip & Leg","Extension","Cool-Down"];
+const LEVELS = ["Beginner","Intermediate","Advanced"];
+const ACT = {flexion:["flex","Flexion"],extension:["ext","Extension"],rotation:["rot","Rotation"],stability:["stab","Stability"]};
+
+const LIB = [
+  // Warm-Up
+  {n:"Breath & Body Scan",p:"Warm-Up",l:"Beginner",a:"stability",d:180,c:"Breathe into the back and sides of the ribcage — lateral thoracic breathing.",b:"Slow, even breath"},
+  {n:"Pelvic Tilts",p:"Warm-Up",l:"Beginner",a:"stability",d:120,c:"Draw the belly button gently toward the spine — a scoop, not a suck.",b:"Exhale to tilt"},
+  {n:"Cat–Cow",p:"Warm-Up",l:"Beginner",a:"extension",d:120,c:"The spine is a string of pearls — articulate one pearl at a time.",b:"Inhale arch · exhale round"},
+  {n:"Chest Lift",p:"Warm-Up",l:"Beginner",a:"flexion",d:120,c:"Knit the lower ribs toward each other; head heavy in the hands.",b:"Exhale to lift"},
+  // Core
+  {n:"The Hundred",p:"Core",l:"Intermediate",a:"flexion",d:120,c:"On the exhale, let the abdominals do the work — pump from the powerhouse.",b:"5 in · 5 out"},
+  {n:"Single Leg Slide",p:"Core",l:"Beginner",a:"stability",d:120,c:"Keep the pelvis still as the leg slides — no rocking side to side.",b:"Exhale to extend"},
+  {n:"Single Leg Stretch",p:"Core",l:"Intermediate",a:"flexion",d:120,c:"Create opposition: reach the long leg as the abs scoop deeper.",b:"Exhale each switch"},
+  {n:"Double Leg Stretch",p:"Core",l:"Intermediate",a:"flexion",d:120,c:"Reach long, then circle the arms and hug the knees back to center.",b:"Inhale reach · exhale hug"},
+  {n:"Criss-Cross",p:"Core",l:"Intermediate",a:"rotation",d:120,c:"Twist from the waist, not the elbow — reach armpit toward knee.",b:"Exhale to rotate"},
+  {n:"Teaser",p:"Core",l:"Advanced",a:"flexion",d:120,c:"Roll up pearl by pearl; float the legs to meet the fingertips.",b:"Exhale to rise"},
+  // Spine
+  {n:"Roll-Down",p:"Spine",l:"Beginner",a:"flexion",d:120,c:"Melt down one vertebra at a time, head heavy, knees soft.",b:"Exhale to descend"},
+  {n:"Roll-Up",p:"Spine",l:"Intermediate",a:"flexion",d:120,c:"Peel sequentially off the mat; don't hinge from the hips.",b:"Exhale to peel up"},
+  {n:"Spine Stretch Forward",p:"Spine",l:"Beginner",a:"flexion",d:120,c:"Grow tall first, then curl forward over an imaginary beach ball.",b:"Exhale to fold"},
+  {n:"Saw",p:"Spine",l:"Intermediate",a:"rotation",d:120,c:"Twist from the waist and saw the pinky past the little toe.",b:"Exhale to saw"},
+  {n:"Rolling Like a Ball",p:"Spine",l:"Intermediate",a:"flexion",d:120,c:"Stay in the C-curve; control the roll — don't throw it.",b:"Inhale back · exhale up"},
+  // Hip & Leg
+  {n:"Pelvic Curl / Bridge",p:"Hip & Leg",l:"Beginner",a:"extension",d:120,c:"Roll up through the spine; ribs stay soft, no arching the back.",b:"Exhale to lift"},
+  {n:"Leg Circles",p:"Hip & Leg",l:"Intermediate",a:"stability",d:120,c:"Anchor the pelvis; the leg draws circles from a still center.",b:"Exhale across"},
+  {n:"Side Kick Series",p:"Hip & Leg",l:"Beginner",a:"stability",d:180,c:"Lengthen both sides of the waist; the leg moves, the torso stays.",b:"Exhale to kick"},
+  {n:"Clam",p:"Hip & Leg",l:"Beginner",a:"stability",d:120,c:"Stack the hips; open the top knee without rolling back.",b:"Exhale to open"},
+  {n:"Inner Thigh Lift",p:"Hip & Leg",l:"Beginner",a:"stability",d:120,c:"Lengthen the bottom leg long and lift from the inner thigh.",b:"Exhale to lift"},
+  // Extension
+  {n:"Dart",p:"Extension",l:"Beginner",a:"extension",d:120,c:"Reach the fingertips toward the heels; lengthen the crown forward.",b:"Exhale to lift"},
+  {n:"Swan Prep",p:"Extension",l:"Beginner",a:"extension",d:120,c:"Press the mat away; lift from the upper back, not the lower.",b:"Inhale to rise"},
+  {n:"Swimming",p:"Extension",l:"Intermediate",a:"extension",d:120,c:"Opposite arm and leg reach long; keep the belly lifted off the mat.",b:"Breathe in 5s"},
+  {n:"Single Leg Kick",p:"Extension",l:"Intermediate",a:"extension",d:120,c:"Keep the thighs lifted; pulse the heel toward the seat.",b:"Exhale to pulse"},
+  {n:"Child's Pose",p:"Extension",l:"Beginner",a:"stability",d:60,c:"Let the back body breathe and release between extensions.",b:"Long slow breath"},
+  // Cool-Down
+  {n:"Supine Spinal Twist",p:"Cool-Down",l:"Beginner",a:"rotation",d:120,c:"Exhale and let the knees melt to one side, gaze opposite.",b:"Exhale to release"},
+  {n:"Figure-Four Stretch",p:"Cool-Down",l:"Beginner",a:"stability",d:120,c:"Cross and draw the thigh in; keep the sacrum heavy on the mat.",b:"Breathe into the hip"},
+  {n:"Hamstring Stretch",p:"Cool-Down",l:"Beginner",a:"stability",d:120,c:"Float the leg toward you; soften the opposite standing hip.",b:"Exhale to deepen"},
+  {n:"Constructive Rest",p:"Cool-Down",l:"Beginner",a:"stability",d:180,c:"Let the mat hold you; lengthen each exhale a little more.",b:"Let breath settle"},
+];
+
+/* ---------- state ---------- */
+let seq = [];               // [{...ex, id, d}]
+let fPhase = "All", fLevel = "All";
+let uid = 1;
+const $ = s => document.querySelector(s);
+const fmt = sec => Math.floor(sec/60)+":"+String(sec%60).padStart(2,"0");
+
+/* ---------- filters ---------- */
+function buildChips(){
+  const pc = $("#phaseChips"), lc = $("#lvlChips");
+  pc.innerHTML=""; lc.innerHTML="";
+  ["All",...PHASES].forEach(p=>{
+    const b=document.createElement("button");
+    b.className="chip"+(p===fPhase?" on":""); b.textContent=p;
+    b.onclick=()=>{fPhase=p;buildChips();renderLib();};
+    pc.appendChild(b);
+  });
+  ["All",...LEVELS].forEach(l=>{
+    const b=document.createElement("button");
+    b.className="chip lvl"+(l===fLevel?" on":""); b.textContent=l;
+    b.onclick=()=>{fLevel=l;buildChips();renderLib();};
+    lc.appendChild(b);
+  });
+}
+
+/* ---------- library render ---------- */
+function renderLib(){
+  const wrap=$("#lib"); wrap.innerHTML="";
+  const items=LIB.filter(e=>(fPhase==="All"||e.p===fPhase)&&(fLevel==="All"||e.l===fLevel));
+  $("#libcount").textContent=items.length+" exercises";
+  items.forEach(e=>{
+    const [ac,al]=ACT[e.a];
+    const el=document.createElement("div"); el.className="ex";
+    el.innerHTML=`
+      <button class="add" aria-label="Add ${e.n}">+</button>
+      <div class="body">
+        <div class="name">${e.n}</div>
+        <div class="cue">${e.c}</div>
+        <div class="meta">
+          <span class="tagx">${e.p}</span>
+          <span class="tagx ${ac}">${al}</span>
+          <span class="tagx">${e.l}</span>
+          <span class="tagx dur">${fmt(e.d)}</span>
+        </div>
+      </div>`;
+    el.querySelector(".add").onclick=()=>addEx(e);
+    wrap.appendChild(el);
+  });
+}
+
+/* ---------- sequence ops ---------- */
+function addEx(e){ seq.push({...e, id:uid++, d:e.d}); renderSeq(); }
+function delEx(id){ seq=seq.filter(x=>x.id!==id); renderSeq(); }
+function move(id,dir){
+  const i=seq.findIndex(x=>x.id===id), j=i+dir;
+  if(j<0||j>=seq.length) return;
+  [seq[i],seq[j]]=[seq[j],seq[i]]; renderSeq();
+}
+function bump(id,delta){
+  const x=seq.find(s=>s.id===id);
+  x.d=Math.max(30,Math.min(600,x.d+delta)); renderSeq();
+}
+
+/* ---------- sequence render ---------- */
+function renderSeq(){
+  const sp=$("#spine"); sp.innerHTML="";
+  const runBtn=$("#runBtn"), clearBtn=$("#clearBtn");
+  const total=seq.reduce((a,x)=>a+x.d,0);
+  $("#total").textContent=fmt(total);
+  $("#count").textContent= seq.length? seq.length+" exercise"+(seq.length>1?"s":"") : "no exercises yet";
+  runBtn.disabled=!seq.length; clearBtn.style.visibility=seq.length?"visible":"hidden";
+
+  if(!seq.length){
+    sp.innerHTML=`<div class="empty">
+      <div class="big">Your class is empty</div>
+      <div>Tap exercises from the library to stack your flow, vertebra by vertebra.</div>
+      <div class="sample"><button class="ghostbtn" id="sampleBtn">Load a sample 40-min class</button></div>
+    </div>`;
+    $("#sampleBtn").onclick=loadSample;
+    $("#balanceBox").style.display="none";
+    renderPlans();
+    return;
+  }
+
+  seq.forEach(x=>{
+    const [ac,al]=ACT[x.a];
+    const v=document.createElement("div"); v.className="vert";
+    v.innerHTML=`
+      <div class="stem"><span class="node"></span></div>
+      <div class="pill">
+        <div class="pname">${x.n}<small>${x.p} · ${al}</small></div>
+        <div class="dur-ctrl">
+          <button data-a="minus">−</button>
+          <span class="v mono">${fmt(x.d)}</span>
+          <button data-a="plus">+</button>
+        </div>
+        <div class="row-tools">
+          <button data-a="up" title="Move up">▲</button>
+          <button data-a="down" title="Move down">▼</button>
+        </div>
+        <button class="del" data-a="del" title="Remove">×</button>
+      </div>`;
+    v.querySelector('[data-a=minus]').onclick=()=>bump(x.id,-30);
+    v.querySelector('[data-a=plus]').onclick=()=>bump(x.id,30);
+    v.querySelector('[data-a=up]').onclick=()=>move(x.id,-1);
+    v.querySelector('[data-a=down]').onclick=()=>move(x.id,1);
+    v.querySelector('[data-a=del]').onclick=()=>delEx(x.id);
+    sp.appendChild(v);
+  });
+
+  renderBalance();
+  renderPlans();
+}
+
+/* ---------- balance meter (flexion vs extension) ---------- */
+function renderBalance(){
+  const box=$("#balanceBox");
+  const flex=seq.filter(x=>x.a==="flexion").reduce((a,x)=>a+x.d,0);
+  const ext=seq.filter(x=>x.a==="extension").reduce((a,x)=>a+x.d,0);
+  box.style.display="block";
+  $("#flexMin").textContent=Math.round(flex/60)+"m";
+  $("#extMin").textContent=Math.round(ext/60)+"m";
+  const sum=flex+ext;
+  const fp = sum? (flex/sum*100):50;
+  $("#flexBar").style.width=fp+"%";
+  $("#extBar").style.width=(100-fp)+"%";
+
+  // sequencing intelligence
+  const tip=$("#balTip"), txt=$("#balTipText");
+  let msg="";
+  if(flex>0 && ext===0) msg="Lots of flexion, no extension counterpart. Add a Swan or Dart to balance the spine.";
+  else if(flex >= ext*2.2 && ext>0) msg="This class leans flexion-heavy. Consider more back-body extension work.";
+  else {
+    // rule: avoid spinal flexion at the very end
+    const last=seq[seq.length-1];
+    if(last && last.a==="flexion") msg="A flexion exercise sits last. Avoid loaded rounding under fatigue — end on a twist or rest.";
+  }
+  if(msg){ txt.textContent=msg; tip.classList.add("show"); }
+  else tip.classList.remove("show");
+}
+
+/* ---------- sample class (follows the warm-up → core → spine → hips → extension → cool-down arc) ---------- */
+function loadSample(){
+  const names=["Breath & Body Scan","Cat–Cow","Chest Lift","The Hundred","Single Leg Stretch",
+    "Criss-Cross","Roll-Up","Pelvic Curl / Bridge","Side Kick Series","Swan Prep","Swimming",
+    "Supine Spinal Twist","Constructive Rest"];
+  seq=names.map(n=>{const e=LIB.find(x=>x.n===n);return{...e,id:uid++,d:e.d};});
+  renderSeq();
+}
+
+/* ---------- persistence (survives across sessions when available) ---------- */
+let memPlans=null;
+async function loadPlans(){
+  if(window.storage){ try{const r=await window.storage.get("pilates:plans");return r?JSON.parse(r.value):[];}catch(e){return [];} }
+  return memPlans||[];
+}
+async function savePlans(arr){
+  if(window.storage){ try{await window.storage.set("pilates:plans",JSON.stringify(arr));}catch(e){} }
+  else memPlans=arr;
+}
+async function renderPlans(){
+  $("#savedWrap").style.display="block";
+  const list=$("#planList"); const plans=await loadPlans();
+  list.innerHTML="";
+  if(!plans.length){ list.innerHTML='<div class="muted">No saved classes yet. Build a flow and save it to reuse before your next session.</div>'; return; }
+  plans.forEach(pl=>{
+    const t=pl.items.reduce((a,x)=>a+x.d,0);
+    const row=document.createElement("div"); row.className="plan";
+    row.innerHTML=`<span class="pn">${pl.name}</span><span class="pm">${pl.items.length} · ${fmt(t)}</span>
+      <button data-a="load">Load</button><button class="x" data-a="del">Delete</button>`;
+    row.querySelector('[data-a=load]').onclick=()=>{ seq=pl.items.map(x=>({...x,id:uid++})); renderSeq(); };
+    row.querySelector('[data-a=del]').onclick=async()=>{ const arr=(await loadPlans()).filter(p=>p.id!==pl.id); await savePlans(arr); renderPlans(); };
+    list.appendChild(row);
+  });
+}
+$("#saveBtn").onclick=async()=>{
+  if(!seq.length) return;
+  const inp=$("#planName"); const name=(inp.value.trim()||"Untitled class").slice(0,40);
+  const arr=await loadPlans();
+  arr.unshift({id:Date.now(), name, items:seq.map(({id,...r})=>r)});
+  await savePlans(arr); inp.value=""; renderPlans();
+};
+
+$("#clearBtn").onclick=()=>{ seq=[]; renderSeq(); };
+
+/* ---------- RUN MODE ---------- */
+let runIdx=0, remaining=0, ticker=null, paused=false, muted=false;
+let audio=null;
+function chime(){
+  if(muted) return;
+  try{
+    audio=audio||new (window.AudioContext||window.webkitAudioContext)();
+    const o=audio.createOscillator(), g=audio.createGain();
+    o.type="sine"; o.frequency.value=523.25;
+    o.connect(g); g.connect(audio.destination);
+    g.gain.setValueAtTime(0.0001,audio.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.18,audio.currentTime+0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001,audio.currentTime+0.9);
+    o.start(); o.stop(audio.currentTime+0.95);
+  }catch(e){}
+}
+function openRun(){
+  if(!seq.length) return;
+  runIdx=0; paused=false;
+  try{ audio=audio||new (window.AudioContext||window.webkitAudioContext)(); if(audio.state==="suspended")audio.resume(); }catch(e){}
+  $("#overlay").classList.add("on");
+  $("#runStage").style.display="flex"; $("#doneStage").style.display="none"; $("#ovCtrl").style.display="flex";
+  loadStep();
+}
+function loadStep(){
+  const x=seq[runIdx];
+  remaining=x.d;
+  const [,al]=ACT[x.a];
+  $("#ovPhase").textContent=x.p;
+  $("#ovName").textContent=x.n;
+  $("#ovCue").textContent=x.c;
+  $("#ovBreath").textContent="Breath — "+x.b;
+  $("#ovProgress").textContent=(runIdx+1)+" / "+seq.length;
+  const nxt=seq[runIdx+1];
+  $("#ovNext").innerHTML= nxt? "Next up — <b>"+nxt.n+"</b>" : "Last exercise of the class";
+  paintTime();
+  clearInterval(ticker);
+  ticker=setInterval(tick,1000);
+}
+function tick(){
+  if(paused) return;
+  remaining--;
+  if(remaining<=0){ next(true); return; }
+  paintTime();
+}
+function paintTime(){
+  $("#ovTime").textContent=fmt(Math.max(0,remaining));
+  const x=seq[runIdx];
+  $("#progbar").style.width=((1-remaining/x.d)*100)+"%";
+}
+function next(auto){
+  if(auto) chime();
+  if(runIdx>=seq.length-1){ finish(); return; }
+  runIdx++; loadStep();
+}
+function prev(){ if(runIdx>0){ runIdx--; loadStep(); } else loadStep(); }
+function finish(){
+  clearInterval(ticker);
+  $("#runStage").style.display="none"; $("#ovCtrl").style.display="none";
+  $("#doneStage").style.display="block";
+  chime();
+}
+function closeRun(){ clearInterval(ticker); $("#overlay").classList.remove("on"); }
+
+$("#runBtn").onclick=openRun;
+$("#ovClose").onclick=closeRun;
+$("#ovNextBtn").onclick=()=>next(false);
+$("#ovPrev").onclick=prev;
+$("#ovPause").onclick=function(){ paused=!paused; this.textContent=paused?"Resume":"Pause"; };
+$("#ovMute").onclick=function(){ muted=!muted; this.textContent=muted?"🔕":"🔔"; this.style.opacity=muted?.5:1; };
+document.addEventListener("keydown",e=>{
+  if(!$("#overlay").classList.contains("on")) return;
+  if(e.key==="Escape") closeRun();
+  if(e.key===" "){ e.preventDefault(); $("#ovPause").click(); }
+  if(e.key==="ArrowRight") next(false);
+  if(e.key==="ArrowLeft") prev();
+});
+
+/* ---------- init ---------- */
+buildChips(); renderLib(); renderSeq();
+</script>

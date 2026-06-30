@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Claude Code session/agent state (but keep project skills tracked)
+.claude/*
+!.claude/skills/
+
+# Env files (spine/.gitignore also covers the app subtree)
+.env
+.env*.local
+
+# Node / build artifacts (belt-and-suspenders; spine/.gitignore covers these too)
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo

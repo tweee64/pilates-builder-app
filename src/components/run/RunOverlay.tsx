@@ -1,0 +1,140 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { type ClassItem } from "~/lib/types";
+import { getExercise } from "~/lib/exercises";
+import { fmt } from "~/lib/time";
+import { createChimePlayer } from "~/lib/chime";
+import { useRunTimer } from "./useRunTimer";
+import { BreathingOrb } from "./BreathingOrb";
+import { RunControls } from "./RunControls";
+
+type RunOverlayProps = {
+  items: ClassItem[];
+  onExit: () => void;
+};
+
+/** Full-screen guided run: orb + cue + auto-advancing timer + controls (task 5.5). */
+export function RunOverlay({ items, onExit }: RunOverlayProps) {
+  // Resolve items to runnable steps once.
+  const steps = useMemo(
+    () =>
+      items.flatMap((it) => {
+        const ex = getExercise(it.exerciseKey);
+        return ex ? [{ ...ex, duration: it.duration }] : [];
+      }),
+    [items],
+  );
+  const durations = useMemo(() => steps.map((s) => s.duration), [steps]);
+
+  const [muted, setMuted] = useState(false);
+  const mutedRef = useRef(false);
+  useEffect(() => {
+    mutedRef.current = muted;
+  }, [muted]);
+
+  const chimeRef = useRef<ReturnType<typeof createChimePlayer> | null>(null);
+  chimeRef.current ??= createChimePlayer();
+
+  const playChime = useCallback(() => {
+    if (!mutedRef.current) chimeRef.current?.play();
+  }, []);
+
+  // Resume the AudioContext on mount and on the first interaction in the run
+  // (the original Run gesture happened on the previous route).
+  useEffect(() => {
+    chimeRef.current?.resume();
+    const resume = () => chimeRef.current?.resume();
+    window.addEventListener("pointerdown", resume, { once: true });
+    window.addEventListener("keydown", resume, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", resume);
+      window.removeEventListener("keydown", resume);
+    };
+  }, []);
+
+  const timer = useRunTimer({
+    durations,
+    onAdvanceChime: playChime,
+    onFinishChime: playChime,
+  });
+
+  const step = steps[timer.index];
+  const nextStep = steps[timer.index + 1];
+
+  if (steps.length === 0) {
+    return (
+      <div className="overlay">
+        <div className="done-card">
+          <div className="ov-phase">Nothing to run</div>
+          <h2 className="ov-name">Your class is empty</h2>
+          <div className="ov-cue">Add some exercises first, then run the flow.</div>
+        </div>
+        <div className="ov-ctrl">
+          <button className="main" onClick={onExit}>
+            Back to builder
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="overlay">
+      <div
+        className="progbar"
+        style={{ width: `${timer.done ? 100 : timer.progress}%` }}
+      />
+      <div className="ov-top">
+        <span className="ov-progress">
+          {Math.min(timer.index + 1, timer.total)} / {timer.total}
+        </span>
+        <button className="ov-close" aria-label="End class" onClick={onExit}>
+          ✕ End
+        </button>
+      </div>
+
+      {!timer.done && step ? (
+        <div
+          style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        >
+          <BreathingOrb />
+          <div className="ov-phase">{step.phase}</div>
+          <h2 className="ov-name">{step.name}</h2>
+          <div className="ov-time mono">{fmt(timer.remainingSeconds)}</div>
+          <div className="ov-cue">{step.cue}</div>
+          <div className="ov-breath">Breath — {step.breath}</div>
+          <div className="ov-next">
+            {nextStep ? (
+              <>
+                Next up — <b>{nextStep.name}</b>
+              </>
+            ) : (
+              "Last exercise of the class"
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="done-card">
+          <div className="ov-phase">Class complete</div>
+          <h2 className="ov-name">Beautifully done.</h2>
+          <div className="ov-cue">
+            Cue your students to roll to one side and press up slowly. Let the
+            work settle.
+          </div>
+        </div>
+      )}
+
+      <RunControls
+        paused={timer.paused}
+        muted={muted}
+        done={timer.done}
+        onTogglePause={timer.togglePause}
+        onPrev={timer.prev}
+        onNext={timer.next}
+        onExit={onExit}
+        onToggleMute={() => setMuted((m) => !m)}
+      />
+    </div>
+  );
+}

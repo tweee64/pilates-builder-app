@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Env validation is skipped in CI; real secrets live in Vercel/Neon.
+      SKIP_ENV_VALIDATION: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: spine/package-lock.json
+
+      - name: Install
+        working-directory: spine
+        run: npm ci
+
+      - name: Lint
+        working-directory: spine
+        run: npm run lint
+
+      - name: Typecheck
+        working-directory: spine
+        run: npm run typecheck
+
+      - name: Unit tests
+        working-directory: spine
+        run: npm test
+
+      - name: Build
+        working-directory: spine
+        run: npm run build
