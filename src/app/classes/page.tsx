@@ -50,6 +50,9 @@ export default async function ClassesPage() {
         <div className="plan-list">
           {classes.map((c) => (
             <div key={c.id} className="plan">
+              <span className="tagx discipline">
+                {c.discipline === "reformer" ? "Reformer" : "Mat"}
+              </span>
               <span className="pn">{c.name}</span>
               <span className="pm">
                 {c.itemCount} · {fmt(c.totalSeconds)}

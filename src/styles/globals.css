@@ -281,6 +281,21 @@ header.top {
   background: transparent;
   color: var(--ink-faint);
 }
+.tagx.discipline {
+  background: var(--mist);
+  color: var(--pine-deep);
+}
+.springselect {
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink-soft);
+}
+.springselect:hover {
+  border-color: var(--sage);
+}
 
 /* sequence column */
 .seqcol {

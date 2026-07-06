@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-import { type ClassItem } from "~/lib/types";
+import { type ClassItem, type Discipline } from "~/lib/types";
 import { loadWorkingClass } from "~/lib/local-store";
 import { api } from "~/trpc/react";
 import { RunOverlay } from "~/components/run/RunOverlay";
@@ -20,14 +20,17 @@ export default function RunPage() {
   const isLocal = classId === "local";
 
   const [localItems, setLocalItems] = useState<ClassItem[] | null>(null);
+  const [localDiscipline, setLocalDiscipline] = useState<Discipline>("mat");
   useEffect(() => {
     if (!isLocal) return;
     const stored = loadWorkingClass();
+    setLocalDiscipline(stored?.discipline ?? "mat");
     setLocalItems(
       (stored?.items ?? []).map((x, i) => ({
         id: i + 1,
         exerciseKey: x.exerciseKey,
         duration: x.duration,
+        spring: x.spring,
       })),
     );
   }, [isLocal]);
@@ -44,10 +47,15 @@ export default function RunPage() {
         id: i + 1,
         exerciseKey: it.exerciseKey,
         duration: it.duration,
+        spring: it.spring ?? undefined,
       }));
     }
     return null;
   }, [isLocal, localItems, saved.data]);
+
+  const discipline: Discipline = isLocal
+    ? localDiscipline
+    : ((saved.data?.discipline as Discipline | undefined) ?? "mat");
 
   const onExit = useMemo(() => () => router.push("/builder"), [router]);
 
@@ -72,5 +80,5 @@ export default function RunPage() {
 
   if (items === null) return null; // brief load flash guard
 
-  return <RunOverlay items={items} onExit={onExit} />;
+  return <RunOverlay items={items} discipline={discipline} onExit={onExit} />;
 }

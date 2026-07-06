@@ -55,13 +55,23 @@ export function RunControls({
 
   return (
     <div className="ov-ctrl">
-      <button className="ico" title="Previous" aria-label="Previous exercise" onClick={onPrev}>
+      <button
+        className="ico"
+        title="Previous"
+        aria-label="Previous exercise"
+        onClick={onPrev}
+      >
         ⏮
       </button>
       <button className="main" onClick={onTogglePause}>
         {paused ? "Resume" : "Pause"}
       </button>
-      <button className="ico" title="Skip" aria-label="Skip to next exercise" onClick={onNext}>
+      <button
+        className="ico"
+        title="Skip"
+        aria-label="Skip to next exercise"
+        onClick={onNext}
+      >
         ⏭
       </button>
       <button

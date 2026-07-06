@@ -22,8 +22,13 @@ Spine is a full-stack web app that lets a Pilates instructor assemble a mat clas
 - Share-by-link / public read (`shareSlug` column exists but no `setVisibility`/`getPublic` procedures wired)
 - Public template gallery
 - Custom user-authored exercises (library stays static in code; no `exercise` table)
-- Reformer library, prenatal-safe filter
 - Payment, teams/orgs, analytics/observability beyond basic deploy smoke test
+
+> **Reformer library, prenatal-safe filter** — no longer out of scope. Built as
+> its own milestone, see
+> [`docs/implementation-plans/REFORMER-001-reformer-class-storage.md`](docs/implementation-plans/REFORMER-001-reformer-class-storage.md)
+> (adds `discipline`/`spring` columns, a Reformer exercise library, sequencing
+> advisories, and the discipline switch/spring picker in the builder UI).
 
 ## 3. Assumptions & decisions to confirm
 
@@ -84,8 +89,8 @@ Spine is a full-stack web app that lets a Pilates instructor assemble a mat clas
 
 Exercises are **static in code**; only user data is persisted. Saved classes reference a library exercise by `exerciseKey`.
 
-- **pilatesClass** (`class`) — `id` (uuid pk), `userId` → users (cascade), `name` (≤80), `isPublic` (default false), `shareSlug` (≤24, unique, nullable — reserved for later), `createdAt`, `updatedAt`.
-- **classItem** (`class_item`) — `id` (uuid pk), `classId` → pilatesClass (cascade), `exerciseKey` (≤48 — slug into `lib/exercises.ts`), `order` (int), `duration` (int seconds, overrides library default).
+- **pilatesClass** (`class`) — `id` (uuid pk), `userId` → users (cascade), `name` (≤80), `discipline` (`"mat" | "reformer"`, default `"mat"` — added by REFORMER-001), `isPublic` (default false), `shareSlug` (≤24, unique, nullable — reserved for later), `createdAt`, `updatedAt`.
+- **classItem** (`class_item`) — `id` (uuid pk), `classId` → pilatesClass (cascade), `exerciseKey` (≤48 — slug into `lib/exercises.ts` or `lib/exercises-reformer.ts`), `order` (int), `duration` (int seconds, overrides library default), `spring` (≤16, nullable — Reformer items only, added by REFORMER-001).
 - **Auth.js adapter tables** — `user`, `account`, `session`, `verificationToken` (from the Drizzle adapter).
 
 Schema lives in `src/server/db/schema.ts`.

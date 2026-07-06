@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { index, pgTableCreator, primaryKey } from "drizzle-orm/pg-core";
-import { type AdapterAccount } from "next-auth/adapters";
+import type { AdapterAccount } from "next-auth/adapters";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -25,6 +25,8 @@ export const pilatesClasses = createTable(
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     name: d.varchar({ length: 80 }).notNull(),
+    /** "mat" | "reformer" — decided once, at creation (REFORMER-001 §Data Model, Option A). */
+    discipline: d.varchar({ length: 10 }).notNull().default("mat"),
     isPublic: d.boolean().notNull().default(false),
     shareSlug: d.varchar({ length: 24 }).unique(),
     createdAt: d
@@ -51,6 +53,8 @@ export const classItems = createTable(
     exerciseKey: d.varchar({ length: 48 }).notNull(),
     order: d.integer().notNull(),
     duration: d.integer().notNull(),
+    /** Spring code, Reformer items only (e.g. "RRR", "RY"); null for mat items. */
+    spring: d.varchar({ length: 16 }),
   }),
   (t) => [index("class_item_class_id_idx").on(t.classId)],
 );

@@ -76,13 +76,13 @@ export default function UiDemoPage() {
         {/* These use Tailwind utilities (not the ported .classes) to prove the
             bespoke palette is wired through theme.extend equivalent (@theme). */}
         <div className="flex gap-2">
-          <div className="rounded-lg bg-paper-2 px-3 py-2 text-sm text-eucalyptus">
+          <div className="bg-paper-2 text-eucalyptus rounded-lg px-3 py-2 text-sm">
             bg-paper-2 · text-eucalyptus
           </div>
-          <div className="rounded-lg bg-pine px-3 py-2 text-sm text-paper">
+          <div className="bg-pine text-paper rounded-lg px-3 py-2 text-sm">
             bg-pine · text-paper
           </div>
-          <div className="rounded-lg bg-honey px-3 py-2 text-sm text-ink">
+          <div className="bg-honey text-ink rounded-lg px-3 py-2 text-sm">
             bg-honey · text-ink
           </div>
         </div>

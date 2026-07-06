@@ -1,4 +1,4 @@
-import { type ClassItem } from "./types";
+import { type ClassItem, type Discipline } from "./types";
 
 /**
  * localStorage persistence for the anonymous working class. SSR-safe: every
@@ -10,7 +10,8 @@ const STORAGE_KEY = "spine:working-class";
 /** What we persist for a single working class (no client ids). */
 export type StoredClass = {
   name?: string;
-  items: Array<{ exerciseKey: string; duration: number }>;
+  discipline?: Discipline;
+  items: Array<{ exerciseKey: string; duration: number; spring?: string }>;
 };
 
 function hasStorage(): boolean {
@@ -18,14 +19,20 @@ function hasStorage(): boolean {
 }
 
 export function saveWorkingClass(
-  items: ReadonlyArray<Pick<ClassItem, "exerciseKey" | "duration">>,
+  items: ReadonlyArray<Pick<ClassItem, "exerciseKey" | "duration" | "spring">>,
   name?: string,
+  discipline?: Discipline,
 ): void {
   if (!hasStorage()) return;
   try {
     const payload: StoredClass = {
       name,
-      items: items.map((x) => ({ exerciseKey: x.exerciseKey, duration: x.duration })),
+      discipline,
+      items: items.map((x) => ({
+        exerciseKey: x.exerciseKey,
+        duration: x.duration,
+        spring: x.spring,
+      })),
     };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   } catch {
@@ -54,7 +61,7 @@ export function loadWorkingClass(): StoredClass | null {
         typeof x.exerciseKey === "string" &&
         typeof x.duration === "number",
     );
-    return { name: stored.name, items };
+    return { name: stored.name, discipline: stored.discipline, items };
   } catch {
     return null;
   }

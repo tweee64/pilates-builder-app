@@ -8,6 +8,7 @@ import {
   type ClassState,
 } from "./class-state";
 import { getExercise } from "./exercises";
+import { getReformerExercise } from "./exercises-reformer";
 
 const fresh = (): ClassState => ({ ...initialClassState, items: [] });
 
@@ -38,11 +39,17 @@ describe("classReducer", () => {
     s = classReducer(s, { type: "add", exerciseKey: "saw" });
     const [a, b] = [s.items[0]!.id, s.items[1]!.id];
     // up at top: no-op
-    expect(classReducer(s, { type: "move", id: a, dir: -1 }).items.map((x) => x.id)).toEqual([a, b]);
+    expect(
+      classReducer(s, { type: "move", id: a, dir: -1 }).items.map((x) => x.id),
+    ).toEqual([a, b]);
     // down at bottom: no-op
-    expect(classReducer(s, { type: "move", id: b, dir: 1 }).items.map((x) => x.id)).toEqual([a, b]);
+    expect(
+      classReducer(s, { type: "move", id: b, dir: 1 }).items.map((x) => x.id),
+    ).toEqual([a, b]);
     // valid swap
-    expect(classReducer(s, { type: "move", id: a, dir: 1 }).items.map((x) => x.id)).toEqual([b, a]);
+    expect(
+      classReducer(s, { type: "move", id: a, dir: 1 }).items.map((x) => x.id),
+    ).toEqual([b, a]);
   });
 
   it("bump clamps to [30, 600]", () => {
@@ -50,10 +57,12 @@ describe("classReducer", () => {
     s = classReducer(s, { type: "add", exerciseKey: "the-hundred" }); // 120
     const id = s.items[0]!.id;
     // down to floor
-    for (let i = 0; i < 10; i++) s = classReducer(s, { type: "bump", id, delta: -30 });
+    for (let i = 0; i < 10; i++)
+      s = classReducer(s, { type: "bump", id, delta: -30 });
     expect(s.items[0]!.duration).toBe(DURATION_MIN);
     // up to ceiling
-    for (let i = 0; i < 40; i++) s = classReducer(s, { type: "bump", id, delta: 30 });
+    for (let i = 0; i < 40; i++)
+      s = classReducer(s, { type: "bump", id, delta: 30 });
     expect(s.items[0]!.duration).toBe(DURATION_MAX);
   });
 
@@ -86,5 +95,50 @@ describe("classReducer", () => {
     for (const it of s.items) {
       expect(it.duration).toBe(getExercise(it.exerciseKey)!.duration);
     }
+  });
+
+  it("add seeds duration + spring from the Reformer library when discipline is reformer", () => {
+    let s = classReducer(fresh(), {
+      type: "setDiscipline",
+      discipline: "reformer",
+    });
+    expect(s.discipline).toBe("reformer");
+    s = classReducer(s, { type: "add", exerciseKey: "reformer-hundred" });
+    expect(s.items).toHaveLength(1);
+    expect(s.items[0]!.duration).toBe(
+      getReformerExercise("reformer-hundred")!.defaultDuration,
+    );
+    expect(s.items[0]!.spring).toBe(
+      getReformerExercise("reformer-hundred")!.defaultSpring,
+    );
+    // mat exercise keys don't resolve in reformer mode
+    s = classReducer(s, { type: "add", exerciseKey: "the-hundred" });
+    expect(s.items).toHaveLength(1);
+  });
+
+  it("setDiscipline is a no-op once the class has items (decided at creation)", () => {
+    let s = fresh();
+    s = classReducer(s, { type: "add", exerciseKey: "saw" });
+    s = classReducer(s, { type: "setDiscipline", discipline: "reformer" });
+    expect(s.discipline).toBe("mat");
+  });
+
+  it("setSpring updates only the matching item's spring", () => {
+    let s = classReducer(fresh(), {
+      type: "setDiscipline",
+      discipline: "reformer",
+    });
+    s = classReducer(s, { type: "add", exerciseKey: "reformer-hundred" });
+    const id = s.items[0]!.id;
+    s = classReducer(s, { type: "setSpring", id, spring: "RRR" });
+    expect(s.items[0]!.spring).toBe("RRR");
+  });
+
+  it("loadSample no-ops when discipline is reformer", () => {
+    const s = classReducer(
+      { ...fresh(), discipline: "reformer" },
+      { type: "loadSample" },
+    );
+    expect(s.items).toHaveLength(0);
   });
 });

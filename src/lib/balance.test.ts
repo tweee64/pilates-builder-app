@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { computeBalance, getAdvisory, analyzeBalance, ADVISORY } from "./balance";
+import {
+  computeBalance,
+  getAdvisory,
+  analyzeBalance,
+  ADVISORY,
+} from "./balance";
 import { type Action } from "./types";
 
 const item = (action: Action, duration = 120) => ({ action, duration });

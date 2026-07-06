@@ -9,17 +9,23 @@ import { pilatesClasses, classItems } from "~/server/db/schema";
 const itemInput = z.object({
   exerciseKey: z.string().min(1).max(48),
   duration: z.number().int().min(30).max(600),
+  /** Reformer items only; omitted/undefined for mat items. */
+  spring: z.string().min(1).max(16).optional(),
 });
 
 const classInput = z.object({
   name: z.string().trim().min(1).max(80),
+  discipline: z.enum(["mat", "reformer"]).default("mat"),
   items: z.array(itemInput).max(100),
 });
 
 /** Load a class the caller owns, or throw NOT_FOUND (also covers other users'). */
 async function requireOwnedClass(classId: string, userId: string) {
   const row = await db.query.pilatesClasses.findFirst({
-    where: and(eq(pilatesClasses.id, classId), eq(pilatesClasses.userId, userId)),
+    where: and(
+      eq(pilatesClasses.id, classId),
+      eq(pilatesClasses.userId, userId),
+    ),
   });
   if (!row) {
     throw new TRPCError({ code: "NOT_FOUND", message: "Class not found" });
@@ -38,6 +44,7 @@ export const classRouter = createTRPCRouter({
     return rows.map((c) => ({
       id: c.id,
       name: c.name,
+      discipline: c.discipline,
       itemCount: c.items.length,
       totalSeconds: c.items.reduce((a, i) => a + i.duration, 0),
       updatedAt: c.updatedAt,
@@ -62,7 +69,11 @@ export const classRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const [created] = await ctx.db
         .insert(pilatesClasses)
-        .values({ userId: ctx.session.user.id, name: input.name })
+        .values({
+          userId: ctx.session.user.id,
+          name: input.name,
+          discipline: input.discipline,
+        })
         .returning({ id: pilatesClasses.id });
       const classId = created!.id;
       if (input.items.length > 0) {
@@ -72,6 +83,7 @@ export const classRouter = createTRPCRouter({
             exerciseKey: it.exerciseKey,
             order: i,
             duration: it.duration,
+            spring: it.spring,
           })),
         );
       }
@@ -85,7 +97,11 @@ export const classRouter = createTRPCRouter({
       await requireOwnedClass(input.id, ctx.session.user.id);
       await ctx.db
         .update(pilatesClasses)
-        .set({ name: input.name, updatedAt: new Date() })
+        .set({
+          name: input.name,
+          discipline: input.discipline,
+          updatedAt: new Date(),
+        })
         .where(eq(pilatesClasses.id, input.id));
       // Replace items (reorder + durations) atomically enough for v1.
       await ctx.db.delete(classItems).where(eq(classItems.classId, input.id));
@@ -96,6 +112,7 @@ export const classRouter = createTRPCRouter({
             exerciseKey: it.exerciseKey,
             order: i,
             duration: it.duration,
+            spring: it.spring,
           })),
         );
       }
@@ -107,7 +124,9 @@ export const classRouter = createTRPCRouter({
     .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ ctx, input }) => {
       await requireOwnedClass(input.id, ctx.session.user.id);
-      await ctx.db.delete(pilatesClasses).where(eq(pilatesClasses.id, input.id));
+      await ctx.db
+        .delete(pilatesClasses)
+        .where(eq(pilatesClasses.id, input.id));
       return { id: input.id };
     }),
 
@@ -125,6 +144,7 @@ export const classRouter = createTRPCRouter({
         .values({
           userId: ctx.session.user.id,
           name: `${source!.name} (copy)`.slice(0, 80),
+          discipline: source!.discipline,
         })
         .returning({ id: pilatesClasses.id });
       const newId = created!.id;
@@ -135,6 +155,7 @@ export const classRouter = createTRPCRouter({
             exerciseKey: it.exerciseKey,
             order: i,
             duration: it.duration,
+            spring: it.spring,
           })),
         );
       }

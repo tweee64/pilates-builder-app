@@ -9,6 +9,8 @@ export function fmt(seconds: number): string {
 }
 
 /** Sum the `duration` of a list of items (seconds). */
-export function sumDurations(items: ReadonlyArray<{ duration: number }>): number {
+export function sumDurations(
+  items: ReadonlyArray<{ duration: number }>,
+): number {
   return items.reduce((a, x) => a + x.duration, 0);
 }

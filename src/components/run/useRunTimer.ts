@@ -113,7 +113,8 @@ export function useRunTimer({
       if (next) {
         // pausing: bank the leftover
         const ends = endsAtRef.current;
-        leftoverRef.current = ends != null ? Math.max(0, ends - Date.now()) : leftoverRef.current;
+        leftoverRef.current =
+          ends != null ? Math.max(0, ends - Date.now()) : leftoverRef.current;
         endsAtRef.current = null;
       } else {
         // resuming: re-anchor endsAt from the banked leftover

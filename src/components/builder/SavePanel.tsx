@@ -5,17 +5,21 @@ import { useSession } from "next-auth/react";
 
 import { api } from "~/trpc/react";
 import { fmt } from "~/lib/time";
-import { type ClassItem } from "~/lib/types";
+import { type ClassItem, type Discipline } from "~/lib/types";
 
 type SavePanelProps = {
   items: ClassItem[];
-  onLoad: (items: Array<{ exerciseKey: string; duration: number }>) => void;
+  discipline: Discipline;
+  onLoad: (
+    items: Array<{ exerciseKey: string; duration: number; spring?: string }>,
+    discipline: Discipline,
+  ) => void;
 };
 
 const MIGRATION_FLAG = "spine:migration-offered";
 
 /** Saved-class list + name/save, and the first-sign-in migration prompt (7.3, 7.5). */
-export function SavePanel({ items, onLoad }: SavePanelProps) {
+export function SavePanel({ items, discipline, onLoad }: SavePanelProps) {
   const { status } = useSession();
   const isAuthed = status === "authenticated";
   const [name, setName] = useState("");
@@ -45,15 +49,27 @@ export function SavePanel({ items, onLoad }: SavePanelProps) {
   }, [isAuthed]);
 
   const payload = () =>
-    items.map((i) => ({ exerciseKey: i.exerciseKey, duration: i.duration }));
+    items.map((i) => ({
+      exerciseKey: i.exerciseKey,
+      duration: i.duration,
+      spring: i.spring,
+    }));
 
   const save = () => {
     if (items.length === 0) return;
-    create.mutate({ name: name.trim() || "Untitled class", items: payload() });
+    create.mutate({
+      name: name.trim() || "Untitled class",
+      discipline,
+      items: payload(),
+    });
   };
 
   const acceptMigration = () => {
-    create.mutate({ name: "My in-progress class", items: payload() });
+    create.mutate({
+      name: "My in-progress class",
+      discipline,
+      items: payload(),
+    });
     dismissMigration();
   };
   const dismissMigration = () => {
@@ -63,7 +79,14 @@ export function SavePanel({ items, onLoad }: SavePanelProps) {
 
   const load = async (id: string) => {
     const c = await utils.class.get.fetch({ id });
-    onLoad(c.items.map((i) => ({ exerciseKey: i.exerciseKey, duration: i.duration })));
+    onLoad(
+      c.items.map((i) => ({
+        exerciseKey: i.exerciseKey,
+        duration: i.duration,
+        spring: i.spring ?? undefined,
+      })),
+      (c.discipline as Discipline) ?? "mat",
+    );
   };
 
   if (!isAuthed) {
@@ -105,7 +128,10 @@ export function SavePanel({ items, onLoad }: SavePanelProps) {
               Save it
             </button>{" "}
             ·{" "}
-            <button onClick={dismissMigration} style={{ color: "var(--ink-faint)" }}>
+            <button
+              onClick={dismissMigration}
+              style={{ color: "var(--ink-faint)" }}
+            >
               Not now
             </button>
           </span>
@@ -120,7 +146,10 @@ export function SavePanel({ items, onLoad }: SavePanelProps) {
           maxLength={80}
           onKeyDown={(e) => e.key === "Enter" && save()}
         />
-        <button onClick={save} disabled={items.length === 0 || create.isPending}>
+        <button
+          onClick={save}
+          disabled={items.length === 0 || create.isPending}
+        >
           {create.isPending ? "Saving…" : "Save"}
         </button>
       </div>
@@ -138,6 +167,9 @@ export function SavePanel({ items, onLoad }: SavePanelProps) {
         )}
         {list.data?.map((pl) => (
           <div key={pl.id} className="plan">
+            <span className="tagx discipline">
+              {pl.discipline === "reformer" ? "Reformer" : "Mat"}
+            </span>
             <span className="pn">{pl.name}</span>
             <span className="pm">
               {pl.itemCount} · {fmt(pl.totalSeconds)}
