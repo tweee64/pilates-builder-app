@@ -20,3 +20,6 @@ out/
 build/
 coverage/
 *.tsbuildinfo
+
+# Playwright MCP browser-tool scratch output (snapshots/screenshots/logs)
+.playwright-mcp/
