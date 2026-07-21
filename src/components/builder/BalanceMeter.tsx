@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { type ClassItem, type Discipline } from "~/lib/types";
 import { getExercise } from "~/lib/exercises";
-import { getReformerExercise } from "~/lib/exercises-reformer";
+import { getReformerExercise } from "~/lib/exercises";
 import { analyzeBalance } from "~/lib/balance";
 import {
   getCategoryCoverageAdvisory,

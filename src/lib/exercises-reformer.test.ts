@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { REFORMER_EXERCISES, getReformerExercise } from "./exercises-reformer";
+import { REFORMER_EXERCISES, getReformerExercise } from "./exercises";
 import { REFORMER_CATEGORIES } from "./types";
 
 describe("Reformer exercise library", () => {

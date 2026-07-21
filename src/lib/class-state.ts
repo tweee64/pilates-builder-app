@@ -1,6 +1,6 @@
 import { type ClassItem, type Discipline } from "./types";
 import { getExercise } from "./exercises";
-import { getReformerExercise } from "./exercises-reformer";
+import { getReformerExercise } from "./exercises";
 
 export const DURATION_MIN = 30;
 export const DURATION_MAX = 600;

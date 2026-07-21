@@ -3,7 +3,7 @@
 import { type Dispatch } from "react";
 import { type ClassItem, type Discipline, ACTION_META } from "~/lib/types";
 import { getExercise } from "~/lib/exercises";
-import { getReformerExercise } from "~/lib/exercises-reformer";
+import { getReformerExercise } from "~/lib/exercises";
 import { fmt } from "~/lib/time";
 import { type ClassAction, DURATION_STEP } from "~/lib/class-state";
 import { IconButton } from "~/components/ui/IconButton";

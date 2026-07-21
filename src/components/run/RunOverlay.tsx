@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type ClassItem, type Discipline } from "~/lib/types";
 import { getExercise } from "~/lib/exercises";
-import { getReformerExercise } from "~/lib/exercises-reformer";
+import { getReformerExercise } from "~/lib/exercises";
 import { fmt } from "~/lib/time";
 import { createChimePlayer } from "~/lib/chime";
 import { useRunTimer } from "./useRunTimer";

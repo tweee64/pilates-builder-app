@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { EXERCISES } from "~/lib/exercises";
-import { REFORMER_EXERCISES } from "~/lib/exercises-reformer";
+import { REFORMER_EXERCISES } from "~/lib/exercises";
 import {
   ACTION_META,
   PHASES,

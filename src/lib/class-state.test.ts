@@ -8,7 +8,7 @@ import {
   type ClassState,
 } from "./class-state";
 import { getExercise } from "./exercises";
-import { getReformerExercise } from "./exercises-reformer";
+import { getReformerExercise } from "./exercises";
 
 const fresh = (): ClassState => ({ ...initialClassState, items: [] });
 
