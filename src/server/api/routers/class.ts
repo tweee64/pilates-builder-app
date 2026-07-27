@@ -5,6 +5,7 @@ import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
 import { pilatesClasses, classItems } from "~/server/db/schema";
+import { FREE_CLASS_LIMIT, isPro } from "~/server/billing/entitlements";
 
 const itemInput = z.object({
   exerciseKey: z.string().min(1).max(48),
@@ -67,10 +68,30 @@ export const classRouter = createTRPCRouter({
   create: protectedProcedure
     .input(classInput)
     .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      const pro = await isPro(userId);
+
+      // Free tier is capped at FREE_CLASS_LIMIT saved classes, counted
+      // across both mat and Reformer combined (MONETIZATION-001 revision:
+      // Reformer is no longer blocked outright for free users, it just
+      // shares the same cap as mat).
+      if (!pro) {
+        const existing = await ctx.db.query.pilatesClasses.findMany({
+          where: eq(pilatesClasses.userId, userId),
+          columns: { id: true },
+        });
+        if (existing.length >= FREE_CLASS_LIMIT) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: `Free plan is limited to ${FREE_CLASS_LIMIT} saved classes.`,
+          });
+        }
+      }
+
       const [created] = await ctx.db
         .insert(pilatesClasses)
         .values({
-          userId: ctx.session.user.id,
+          userId,
           name: input.name,
           discipline: input.discipline,
         })
@@ -95,6 +116,7 @@ export const classRouter = createTRPCRouter({
     .input(classInput.extend({ id: z.string().uuid() }))
     .mutation(async ({ ctx, input }) => {
       await requireOwnedClass(input.id, ctx.session.user.id);
+
       await ctx.db
         .update(pilatesClasses)
         .set({

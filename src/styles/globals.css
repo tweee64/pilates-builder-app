@@ -722,6 +722,66 @@ header.top {
   font-size: 12.5px;
 }
 
+/* confirm dialog */
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(27, 38, 32, 0.45);
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.confirm-dialog {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  max-width: 380px;
+  width: 100%;
+  padding: 22px;
+}
+.confirm-title {
+  font-family: var(--font-fraunces), serif;
+  font-size: 19px;
+  font-weight: 500;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.confirm-desc {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.confirm-primary,
+.confirm-danger {
+  border-radius: 11px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.confirm-primary {
+  background: var(--ink);
+  color: var(--card);
+}
+.confirm-primary:hover {
+  background: var(--sage-deep);
+}
+.confirm-danger {
+  background: var(--pine-deep);
+  color: #f1efe8;
+}
+.confirm-danger:hover {
+  background: var(--ink);
+}
+
 /* sign-in / account affordances */
 .signin {
   background: var(--pine);
@@ -1037,4 +1097,108 @@ header.top {
   * {
     transition: none !important;
   }
+}
+
+/* pricing (MONETIZATION-001) */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 720px;
+}
+@media (min-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.pricing-card {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+.pricing-card.recommended {
+  border: 2px solid var(--honey);
+}
+.pricing-badge {
+  position: absolute;
+  top: -11px;
+  right: 20px;
+  background: var(--honey);
+  color: var(--card);
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+.pricing-plan-name {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: 19px;
+  margin: 0 0 6px;
+}
+.pricing-price {
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 600;
+}
+.pricing-period {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-faint);
+  margin-left: 4px;
+}
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+.pricing-features li::before {
+  content: "✓ ";
+  color: var(--sage-deep);
+  font-weight: 700;
+}
+.pricing-cta-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Pro-gated lock affordances (chip lock badge + tooltip) */
+.chip-lock-badge {
+  font-size: 10px;
+  margin-right: 4px;
+}
+.chip-lock-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.lock-tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--pine-deep);
+  color: #f1efe8;
+  font-size: 11px;
+  white-space: nowrap;
+  padding: 5px 9px;
+  border-radius: 7px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s;
+  z-index: 5;
+}
+.chip-lock-wrap:hover .lock-tip,
+.chip-lock-wrap:focus-within .lock-tip {
+  opacity: 1;
 }

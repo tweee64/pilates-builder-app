@@ -6,6 +6,7 @@ import { getExercise } from "~/lib/exercises";
 import { getReformerExercise } from "~/lib/exercises";
 import { fmt } from "~/lib/time";
 import { createChimePlayer } from "~/lib/chime";
+import { ConfirmDialog } from "~/components/ui/ConfirmDialog";
 import { useRunTimer } from "./useRunTimer";
 import { BreathingOrb } from "./BreathingOrb";
 import { RunControls } from "./RunControls";
@@ -70,6 +71,7 @@ export function RunOverlay({
   const durations = useMemo(() => steps.map((s) => s.duration), [steps]);
 
   const [muted, setMuted] = useState(false);
+  const [confirmExitOpen, setConfirmExitOpen] = useState(false);
   const mutedRef = useRef(false);
   useEffect(() => {
     mutedRef.current = muted;
@@ -105,7 +107,10 @@ export function RunOverlay({
   const nextStep = steps[timer.index + 1];
 
   const handleExit = useCallback(() => {
-    if (!timer.done && !window.confirm("End this class now?")) return;
+    if (!timer.done) {
+      setConfirmExitOpen(true);
+      return;
+    }
     onExit();
   }, [timer.done, onExit]);
 
@@ -197,6 +202,19 @@ export function RunOverlay({
       {!timer.done && (
         <div className="ov-hint">Space pause · ← → skip · Esc exit</div>
       )}
+      <ConfirmDialog
+        open={confirmExitOpen}
+        title="End this class now?"
+        description="You'll lose your place in the flow."
+        confirmLabel="End class"
+        cancelLabel="Keep going"
+        danger
+        onConfirm={() => {
+          setConfirmExitOpen(false);
+          onExit();
+        }}
+        onCancel={() => setConfirmExitOpen(false)}
+      />
     </div>
   );
 }

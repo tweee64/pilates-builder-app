@@ -19,16 +19,23 @@ Spine is a full-stack web app that lets a Pilates instructor assemble a mat clas
 - Deploy to Vercel + Neon with a working OAuth round-trip
 
 **Out of scope** (deliberately excluded — do not build, but leave room per §4 data model)
-- Share-by-link / public read (`shareSlug` column exists but no `setVisibility`/`getPublic` procedures wired)
+- Share-by-link / public read (`shareSlug` column exists but no `setVisibility`/`getPublic` procedures wired) — note payment gating for this feature *is* now built (see below), the public share page/procedures themselves are still not.
 - Public template gallery
 - Custom user-authored exercises (library stays static in code; no `exercise` table)
-- Payment, teams/orgs, analytics/observability beyond basic deploy smoke test
+- Studio/team billing (per-seat pricing, multi-instructor workspaces), analytics/observability beyond basic deploy smoke test
 
 > **Reformer library, prenatal-safe filter** — no longer out of scope. Built as
 > its own milestone, see
 > [`docs/implementation-plans/REFORMER-001-reformer-class-storage.md`](docs/implementation-plans/REFORMER-001-reformer-class-storage.md)
 > (adds `discipline`/`spring` columns, a Reformer exercise library, sequencing
 > advisories, and the discipline switch/spring picker in the builder UI).
+
+> **Payment / monetization** — no longer out of scope. Built as its own
+> milestone, see
+> [`docs/implementation-plans/MONETIZATION-001-stripe-subscription-monetization.md`](docs/implementation-plans/MONETIZATION-001-stripe-subscription-monetization.md)
+> (Stripe-backed Free/Pro subscriptions, `subscriptions` table, `/pricing` +
+> `/account/billing` pages, and server-side entitlement gating for the
+> free-tier saved-class cap and the Reformer discipline).
 
 ## 3. Assumptions & decisions to confirm
 

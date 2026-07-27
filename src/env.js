@@ -21,6 +21,13 @@ export const env = createEnv({
     // Canonical site URL for Auth.js callbacks (set to the live HTTPS URL in prod).
     AUTH_URL: z.string().url().optional(),
     DATABASE_URL: z.string().url(),
+    // Stripe (MONETIZATION-001) — optional so the app builds/runs without a
+    // Stripe account configured; billing routes/procedures fail closed
+    // (report a clear error) rather than crash at import time when unset.
+    STRIPE_SECRET_KEY: z.string().optional(),
+    STRIPE_WEBHOOK_SECRET: z.string().optional(),
+    STRIPE_PRICE_ID_PRO_MONTHLY: z.string().optional(),
+    STRIPE_PRICE_ID_PRO_ANNUAL: z.string().optional(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -47,6 +54,10 @@ export const env = createEnv({
     AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
     AUTH_URL: process.env.AUTH_URL,
     DATABASE_URL: process.env.DATABASE_URL,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    STRIPE_PRICE_ID_PRO_MONTHLY: process.env.STRIPE_PRICE_ID_PRO_MONTHLY,
+    STRIPE_PRICE_ID_PRO_ANNUAL: process.env.STRIPE_PRICE_ID_PRO_ANNUAL,
     NODE_ENV: process.env.NODE_ENV,
   },
   /**

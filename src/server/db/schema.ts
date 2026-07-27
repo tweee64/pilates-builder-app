@@ -77,6 +77,45 @@ export const classItemsRelations = relations(classItems, ({ one }) => ({
   }),
 }));
 
+/**
+ * Billing identity (MONETIZATION-001). Keyed by `userId` (1:1 for now, not by
+ * a Stripe customer id) so a later Studio/team model can repoint this to a
+ * `workspaceId` without another migration touching `users`. Updated only by
+ * the Stripe webhook handler (`~/server/billing/webhook-handlers.ts`) — never
+ * written to directly from client-trusted input.
+ */
+export const subscriptions = createTable("subscription", (d) => ({
+  id: d.uuid().primaryKey().defaultRandom(),
+  userId: d
+    .varchar({ length: 255 })
+    .notNull()
+    .unique()
+    .references(() => users.id, { onDelete: "cascade" }),
+  stripeCustomerId: d.varchar({ length: 255 }).notNull(),
+  stripeSubscriptionId: d.varchar({ length: 255 }).unique(),
+  /** "free" | "pro" */
+  plan: d.varchar({ length: 20 }).notNull().default("free"),
+  /** "active" | "trialing" | "past_due" | "canceled" | "none" */
+  status: d.varchar({ length: 20 }).notNull().default("none"),
+  currentPeriodEnd: d.timestamp({ withTimezone: true }),
+  createdAt: d
+    .timestamp({ withTimezone: true })
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: d
+    .timestamp({ withTimezone: true })
+    .$defaultFn(() => new Date())
+    .$onUpdate(() => new Date())
+    .notNull(),
+}));
+
+export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
+  user: one(users, {
+    fields: [subscriptions.userId],
+    references: [users.id],
+  }),
+}));
+
 export const users = createTable("user", (d) => ({
   id: d
     .varchar({ length: 255 })

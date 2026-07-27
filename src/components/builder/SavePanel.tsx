@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 import { fmt } from "~/lib/time";
 import { type ClassItem, type Discipline } from "~/lib/types";
+import { ConfirmDialog } from "~/components/ui/ConfirmDialog";
+import { UpgradePrompt } from "~/components/billing/UpgradePrompt";
 
 type SavePanelProps = {
   items: ClassItem[];
@@ -24,9 +26,14 @@ export function SavePanel({ items, discipline, onLoad }: SavePanelProps) {
   const isAuthed = status === "authenticated";
   const [name, setName] = useState("");
   const [migrationOffered, setMigrationOffered] = useState(true);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const utils = api.useUtils();
   const list = api.class.list.useQuery(undefined, { enabled: isAuthed });
+  const plan = api.billing.getPlan.useQuery(undefined, { enabled: isAuthed });
+  const isPro = plan.data?.plan === "pro";
+  const freeClassLimit = plan.data?.freeClassLimit ?? 3;
+  const atCap = !isPro && (list.data?.length ?? 0) >= freeClassLimit;
   const create = api.class.create.useMutation({
     onSuccess: () => {
       setName("");
@@ -144,15 +151,26 @@ export function SavePanel({ items, discipline, onLoad }: SavePanelProps) {
           onChange={(e) => setName(e.target.value)}
           placeholder="Name this class…"
           maxLength={80}
+          disabled={atCap}
           onKeyDown={(e) => e.key === "Enter" && save()}
         />
         <button
           onClick={save}
-          disabled={items.length === 0 || create.isPending}
+          disabled={items.length === 0 || create.isPending || atCap}
         >
           {create.isPending ? "Saving…" : "Save"}
         </button>
       </div>
+
+      {(atCap || create.error?.data?.code === "FORBIDDEN") && (
+        <UpgradePrompt
+          message={
+            atCap
+              ? `Free plan is limited to ${freeClassLimit} saved classes.`
+              : (create.error?.message ?? "This feature requires a Pro plan.")
+          }
+        />
+      )}
 
       <div className="plan-list">
         {list.isLoading && <div className="muted">Loading your classes…</div>}
@@ -187,13 +205,7 @@ export function SavePanel({ items, discipline, onLoad }: SavePanelProps) {
             <button
               className="x"
               data-a="del"
-              onClick={() => {
-                if (
-                  window.confirm(`Delete "${pl.name}"? This can't be undone.`)
-                ) {
-                  del.mutate({ id: pl.id });
-                }
-              }}
+              onClick={() => setConfirmDeleteId(pl.id)}
               disabled={del.isPending}
             >
               Delete
@@ -201,6 +213,19 @@ export function SavePanel({ items, discipline, onLoad }: SavePanelProps) {
           </div>
         ))}
       </div>
+      <ConfirmDialog
+        open={confirmDeleteId !== null}
+        title={`Delete "${list.data?.find((pl) => pl.id === confirmDeleteId)?.name ?? "this class"}"?`}
+        description="This can't be undone."
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        danger
+        onConfirm={() => {
+          if (confirmDeleteId) del.mutate({ id: confirmDeleteId });
+          setConfirmDeleteId(null);
+        }}
+        onCancel={() => setConfirmDeleteId(null)}
+      />
     </div>
   );
 }

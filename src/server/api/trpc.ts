@@ -13,6 +13,7 @@ import { ZodError } from "zod";
 
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { isPro } from "~/server/billing/entitlements";
 
 /**
  * 1. CONTEXT
@@ -131,3 +132,25 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+/**
+ * Premium (Pro-only) procedure
+ *
+ * Builds on `protectedProcedure` — the caller must be signed in AND on an
+ * active Pro plan (MONETIZATION-001). Throws `FORBIDDEN` otherwise. This is
+ * the actual security boundary for Pro-gated features (Reformer, share-by-
+ * link, PDF export) — any client-side lock badge is just a UX nicety on top
+ * of this.
+ */
+export const premiumProcedure = protectedProcedure.use(
+  async ({ ctx, next }) => {
+    const pro = await isPro(ctx.session.user.id);
+    if (!pro) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "This feature requires a Pro plan.",
+      });
+    }
+    return next({ ctx });
+  },
+);

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { auth } from "~/server/auth";
+import { getPlan } from "~/server/billing/entitlements";
 
 /**
  * Account affordance in the shell (plan task 6.2). Server component: reads the
@@ -13,11 +14,25 @@ export async function AccountNav() {
 
   if (user) {
     const initial = (user.name ?? user.email ?? "·").slice(0, 1).toUpperCase();
+    const plan = await getPlan(user.id);
     return (
       <div className="top-right">
         <Link className="navlink" href="/classes">
           Saved classes
         </Link>
+        {plan.plan === "pro" ? (
+          <Link className="navlink" href="/account/billing">
+            Manage plan
+          </Link>
+        ) : (
+          <Link
+            className="navlink"
+            href="/pricing"
+            style={{ color: "var(--honey)", fontWeight: 600 }}
+          >
+            Upgrade
+          </Link>
+        )}
         <div className="who">
           <span className="avatar" aria-hidden="true">
             {initial}

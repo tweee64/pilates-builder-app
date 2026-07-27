@@ -20,6 +20,13 @@ const OPTIONS: ReadonlyArray<{ value: Discipline; label: string }> = [
  * discipline end-to-end, decided at creation — the reducer no-ops
  * `setDiscipline` once the class has items, so this stays a controlled,
  * self-correcting toggle rather than needing its own disabled state.
+ *
+ * Both disciplines are available on the free tier (MONETIZATION-001,
+ * launch-easing revision): Reformer classes simply count toward the same
+ * shared `FREE_CLASS_LIMIT` as mat classes, enforced in
+ * `class.create`/`class.update`. Unlimited saved classes of either
+ * discipline is the Pro-gated feature — see `SavePanel`'s `UpgradePrompt`
+ * for that surface.
  */
 export function DisciplineSwitch({
   value,
