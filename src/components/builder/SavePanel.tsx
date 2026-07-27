@@ -187,7 +187,13 @@ export function SavePanel({ items, discipline, onLoad }: SavePanelProps) {
             <button
               className="x"
               data-a="del"
-              onClick={() => del.mutate({ id: pl.id })}
+              onClick={() => {
+                if (
+                  window.confirm(`Delete "${pl.name}"? This can't be undone.`)
+                ) {
+                  del.mutate({ id: pl.id });
+                }
+              }}
               disabled={del.isPending}
             >
               Delete

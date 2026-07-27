@@ -104,6 +104,11 @@ export function RunOverlay({
   const step = steps[timer.index];
   const nextStep = steps[timer.index + 1];
 
+  const handleExit = useCallback(() => {
+    if (!timer.done && !window.confirm("End this class now?")) return;
+    onExit();
+  }, [timer.done, onExit]);
+
   if (steps.length === 0) {
     return (
       <div className="overlay">
@@ -133,13 +138,19 @@ export function RunOverlay({
         <span className="ov-progress">
           {Math.min(timer.index + 1, timer.total)} / {timer.total}
         </span>
-        <button className="ov-close" aria-label="End class" onClick={onExit}>
+        <button
+          className="ov-close"
+          aria-label="End class"
+          onClick={handleExit}
+        >
           ✕ End
         </button>
       </div>
 
       {!timer.done && step ? (
         <div
+          aria-live="polite"
+          aria-atomic="true"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -180,9 +191,12 @@ export function RunOverlay({
         onTogglePause={timer.togglePause}
         onPrev={timer.prev}
         onNext={timer.next}
-        onExit={onExit}
+        onExit={handleExit}
         onToggleMute={() => setMuted((m) => !m)}
       />
+      {!timer.done && (
+        <div className="ov-hint">Space pause · ← → skip · Esc exit</div>
+      )}
     </div>
   );
 }

@@ -879,8 +879,6 @@ export const REFORMER_EXERCISE_BY_KEY: ReadonlyMap<string, ReformerExercise> =
   new Map(REFORMER_EXERCISES.map((e) => [e.key, e]));
 
 /** Resolve a library Reformer exercise from its key (undefined if not found). */
-export function getReformerExercise(
-  key: string,
-): ReformerExercise | undefined {
+export function getReformerExercise(key: string): ReformerExercise | undefined {
   return REFORMER_EXERCISE_BY_KEY.get(key);
 }

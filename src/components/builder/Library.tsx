@@ -15,6 +15,7 @@ import {
 } from "~/lib/types";
 import { fmt } from "~/lib/time";
 import { Chip } from "~/components/ui/Chip";
+import { ExerciseCard, PrenatalBadge } from "~/components/builder/ExerciseCard";
 
 type LibraryProps = {
   discipline: Discipline;
@@ -32,6 +33,14 @@ export function Library({ discipline, onAdd }: LibraryProps) {
 function MatLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
   const [phase, setPhase] = useState<Phase | typeof ALL>(ALL);
   const [level, setLevel] = useState<Level | typeof ALL>(ALL);
+  const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
+  const toggleExpand = (key: string) =>
+    setExpandedKeys((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
 
   const items = useMemo(
     () =>
@@ -83,25 +92,33 @@ function MatLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
         {items.map((e) => {
           const meta = ACTION_META[e.action];
           return (
-            <div key={e.key} className="ex">
-              <button
-                className="add"
-                aria-label={`Add ${e.name}`}
-                onClick={() => onAdd(e.key)}
-              >
-                +
-              </button>
-              <div className="body">
-                <div className="name">{e.name}</div>
-                <div className="cue">{e.cue}</div>
-                <div className="meta">
+            <ExerciseCard
+              key={e.key}
+              name={e.name}
+              description={e.cue}
+              addLabel={`Add ${e.name}`}
+              onAdd={() => onAdd(e.key)}
+              expanded={expandedKeys.has(e.key)}
+              onToggleExpand={() => toggleExpand(e.key)}
+              meta={
+                <>
                   <span className="tagx">{e.phase}</span>
-                  <span className={`tagx ${meta.tag}`}>{meta.label}</span>
-                  <span className="tagx">{e.level}</span>
+                  <span className="sub" title={e.level}>
+                    · {e.level}
+                  </span>
                   <span className="tagx dur">{fmt(e.duration)}</span>
-                </div>
-              </div>
-            </div>
+                </>
+              }
+              detail={
+                <>
+                  <span className={`tagx ${meta.tag}`}>{meta.label}</span>
+                  <div>
+                    <div className="sub-h">Breath</div>
+                    <p>{e.breath}</p>
+                  </div>
+                </>
+              }
+            />
           );
         })}
       </div>
@@ -112,6 +129,14 @@ function MatLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
 function ReformerLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
   const [category, setCategory] = useState<ReformerCategory | typeof ALL>(ALL);
   const [prenatalSafeOnly, setPrenatalSafeOnly] = useState(false);
+  const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
+  const toggleExpand = (key: string) =>
+    setExpandedKeys((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
 
   const items = useMemo(
     () =>
@@ -166,26 +191,64 @@ function ReformerLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
           </div>
         )}
         {items.map((e) => (
-          <div key={e.key} className="ex">
-            <button
-              className="add"
-              aria-label={`Add ${e.name}`}
-              onClick={() => onAdd(e.key)}
-            >
-              +
-            </button>
-            <div className="body">
-              <div className="name">{e.name}</div>
-              <div className="cue">{e.setupCue}</div>
-              <div className="meta">
+          <ExerciseCard
+            key={e.key}
+            name={e.name}
+            nameBadge={e.prenatalSafe ? <PrenatalBadge /> : undefined}
+            description={e.setupCue}
+            addLabel={`Add ${e.name}`}
+            onAdd={() => onAdd(e.key)}
+            expanded={expandedKeys.has(e.key)}
+            onToggleExpand={() => toggleExpand(e.key)}
+            meta={
+              <>
                 <span className="tagx">{e.category}</span>
-                <span className="tagx">{e.focus}</span>
+                <span className="sub" title={e.focus}>
+                  · {e.focus}
+                </span>
                 <span className="tagx mono">{e.defaultSpring}</span>
-                {e.prenatalSafe && <span className="tagx">Prenatal-safe</span>}
                 <span className="tagx dur">{fmt(e.defaultDuration)}</span>
-              </div>
-            </div>
-          </div>
+              </>
+            }
+            detail={
+              <>
+                <div>
+                  <div className="sub-h">Spring options</div>
+                  <p>{e.springOptions}</p>
+                </div>
+                {e.cues.length > 0 && (
+                  <div>
+                    <div className="sub-h">Cues</div>
+                    <ul>
+                      {e.cues.map((c, i) => (
+                        <li key={i}>{c}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {e.variations.length > 0 && (
+                  <div>
+                    <div className="sub-h">Variations</div>
+                    <ul>
+                      {e.variations.map((v, i) => (
+                        <li key={i}>{v}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {e.modifications.length > 0 && (
+                  <div>
+                    <div className="sub-h">Modifications</div>
+                    <ul>
+                      {e.modifications.map((m, i) => (
+                        <li key={i}>{m}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </>
+            }
+          />
         ))}
       </div>
     </section>

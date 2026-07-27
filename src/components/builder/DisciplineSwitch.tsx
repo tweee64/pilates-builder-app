@@ -38,6 +38,7 @@ export function DisciplineSwitch({
           key={opt.value}
           label={opt.label}
           active={value === opt.value}
+          disabled={locked && value !== opt.value}
           onClick={() => onChange(opt.value)}
         />
       ))}

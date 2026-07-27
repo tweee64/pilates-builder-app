@@ -78,7 +78,15 @@ export default function RunPage() {
     );
   }
 
-  if (items === null) return null; // brief load flash guard
+  if (items === null) {
+    // Show the overlay chrome immediately instead of a blank flash while
+    // localStorage/tRPC data resolves.
+    return (
+      <div className="overlay">
+        <div className="ov-phase">Loading…</div>
+      </div>
+    );
+  }
 
   return <RunOverlay items={items} discipline={discipline} onExit={onExit} />;
 }

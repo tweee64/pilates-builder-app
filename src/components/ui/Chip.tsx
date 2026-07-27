@@ -5,6 +5,7 @@ type ChipProps = {
   active?: boolean;
   /** "level" chips use the sage active style; "phase" use ink. */
   variant?: "phase" | "level";
+  disabled?: boolean;
   onClick?: () => void;
 };
 
@@ -13,6 +14,7 @@ export function Chip({
   label,
   active = false,
   variant = "phase",
+  disabled = false,
   onClick,
 }: ChipProps) {
   const cls = ["chip", variant === "level" ? "lvl" : "", active ? "on" : ""]
@@ -23,6 +25,8 @@ export function Chip({
       type="button"
       className={cls}
       aria-pressed={active}
+      aria-disabled={disabled}
+      disabled={disabled}
       onClick={onClick}
     >
       {label}
