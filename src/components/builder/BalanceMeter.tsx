@@ -47,7 +47,7 @@ function MatBalanceMeter({ items }: { items: ClassItem[] }) {
         <div className="flex" style={{ width: `${flexPct}%` }} />
         <div className="ext" style={{ width: `${100 - flexPct}%` }} />
       </div>
-      <div className={`tip${advisory ? "show" : ""}`}>
+      <div className={`tip${advisory ? " show" : ""}`}>
         <span className="ic">◆</span>
         <span>{advisory}</span>
       </div>
@@ -72,7 +72,7 @@ function ReformerAdvisories({ items }: { items: ClassItem[] }) {
 
   return (
     <div className="balance">
-      <div className={`tip${advisory ? "show" : ""}`}>
+      <div className={`tip${advisory ? " show" : ""}`}>
         <span className="ic">◆</span>
         <span>{advisory}</span>
       </div>
