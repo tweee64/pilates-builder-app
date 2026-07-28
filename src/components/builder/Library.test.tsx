@@ -24,7 +24,10 @@ describe("Exercise card expand/collapse", () => {
 
     fireEvent.click(addButton);
 
-    expect(onAdd).toHaveBeenCalledWith("breath-body-scan");
+    expect(onAdd).toHaveBeenCalledWith(
+      "breath-body-scan",
+      "Breath & Body Scan",
+    );
     expect(screen.queryByText("Slow, even breath")).toBeNull();
   });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useReducer, useRef } from "react";
+import { Suspense, useEffect, useReducer, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { api } from "~/trpc/react";
@@ -13,6 +13,9 @@ import { SequenceSpine } from "~/components/builder/SequenceSpine";
 import { BalanceMeter } from "~/components/builder/BalanceMeter";
 import { Summary } from "~/components/builder/Summary";
 import { SavePanel } from "~/components/builder/SavePanel";
+import { MobileClassBar } from "~/components/builder/MobileClassBar";
+
+const YOUR_CLASS_ID = "your-class";
 
 function BuilderInner() {
   const router = useRouter();
@@ -21,6 +24,7 @@ function BuilderInner() {
   const [state, dispatch] = useReducer(classReducer, initialClassState);
   const hydrated = useRef(false);
   const loadedId = useRef<string | null>(null);
+  const [announcement, setAnnouncement] = useState("");
 
   // Hydrate the working class from localStorage once on mount.
   useEffect(() => {
@@ -70,12 +74,23 @@ function BuilderInner() {
 
   return (
     <div className="grid">
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
+
       <Library
         discipline={state.discipline}
-        onAdd={(exerciseKey) => dispatch({ type: "add", exerciseKey })}
+        items={state.items}
+        onAdd={(exerciseKey, name) => {
+          dispatch({ type: "add", exerciseKey });
+          const nextCount = state.items.length + 1;
+          setAnnouncement(
+            `Added ${name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
+          );
+        }}
       />
 
-      <aside className="seqcol">
+      <aside id={YOUR_CLASS_ID} className="seqcol">
         <div className="seqcard">
           <div className="panel-h" style={{ marginBottom: 10 }}>
             <h2>Your class</h2>
@@ -111,6 +126,8 @@ function BuilderInner() {
           />
         </div>
       </aside>
+
+      <MobileClassBar items={state.items} targetId={YOUR_CLASS_ID} />
     </div>
   );
 }

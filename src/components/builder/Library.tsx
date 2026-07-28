@@ -12,6 +12,7 @@ import {
   type Level,
   type ReformerCategory,
   type Discipline,
+  type ClassItem,
 } from "~/lib/types";
 import { fmt } from "~/lib/time";
 import { Chip } from "~/components/ui/Chip";
@@ -19,18 +20,35 @@ import { ExerciseCard, PrenatalBadge } from "~/components/builder/ExerciseCard";
 
 type LibraryProps = {
   discipline: Discipline;
-  onAdd: (exerciseKey: string) => void;
+  /** Current class items — used to show a persistent "already added" count per card. */
+  items?: ClassItem[];
+  onAdd: (exerciseKey: string, name: string) => void;
 };
 
 const ALL = "All" as const;
 
 /** Library panel — exercise cards with phase + level filter chips (task 4.1). */
-export function Library({ discipline, onAdd }: LibraryProps) {
-  if (discipline === "reformer") return <ReformerLibrary onAdd={onAdd} />;
-  return <MatLibrary onAdd={onAdd} />;
+export function Library({ discipline, items = [], onAdd }: LibraryProps) {
+  const counts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const item of items) {
+      m.set(item.exerciseKey, (m.get(item.exerciseKey) ?? 0) + 1);
+    }
+    return m;
+  }, [items]);
+
+  if (discipline === "reformer")
+    return <ReformerLibrary onAdd={onAdd} counts={counts} />;
+  return <MatLibrary onAdd={onAdd} counts={counts} />;
 }
 
-function MatLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
+function MatLibrary({
+  onAdd,
+  counts,
+}: {
+  onAdd: (exerciseKey: string, name: string) => void;
+  counts: Map<string, number>;
+}) {
   const [phase, setPhase] = useState<Phase | typeof ALL>(ALL);
   const [level, setLevel] = useState<Level | typeof ALL>(ALL);
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
@@ -97,7 +115,8 @@ function MatLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
               name={e.name}
               description={e.cue}
               addLabel={`Add ${e.name}`}
-              onAdd={() => onAdd(e.key)}
+              onAdd={() => onAdd(e.key, e.name)}
+              addedCount={counts.get(e.key) ?? 0}
               expanded={expandedKeys.has(e.key)}
               onToggleExpand={() => toggleExpand(e.key)}
               meta={
@@ -126,7 +145,13 @@ function MatLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
   );
 }
 
-function ReformerLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
+function ReformerLibrary({
+  onAdd,
+  counts,
+}: {
+  onAdd: (exerciseKey: string, name: string) => void;
+  counts: Map<string, number>;
+}) {
   const [category, setCategory] = useState<ReformerCategory | typeof ALL>(ALL);
   const [prenatalSafeOnly, setPrenatalSafeOnly] = useState(false);
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
@@ -197,7 +222,8 @@ function ReformerLibrary({ onAdd }: { onAdd: (exerciseKey: string) => void }) {
             nameBadge={e.prenatalSafe ? <PrenatalBadge /> : undefined}
             description={e.setupCue}
             addLabel={`Add ${e.name}`}
-            onAdd={() => onAdd(e.key)}
+            onAdd={() => onAdd(e.key, e.name)}
+            addedCount={counts.get(e.key) ?? 0}
             expanded={expandedKeys.has(e.key)}
             onToggleExpand={() => toggleExpand(e.key)}
             meta={

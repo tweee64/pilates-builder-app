@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type ExerciseCardProps = {
   name: string;
@@ -16,6 +16,8 @@ type ExerciseCardProps = {
   onToggleExpand: () => void;
   onAdd: () => void;
   addLabel: string;
+  /** How many copies of this exercise are already in the current class. */
+  addedCount?: number;
 };
 
 /**
@@ -34,11 +36,44 @@ export function ExerciseCard({
   onToggleExpand,
   onAdd,
   addLabel,
+  addedCount = 0,
 }: ExerciseCardProps) {
+  // Brief "added" flash on the `+` button itself (checkmark swap) so tapping
+  // it gives immediate feedback regardless of where the class list is
+  // scrolled to — the actual added item can be off-screen on phone (see
+  // .mobile-classbar for the persistent phone-only indicator).
+  const [justAdded, setJustAdded] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    },
+    [],
+  );
+
+  const handleAdd = () => {
+    onAdd();
+    setJustAdded(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setJustAdded(false), 900);
+  };
+
+  const countLabel = addedCount > 0 ? ` (${addedCount} already in class)` : "";
+
   return (
     <div className="ex">
-      <button className="add" aria-label={addLabel} onClick={onAdd}>
-        +
+      <button
+        className={`add${justAdded ? "added" : ""}`}
+        aria-label={justAdded ? `Added ${name}` : `${addLabel}${countLabel}`}
+        onClick={handleAdd}
+      >
+        {justAdded ? "✓" : "+"}
+        {addedCount > 0 && (
+          <span className="add-count" aria-hidden="true">
+            {addedCount}
+          </span>
+        )}
       </button>
       <button
         type="button"
