@@ -604,6 +604,22 @@ header.top {
   font-family: var(--font-dm-mono), monospace;
   margin-top: 1px;
 }
+/* Brief flash on the vertebra just added via the Library, so it's obvious
+ * which item landed at the bottom of a long "Your class" list — paired
+ * with a scrollIntoView() in SequenceSpine. */
+.vert-added .pill {
+  animation: vert-added-flash 1.6s ease;
+}
+@keyframes vert-added-flash {
+  0% {
+    background: var(--mist);
+    box-shadow: 0 0 0 2px var(--sage-deep);
+  }
+  100% {
+    background: var(--card);
+    box-shadow: var(--shadow);
+  }
+}
 .dur-ctrl {
   display: flex;
   align-items: center;
@@ -1124,9 +1140,6 @@ header.top {
   .ov-time {
     font-size: 46px;
   }
-  .mobile-classbar {
-    display: flex;
-  }
 }
 /* Sticky phone-only bar keeping the running class count + time in view
  * while browsing the Library, since ".seqcol" ("Your class") is stacked
@@ -1155,11 +1168,30 @@ header.top {
   font-size: 12px;
   color: var(--ink-soft);
 }
-.mobile-classbar .run {
+.mobile-classbar-actions {
   margin-left: auto;
-  text-decoration: none;
-  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mobile-classbar-actions .navlink {
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+.mobile-classbar .run {
+  padding: 10px 16px;
   font-size: 13px;
+  white-space: nowrap;
+}
+/* NOTE: this must come AFTER the base `.mobile-classbar { display: none }`
+ * rule above — same specificity, so source order decides the winner when
+ * both apply at <=880px. Putting this override first (as it originally
+ * was, bundled into the other 880px block up top) meant `display: none`
+ * always won and the bar never actually showed at any width. */
+@media (max-width: 880px) {
+  .mobile-classbar {
+    display: flex;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .orb,
@@ -1173,6 +1205,9 @@ header.top {
   }
   .breath-label .exh {
     opacity: 0;
+  }
+  .vert-added .pill {
+    animation: none;
   }
   * {
     transition: none !important;

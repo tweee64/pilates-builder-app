@@ -25,6 +25,10 @@ function BuilderInner() {
   const hydrated = useRef(false);
   const loadedId = useRef<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
+  const [lastAdded, setLastAdded] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
 
   // Hydrate the working class from localStorage once on mount.
   useEffect(() => {
@@ -82,11 +86,13 @@ function BuilderInner() {
         discipline={state.discipline}
         items={state.items}
         onAdd={(exerciseKey, name) => {
+          const newItemId = state.nextId;
           dispatch({ type: "add", exerciseKey });
           const nextCount = state.items.length + 1;
           setAnnouncement(
             `Added ${name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
           );
+          setLastAdded({ id: newItemId, name });
         }}
       />
 
@@ -115,6 +121,7 @@ function BuilderInner() {
             items={state.items}
             discipline={state.discipline}
             dispatch={dispatch}
+            highlightId={lastAdded?.id}
           />
 
           <SavePanel
@@ -127,7 +134,13 @@ function BuilderInner() {
         </div>
       </aside>
 
-      <MobileClassBar items={state.items} targetId={YOUR_CLASS_ID} />
+      <MobileClassBar
+        items={state.items}
+        targetId={YOUR_CLASS_ID}
+        lastAddedId={lastAdded?.id}
+        lastAddedName={lastAdded?.name}
+        onRun={onRun}
+      />
     </div>
   );
 }

@@ -1,11 +1,15 @@
 "use client";
 
-import { type Dispatch } from "react";
+import { type Dispatch, useEffect, useState } from "react";
 import { type ClassItem, type Discipline, ACTION_META } from "~/lib/types";
 import { getExercise } from "~/lib/exercises";
 import { getReformerExercise } from "~/lib/exercises";
 import { fmt } from "~/lib/time";
-import { type ClassAction, DURATION_STEP } from "~/lib/class-state";
+import {
+  type ClassAction,
+  DURATION_STEP,
+  spineItemAnchorId,
+} from "~/lib/class-state";
 import { IconButton } from "~/components/ui/IconButton";
 import { SpringSelect } from "~/components/builder/SpringSelect";
 
@@ -13,6 +17,11 @@ type SequenceSpineProps = {
   items: ClassItem[];
   discipline: Discipline;
   dispatch: Dispatch<ClassAction>;
+  /** id of the item most recently added via the Library — briefly flashed
+   * so it's visible when already in view. Doesn't auto-scroll (would
+   * interrupt browsing the Library mid-add) — MobileClassBar's sticky link
+   * points here for an on-demand manual jump instead. */
+  highlightId?: number | null;
 };
 
 /** The connected "spine" of vertebrae + empty state (task 4.2). */
@@ -20,7 +29,17 @@ export function SequenceSpine({
   items,
   discipline,
   dispatch,
+  highlightId,
 }: SequenceSpineProps) {
+  const [flashId, setFlashId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (highlightId == null) return;
+    setFlashId(highlightId);
+    const t = setTimeout(() => setFlashId(null), 1600);
+    return () => clearTimeout(t);
+  }, [highlightId]);
+
   if (items.length === 0) {
     return (
       <div className="spine">
@@ -52,7 +71,11 @@ export function SequenceSpine({
           const ex = getReformerExercise(item.exerciseKey);
           if (!ex) return null;
           return (
-            <div key={item.id} className="vert">
+            <div
+              key={item.id}
+              id={spineItemAnchorId(item.id)}
+              className={`vert${item.id === flashId ? " vert-added" : ""}`}
+            >
               <div className="stem">
                 <span className="node" />
               </div>
@@ -129,7 +152,11 @@ export function SequenceSpine({
         if (!ex) return null;
         const meta = ACTION_META[ex.action];
         return (
-          <div key={item.id} className="vert">
+          <div
+            key={item.id}
+            id={spineItemAnchorId(item.id)}
+            className={`vert${item.id === flashId ? " vert-added" : ""}`}
+          >
             <div className="stem">
               <span className="node" />
             </div>
