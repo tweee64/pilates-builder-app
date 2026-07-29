@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { SiteHeader } from "~/components/SiteHeader";
+import { SiteFooter } from "~/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Spine — Mat-Pilates Class Builder",
@@ -46,6 +47,7 @@ export default function RootLayout({
             <div className="wrap">
               <SiteHeader />
               {children}
+              <SiteFooter />
             </div>
           </TRPCReactProvider>
         </SessionProvider>

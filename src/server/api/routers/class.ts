@@ -2,7 +2,11 @@ import { z } from "zod";
 import { and, eq, desc } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  rateLimitedProcedure,
+} from "~/server/api/trpc";
 import { db } from "~/server/db";
 import { pilatesClasses, classItems } from "~/server/db/schema";
 import { FREE_CLASS_LIMIT, isPro } from "~/server/billing/entitlements";
@@ -65,7 +69,7 @@ export const classRouter = createTRPCRouter({
     }),
 
   /** Create a class from the working sequence. Returns the new id. */
-  create: protectedProcedure
+  create: rateLimitedProcedure
     .input(classInput)
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;

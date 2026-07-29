@@ -14,6 +14,7 @@ import { ZodError } from "zod";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { isPro } from "~/server/billing/entitlements";
+import { checkRateLimit } from "~/lib/rate-limit";
 
 /**
  * 1. CONTEXT
@@ -149,6 +150,26 @@ export const premiumProcedure = protectedProcedure.use(
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "This feature requires a Pro plan.",
+      });
+    }
+    return next({ ctx });
+  },
+);
+
+/**
+ * Rate-limited (authenticated) procedure — builds on `protectedProcedure` for
+ * mutations that are reachable without an existing paid entitlement (LAUNCH-001
+ * §3), so a signed-in free user can't hammer them. Keyed by user id (see
+ * `src/lib/rate-limit.ts`); no-ops (fails open) until Upstash env vars are
+ * configured.
+ */
+export const rateLimitedProcedure = protectedProcedure.use(
+  async ({ ctx, next }) => {
+    const { success } = await checkRateLimit(`user:${ctx.session.user.id}`);
+    if (!success) {
+      throw new TRPCError({
+        code: "TOO_MANY_REQUESTS",
+        message: "Too many requests — please slow down and try again.",
       });
     }
     return next({ ctx });

@@ -61,6 +61,17 @@ export default async function BillingPage() {
           </>
         )}
       </div>
+
+      <p className="muted" style={{ maxWidth: 460, marginTop: 18 }}>
+        Want your account deleted?{" "}
+        <a
+          className="navlink"
+          href="mailto:annthuy64@gmail.com?subject=Delete%20my%20Spine%20account"
+        >
+          Request account deletion
+        </a>
+        .
+      </p>
     </main>
   );
 }

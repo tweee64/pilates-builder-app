@@ -4,6 +4,7 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { appRouter } from "~/server/api/root";
 import { createCallerFactory } from "~/server/api/trpc";
+import { checkRateLimit } from "~/lib/rate-limit";
 
 const createCaller = createCallerFactory(appRouter);
 
@@ -24,6 +25,13 @@ export async function POST(req: Request) {
       `${origin}/api/auth/signin?callbackUrl=${callbackUrl}`,
       303,
     );
+  }
+
+  // LAUNCH-001 §3 — rate limit checkout attempts per user (fails open until
+  // Upstash is configured, see src/lib/rate-limit.ts).
+  const { success } = await checkRateLimit(`checkout:${session.user.id}`);
+  if (!success) {
+    return NextResponse.redirect(`${origin}/pricing?error=checkout`, 303);
   }
 
   const form = await req.formData().catch(() => null);
