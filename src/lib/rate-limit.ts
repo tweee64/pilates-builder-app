@@ -14,18 +14,20 @@ import { env } from "~/env";
  * in production to actually enforce limits.
  */
 
-const ratelimit =
-  env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN
-    ? new Ratelimit({
-        redis: new Redis({
-          url: env.UPSTASH_REDIS_REST_URL,
-          token: env.UPSTASH_REDIS_REST_TOKEN,
-        }),
-        limiter: Ratelimit.slidingWindow(10, "60 s"),
-        analytics: false,
-        prefix: "spine-ratelimit",
-      })
-    : null;
+function buildRatelimit(): Ratelimit | null {
+  const url = env.UPSTASH_REDIS_REST_URL;
+  const token = env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+
+  return new Ratelimit({
+    redis: new Redis({ url, token }),
+    limiter: Ratelimit.slidingWindow(10, "60 s"),
+    analytics: false,
+    prefix: "spine-ratelimit",
+  });
+}
+
+const ratelimit = buildRatelimit();
 
 export type RateLimitResult = {
   success: boolean;
