@@ -1,7 +1,11 @@
 "use client";
 
 import { useMemo } from "react";
-import { type ClassItem, type Discipline } from "~/lib/types";
+import {
+  type ClassItem,
+  type Discipline,
+  type ReformerCategory,
+} from "~/lib/types";
 import { getExercise } from "~/lib/exercises";
 import { getReformerExercise } from "~/lib/exercises";
 import { analyzeBalance } from "~/lib/balance";
@@ -24,6 +28,9 @@ export function BalanceMeter({ items, discipline }: BalanceMeterProps) {
 function MatBalanceMeter({ items }: { items: ClassItem[] }) {
   const { flexSeconds, extSeconds, flexPct, advisory } = useMemo(() => {
     const entries = items.flatMap((it) => {
+      if (it.kind === "custom") {
+        return it.action ? [{ action: it.action, duration: it.duration }] : [];
+      }
       const ex = getExercise(it.exerciseKey);
       return ex ? [{ action: ex.action, duration: it.duration }] : [];
     });
@@ -58,6 +65,14 @@ function MatBalanceMeter({ items }: { items: ClassItem[] }) {
 function ReformerAdvisories({ items }: { items: ClassItem[] }) {
   const advisory = useMemo(() => {
     const entries = items.flatMap((it) => {
+      if (it.kind === "custom") {
+        return [
+          {
+            category: it.category as ReformerCategory,
+            spring: it.spring ?? "R",
+          },
+        ];
+      }
       const ex = getReformerExercise(it.exerciseKey);
       return ex
         ? [{ category: ex.category, spring: it.spring ?? ex.defaultSpring }]

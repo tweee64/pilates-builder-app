@@ -17,29 +17,47 @@ import {
 import { fmt } from "~/lib/time";
 import { Chip } from "~/components/ui/Chip";
 import { ExerciseCard, PrenatalBadge } from "~/components/builder/ExerciseCard";
+import {
+  AddCustomExercise,
+  type CustomExerciseFields,
+} from "~/components/builder/AddCustomExercise";
 
 type LibraryProps = {
   discipline: Discipline;
   /** Current class items — used to show a persistent "already added" count per card. */
   items?: ClassItem[];
   onAdd: (exerciseKey: string, name: string) => void;
+  onAddCustom?: (fields: CustomExerciseFields) => void;
 };
 
 const ALL = "All" as const;
 
 /** Library panel — exercise cards with phase + level filter chips (task 4.1). */
-export function Library({ discipline, items = [], onAdd }: LibraryProps) {
+export function Library({
+  discipline,
+  items = [],
+  onAdd,
+  onAddCustom = () => undefined,
+}: LibraryProps) {
   const counts = useMemo(() => {
     const m = new Map<string, number>();
     for (const item of items) {
+      if (item.kind !== "library") continue;
       m.set(item.exerciseKey, (m.get(item.exerciseKey) ?? 0) + 1);
     }
     return m;
   }, [items]);
 
-  if (discipline === "reformer")
-    return <ReformerLibrary onAdd={onAdd} counts={counts} />;
-  return <MatLibrary onAdd={onAdd} counts={counts} />;
+  return (
+    <div className="lib-col">
+      <AddCustomExercise discipline={discipline} onAdd={onAddCustom} />
+      {discipline === "reformer" ? (
+        <ReformerLibrary onAdd={onAdd} counts={counts} />
+      ) : (
+        <MatLibrary onAdd={onAdd} counts={counts} />
+      )}
+    </div>
+  );
 }
 
 function MatLibrary({

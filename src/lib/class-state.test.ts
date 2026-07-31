@@ -9,8 +9,13 @@ import {
 } from "./class-state";
 import { getExercise } from "./exercises";
 import { getReformerExercise } from "./exercises";
+import { type ClassItem } from "./types";
 
 const fresh = (): ClassState => ({ ...initialClassState, items: [] });
+
+/** Narrow a library item's `exerciseKey` for assertions — tests here never mix in custom items. */
+const exerciseKeyOf = (x: ClassItem) =>
+  x.kind === "library" ? x.exerciseKey : undefined;
 
 describe("classReducer", () => {
   it("add seeds duration from the library default and assigns ids", () => {
@@ -78,11 +83,11 @@ describe("classReducer", () => {
     s = classReducer(s, {
       type: "load",
       items: [
-        { exerciseKey: "saw", duration: 90 },
-        { exerciseKey: "teaser", duration: 150 },
+        { kind: "library", exerciseKey: "saw", duration: 90 },
+        { kind: "library", exerciseKey: "teaser", duration: 150 },
       ],
     });
-    expect(s.items.map((x) => x.exerciseKey)).toEqual(["saw", "teaser"]);
+    expect(s.items.map(exerciseKeyOf)).toEqual(["saw", "teaser"]);
     expect(s.items.map((x) => x.duration)).toEqual([90, 150]);
     expect(new Set(s.items.map((x) => x.id)).size).toBe(2);
   });
@@ -90,10 +95,11 @@ describe("classReducer", () => {
   it("loadSample produces the prototype's 13-item arc", () => {
     const s = classReducer(fresh(), { type: "loadSample" });
     expect(s.items).toHaveLength(13);
-    expect(s.items.map((x) => x.exerciseKey)).toEqual([...SAMPLE_CLASS_KEYS]);
+    expect(s.items.map(exerciseKeyOf)).toEqual([...SAMPLE_CLASS_KEYS]);
     // each seeded from its library default
     for (const it of s.items) {
-      expect(it.duration).toBe(getExercise(it.exerciseKey)!.duration);
+      const key = exerciseKeyOf(it);
+      expect(it.duration).toBe(getExercise(key!)!.duration);
     }
   });
 
@@ -140,5 +146,90 @@ describe("classReducer", () => {
       { type: "loadSample" },
     );
     expect(s.items).toHaveLength(0);
+  });
+});
+
+describe("addCustom action", () => {
+  it("pushes a new CustomClassItem with a fresh id, no library lookup involved", () => {
+    let s = fresh();
+    s = classReducer(s, {
+      type: "addCustom",
+      name: "Side plank reach-through",
+      category: "Core",
+      action: "rotation",
+      duration: 60,
+      cue: "Reach and rotate",
+      breath: "Exhale on the reach",
+    });
+    expect(s.items).toHaveLength(1);
+    const item = s.items[0]!;
+    expect(item.kind).toBe("custom");
+    expect(item.id).toBe(1);
+    if (item.kind === "custom") {
+      expect(item.name).toBe("Side plank reach-through");
+      expect(item.category).toBe("Core");
+      expect(item.action).toBe("rotation");
+      expect(item.cue).toBe("Reach and rotate");
+      expect(item.breath).toBe("Exhale on the reach");
+    }
+  });
+
+  it("assigns ids that continue the same monotonic sequence as library adds", () => {
+    let s = fresh();
+    s = classReducer(s, { type: "add", exerciseKey: "saw" });
+    s = classReducer(s, {
+      type: "addCustom",
+      name: "Custom move",
+      category: "Core",
+      action: "stability",
+      duration: 60,
+    });
+    expect(s.items.map((x) => x.id)).toEqual([1, 2]);
+  });
+
+  it("clamps duration to [DURATION_MIN, DURATION_MAX] like library items", () => {
+    const s = classReducer(fresh(), {
+      type: "addCustom",
+      name: "Custom move",
+      category: "Core",
+      action: "stability",
+      duration: 10_000,
+    });
+    expect(s.items[0]!.duration).toBe(DURATION_MAX);
+  });
+
+  it("omits action for Reformer custom items", () => {
+    let s = classReducer(fresh(), {
+      type: "setDiscipline",
+      discipline: "reformer",
+    });
+    s = classReducer(s, {
+      type: "addCustom",
+      name: "Custom reformer move",
+      category: "Core",
+      duration: 60,
+      spring: "RR",
+    });
+    const item = s.items[0]!;
+    if (item.kind === "custom") {
+      expect(item.action).toBeUndefined();
+      expect(item.spring).toBe("RR");
+    }
+  });
+
+  it("resets the discipline-driven category options on a discipline switch (reducer no-op check)", () => {
+    // The reset itself is a form-level (UI) concern (AddCustomExercise), not
+    // the reducer's — this just confirms setDiscipline still no-ops once a
+    // custom item exists, same contract as library items.
+    let s = fresh();
+    s = classReducer(s, {
+      type: "addCustom",
+      name: "Custom move",
+      category: "Core",
+      action: "stability",
+      duration: 60,
+    });
+    s = classReducer(s, { type: "setDiscipline", discipline: "reformer" });
+    expect(s.discipline).toBe("mat");
   });
 });

@@ -21,7 +21,6 @@ Spine is a full-stack web app that lets a Pilates instructor assemble a mat clas
 **Out of scope** (deliberately excluded — do not build, but leave room per §4 data model)
 - Share-by-link / public read (`shareSlug` column exists but no `setVisibility`/`getPublic` procedures wired) — note payment gating for this feature *is* now built (see below), the public share page/procedures themselves are still not.
 - Public template gallery
-- Custom user-authored exercises (library stays static in code; no `exercise` table)
 - Studio/team billing (per-seat pricing, multi-instructor workspaces), analytics/observability beyond basic deploy smoke test
 
 > **Reformer library, prenatal-safe filter** — no longer out of scope. Built as
@@ -36,6 +35,14 @@ Spine is a full-stack web app that lets a Pilates instructor assemble a mat clas
 > (Stripe-backed Free/Pro subscriptions, `subscriptions` table, `/pricing` +
 > `/account/billing` pages, and server-side entitlement gating for the
 > free-tier saved-class cap and the Reformer discipline).
+
+> **Custom user-authored exercises** — no longer out of scope. Built as its
+> own milestone, see
+> [`docs/implementation-plans/CUSTOM-EX-001-custom-exercise-items.md`](docs/implementation-plans/CUSTOM-EX-001-custom-exercise-items.md)
+> (ad-hoc, per-class exercise items with name/category/action-or-spring/
+> duration/cue/breath; the static `EXERCISES`/`REFORMER_EXERCISES` library
+> stays untouched — still no `exercise` table).
+
 
 ## 3. Assumptions & decisions to confirm
 

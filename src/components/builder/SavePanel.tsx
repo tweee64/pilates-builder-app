@@ -5,17 +5,19 @@ import { useSession } from "next-auth/react";
 
 import { api } from "~/trpc/react";
 import { fmt } from "~/lib/time";
-import { type ClassItem, type Discipline } from "~/lib/types";
+import {
+  type ClassItem,
+  type ClassItemInput,
+  type Discipline,
+} from "~/lib/types";
+import { classItemFromRow, classItemToInput } from "~/lib/class-state";
 import { ConfirmDialog } from "~/components/ui/ConfirmDialog";
 import { UpgradePrompt } from "~/components/billing/UpgradePrompt";
 
 type SavePanelProps = {
   items: ClassItem[];
   discipline: Discipline;
-  onLoad: (
-    items: Array<{ exerciseKey: string; duration: number; spring?: string }>,
-    discipline: Discipline,
-  ) => void;
+  onLoad: (items: ClassItemInput[], discipline: Discipline) => void;
 };
 
 const MIGRATION_FLAG = "spine:migration-offered";
@@ -55,12 +57,7 @@ export function SavePanel({ items, discipline, onLoad }: SavePanelProps) {
     setMigrationOffered(!!seen);
   }, [isAuthed]);
 
-  const payload = () =>
-    items.map((i) => ({
-      exerciseKey: i.exerciseKey,
-      duration: i.duration,
-      spring: i.spring,
-    }));
+  const payload = () => items.map(classItemToInput);
 
   const save = () => {
     if (items.length === 0) return;
@@ -87,11 +84,7 @@ export function SavePanel({ items, discipline, onLoad }: SavePanelProps) {
   const load = async (id: string) => {
     const c = await utils.class.get.fetch({ id });
     onLoad(
-      c.items.map((i) => ({
-        exerciseKey: i.exerciseKey,
-        duration: i.duration,
-        spring: i.spring ?? undefined,
-      })),
+      c.items.map(classItemFromRow),
       (c.discipline as Discipline) ?? "mat",
     );
   };

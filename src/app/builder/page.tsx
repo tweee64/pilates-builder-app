@@ -4,7 +4,11 @@ import { Suspense, useEffect, useReducer, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { api } from "~/trpc/react";
-import { classReducer, initialClassState } from "~/lib/class-state";
+import {
+  classReducer,
+  classItemFromRow,
+  initialClassState,
+} from "~/lib/class-state";
 import { type Discipline } from "~/lib/types";
 import { loadWorkingClass, saveWorkingClass } from "~/lib/local-store";
 import { DisciplineSwitch } from "~/components/builder/DisciplineSwitch";
@@ -52,11 +56,7 @@ function BuilderInner() {
     if (loadId && savedClass.data && loadedId.current !== loadId) {
       dispatch({
         type: "load",
-        items: savedClass.data.items.map((i) => ({
-          exerciseKey: i.exerciseKey,
-          duration: i.duration,
-          spring: i.spring ?? undefined,
-        })),
+        items: savedClass.data.items.map(classItemFromRow),
         discipline: (savedClass.data.discipline as Discipline) ?? "mat",
       });
       loadedId.current = loadId;
@@ -93,6 +93,15 @@ function BuilderInner() {
             `Added ${name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
           );
           setLastAdded({ id: newItemId, name });
+        }}
+        onAddCustom={(fields) => {
+          const newItemId = state.nextId;
+          dispatch({ type: "addCustom", ...fields });
+          const nextCount = state.items.length + 1;
+          setAnnouncement(
+            `Added ${fields.name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
+          );
+          setLastAdded({ id: newItemId, name: fields.name });
         }}
       />
 

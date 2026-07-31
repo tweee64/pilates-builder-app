@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { type ClassItem, type Discipline } from "~/lib/types";
+import { classItemFromRow } from "~/lib/class-state";
 import { loadWorkingClass } from "~/lib/local-store";
 import { api } from "~/trpc/react";
 import { RunOverlay } from "~/components/run/RunOverlay";
@@ -25,14 +26,7 @@ export default function RunPage() {
     if (!isLocal) return;
     const stored = loadWorkingClass();
     setLocalDiscipline(stored?.discipline ?? "mat");
-    setLocalItems(
-      (stored?.items ?? []).map((x, i) => ({
-        id: i + 1,
-        exerciseKey: x.exerciseKey,
-        duration: x.duration,
-        spring: x.spring,
-      })),
-    );
+    setLocalItems((stored?.items ?? []).map((x, i) => ({ ...x, id: i + 1 })));
   }, [isLocal]);
 
   const saved = api.class.get.useQuery(
@@ -44,10 +38,8 @@ export default function RunPage() {
     if (isLocal) return localItems;
     if (saved.data) {
       return saved.data.items.map((it, i) => ({
+        ...classItemFromRow(it),
         id: i + 1,
-        exerciseKey: it.exerciseKey,
-        duration: it.duration,
-        spring: it.spring ?? undefined,
       }));
     }
     return null;

@@ -71,7 +71,7 @@ describe.skipIf(!process.env.DATABASE_URL)("class router (integration)", () => {
   it("mat classes round-trip unaffected by the new discipline/spring columns", async () => {
     const created = await caller.class.create({
       name: "Mat regression",
-      items: [{ exerciseKey: "the-hundred", duration: 120 }],
+      items: [{ kind: "library", exerciseKey: "the-hundred", duration: 120 }],
     });
     const got = await caller.class.get({ id: created.id });
     expect(got.discipline).toBe("mat");
@@ -87,8 +87,18 @@ describe.skipIf(!process.env.DATABASE_URL)("class router (integration)", () => {
       name: "Reformer flow",
       discipline: "reformer",
       items: [
-        { exerciseKey: "footwork-heels", duration: 90, spring: "RR" },
-        { exerciseKey: "reformer-hundred", duration: 100, spring: "RRR" },
+        {
+          kind: "library",
+          exerciseKey: "footwork-heels",
+          duration: 90,
+          spring: "RR",
+        },
+        {
+          kind: "library",
+          exerciseKey: "reformer-hundred",
+          duration: 100,
+          spring: "RRR",
+        },
       ],
     });
 
@@ -132,6 +142,177 @@ describe.skipIf(!process.env.DATABASE_URL)("class router (integration)", () => {
     }
   });
 });
+
+/**
+ * CUSTOM-EX-001: ad-hoc, per-class exercise items that aren't backed by the
+ * static EXERCISES/REFORMER_EXERCISES library.
+ */
+describe.skipIf(!process.env.DATABASE_URL)(
+  "class router custom items (integration)",
+  () => {
+    const userId = randomUUID();
+    const caller = callerFor(userId);
+
+    beforeAll(async () => {
+      await db
+        .insert(users)
+        .values({ id: userId, email: `${userId}@example.test` });
+      await db.insert(subscriptions).values({
+        userId,
+        stripeCustomerId: "cus_test_custom_items",
+        plan: "pro",
+        status: "active",
+      });
+    });
+
+    afterAll(async () => {
+      await db.delete(users).where(eq(users.id, userId));
+    });
+
+    it("persists and round-trips custom fields (name/category/action/cue/breath) on create/update", async () => {
+      const created = await caller.class.create({
+        name: "Custom mat class",
+        items: [
+          {
+            kind: "custom",
+            name: "Side plank reach-through",
+            category: "Core",
+            action: "rotation",
+            duration: 60,
+            cue: "Reach and rotate",
+            breath: "Exhale on the reach",
+          },
+        ],
+      });
+      const got = await caller.class.get({ id: created.id });
+      expect(got.items).toHaveLength(1);
+      const item = got.items[0]!;
+      expect(item.exerciseKey).toBeNull();
+      expect(item.customName).toBe("Side plank reach-through");
+      expect(item.customCategory).toBe("Core");
+      expect(item.customAction).toBe("rotation");
+      expect(item.customCue).toBe("Reach and rotate");
+      expect(item.customBreath).toBe("Exhale on the reach");
+
+      const updated = await caller.class.update({
+        id: created.id,
+        name: "Custom mat class",
+        items: [
+          {
+            kind: "custom",
+            name: "Renamed move",
+            category: "Cool-Down",
+            action: "stability",
+            duration: 90,
+          },
+        ],
+      });
+      const gotAfterUpdate = await caller.class.get({ id: updated.id });
+      expect(gotAfterUpdate.items).toHaveLength(1);
+      expect(gotAfterUpdate.items[0]!.customName).toBe("Renamed move");
+      expect(gotAfterUpdate.items[0]!.customCategory).toBe("Cool-Down");
+      expect(gotAfterUpdate.items[0]!.customCue).toBeNull();
+
+      await caller.class.delete({ id: created.id });
+    });
+
+    it("round-trips a Reformer custom item's spring", async () => {
+      const created = await caller.class.create({
+        name: "Custom reformer class",
+        discipline: "reformer",
+        items: [
+          {
+            kind: "custom",
+            name: "Custom reformer move",
+            category: "Core",
+            duration: 60,
+            spring: "RR",
+          },
+        ],
+      });
+      const got = await caller.class.get({ id: created.id });
+      expect(got.items[0]!.customAction).toBeNull();
+      expect(got.items[0]!.spring).toBe("RR");
+      await caller.class.delete({ id: created.id });
+    });
+
+    it("rejects a custom item missing name", async () => {
+      await expect(
+        caller.class.create({
+          name: "Bad class",
+          items: [
+            {
+              kind: "custom",
+              // @ts-expect-error -- intentionally omitting the required field
+              name: undefined,
+              category: "Core",
+              action: "stability",
+              duration: 60,
+            },
+          ],
+        }),
+      ).rejects.toThrow();
+    });
+
+    it("rejects a mat custom item missing action", async () => {
+      await expect(
+        caller.class.create({
+          name: "Bad class",
+          items: [
+            {
+              kind: "custom",
+              name: "No action move",
+              category: "Core",
+              duration: 60,
+            },
+          ],
+        }),
+      ).rejects.toThrow();
+    });
+
+    it("rejects a custom item with a category outside the class's discipline taxonomy", async () => {
+      await expect(
+        caller.class.create({
+          name: "Bad class",
+          items: [
+            {
+              kind: "custom",
+              name: "Bad category",
+              category: "Not A Real Category",
+              action: "stability",
+              duration: 60,
+            },
+          ],
+        }),
+      ).rejects.toThrow();
+    });
+
+    it("never writes custom item data into the static EXERCISES/REFORMER_EXERCISES arrays", async () => {
+      const { EXERCISES, REFORMER_EXERCISES } = await import("~/lib/exercises");
+      const matCountBefore = EXERCISES.length;
+      const reformerCountBefore = REFORMER_EXERCISES.length;
+
+      const created = await caller.class.create({
+        name: "Custom-only class",
+        items: [
+          {
+            kind: "custom",
+            name: "One-off exercise",
+            category: "Core",
+            action: "stability",
+            duration: 60,
+          },
+        ],
+      });
+
+      expect(EXERCISES.length).toBe(matCountBefore);
+      expect(REFORMER_EXERCISES.length).toBe(reformerCountBefore);
+      expect(EXERCISES.some((e) => e.name === "One-off exercise")).toBe(false);
+
+      await caller.class.delete({ id: created.id });
+    });
+  },
+);
 
 /**
  * MONETIZATION-001: free-tier saved-class cap, shared across mat and

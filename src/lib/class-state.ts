@@ -1,4 +1,12 @@
-import { type ClassItem, type Discipline } from "./types";
+import {
+  type Action,
+  type ClassItem,
+  type ClassItemInput,
+  type CustomClassItem,
+  type Discipline,
+  type Phase,
+  type ReformerCategory,
+} from "./types";
 import { getExercise } from "./exercises";
 import { getReformerExercise } from "./exercises";
 
@@ -43,6 +51,17 @@ export const initialClassState: ClassState = {
 
 export type ClassAction =
   | { type: "add"; exerciseKey: string }
+  | {
+      type: "addCustom";
+      name: string;
+      category: Phase | ReformerCategory;
+      /** Required (validated by the form) for mat, omitted for Reformer. */
+      action?: Action;
+      duration: number;
+      spring?: string;
+      cue?: string;
+      breath?: string;
+    }
   | { type: "remove"; id: number }
   | { type: "move"; id: number; dir: -1 | 1 }
   | { type: "bump"; id: number; delta: number }
@@ -51,11 +70,7 @@ export type ClassAction =
   | { type: "clear" }
   | {
       type: "load";
-      items: ReadonlyArray<{
-        exerciseKey: string;
-        duration: number;
-        spring?: string;
-      }>;
+      items: ReadonlyArray<ClassItemInput>;
       discipline?: Discipline;
     }
   | { type: "loadSample" };
@@ -63,22 +78,70 @@ export type ClassAction =
 const clampDuration = (d: number) =>
   Math.max(DURATION_MIN, Math.min(DURATION_MAX, d));
 
-/** Assign fresh sequential ids to a list of (exerciseKey, duration, spring?) tuples. */
+/** Assign fresh sequential ids to a list of library/custom item inputs. */
 function withFreshIds(
-  pairs: ReadonlyArray<{
-    exerciseKey: string;
-    duration: number;
-    spring?: string;
-  }>,
+  inputs: ReadonlyArray<ClassItemInput>,
   startId: number,
 ): { items: ClassItem[]; nextId: number } {
-  const items = pairs.map((p, i) => ({
-    id: startId + i,
-    exerciseKey: p.exerciseKey,
-    duration: p.duration,
-    spring: p.spring,
-  }));
-  return { items, nextId: startId + pairs.length };
+  const items = inputs.map((input, i) => ({ ...input, id: startId + i }));
+  return { items, nextId: startId + inputs.length };
+}
+
+/** Row shape returned by `class.get`/`class.list` (or a locally-stored item) —
+ * a superset of both library and custom fields, matching the DB columns. */
+export type ClassItemRow = {
+  exerciseKey: string | null;
+  duration: number;
+  spring?: string | null;
+  customName?: string | null;
+  customCategory?: string | null;
+  customAction?: string | null;
+  customCue?: string | null;
+  customBreath?: string | null;
+};
+
+/** Convert a DB/`class.get` item row into the reducer's `ClassItemInput` shape. */
+export function classItemFromRow(row: ClassItemRow): ClassItemInput {
+  if (row.exerciseKey == null) {
+    return {
+      kind: "custom",
+      name: row.customName ?? "",
+      category: (row.customCategory ?? "") as Phase | ReformerCategory,
+      action: (row.customAction ?? undefined) as Action | undefined,
+      duration: row.duration,
+      spring: row.spring ?? undefined,
+      cue: row.customCue ?? undefined,
+      breath: row.customBreath ?? undefined,
+    };
+  }
+  return {
+    kind: "library",
+    exerciseKey: row.exerciseKey,
+    duration: row.duration,
+    spring: row.spring ?? undefined,
+  };
+}
+
+/** Strip the client-only `id` off a `ClassItem`, for save/duplicate payloads. */
+export function classItemToInput(item: ClassItem): ClassItemInput {
+  if (item.kind === "custom") {
+    return {
+      kind: "custom",
+      name: item.name,
+      category: item.category,
+      action: item.action,
+      duration: item.duration,
+      spring: item.spring,
+      cue: item.cue,
+      breath: item.breath,
+    };
+  }
+  return {
+    kind: "library",
+    exerciseKey: item.exerciseKey,
+    duration: item.duration,
+    spring: item.spring,
+  };
 }
 
 export function classReducer(
@@ -95,6 +158,7 @@ export function classReducer(
           items: [
             ...state.items,
             {
+              kind: "library",
               id: state.nextId,
               exerciseKey: ex.key,
               duration: ex.defaultDuration,
@@ -110,8 +174,31 @@ export function classReducer(
         ...state,
         items: [
           ...state.items,
-          { id: state.nextId, exerciseKey: ex.key, duration: ex.duration },
+          {
+            kind: "library",
+            id: state.nextId,
+            exerciseKey: ex.key,
+            duration: ex.duration,
+          },
         ],
+        nextId: state.nextId + 1,
+      };
+    }
+    case "addCustom": {
+      const item: CustomClassItem = {
+        kind: "custom",
+        id: state.nextId,
+        name: action.name,
+        category: action.category,
+        action: action.action,
+        duration: clampDuration(action.duration),
+        spring: action.spring,
+        cue: action.cue,
+        breath: action.breath,
+      };
+      return {
+        ...state,
+        items: [...state.items, item],
         nextId: state.nextId + 1,
       };
     }
@@ -158,9 +245,17 @@ export function classReducer(
     }
     case "loadSample": {
       if (state.discipline !== "mat") return state; // no Reformer sample (yet)
-      const pairs = SAMPLE_CLASS_KEYS.flatMap((key) => {
+      const pairs: ClassItemInput[] = SAMPLE_CLASS_KEYS.flatMap((key) => {
         const ex = getExercise(key);
-        return ex ? [{ exerciseKey: ex.key, duration: ex.duration }] : [];
+        return ex
+          ? [
+              {
+                kind: "library" as const,
+                exerciseKey: ex.key,
+                duration: ex.duration,
+              },
+            ]
+          : [];
       });
       const { items, nextId } = withFreshIds(pairs, state.nextId);
       return { ...state, items, nextId };

@@ -1,4 +1,5 @@
-import { type ClassItem, type Discipline } from "./types";
+import { type ClassItem, type ClassItemInput, type Discipline } from "./types";
+import { classItemToInput } from "./class-state";
 
 /**
  * localStorage persistence for the anonymous working class. SSR-safe: every
@@ -11,7 +12,7 @@ const STORAGE_KEY = "spine:working-class";
 export type StoredClass = {
   name?: string;
   discipline?: Discipline;
-  items: Array<{ exerciseKey: string; duration: number; spring?: string }>;
+  items: ClassItemInput[];
 };
 
 function hasStorage(): boolean {
@@ -19,7 +20,7 @@ function hasStorage(): boolean {
 }
 
 export function saveWorkingClass(
-  items: ReadonlyArray<Pick<ClassItem, "exerciseKey" | "duration" | "spring">>,
+  items: ReadonlyArray<ClassItem>,
   name?: string,
   discipline?: Discipline,
 ): void {
@@ -28,11 +29,7 @@ export function saveWorkingClass(
     const payload: StoredClass = {
       name,
       discipline,
-      items: items.map((x) => ({
-        exerciseKey: x.exerciseKey,
-        duration: x.duration,
-        spring: x.spring,
-      })),
+      items: items.map(classItemToInput),
     };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   } catch {
@@ -54,13 +51,18 @@ export function loadWorkingClass(): StoredClass | null {
       return null;
     }
     const stored = parsed as StoredClass;
-    // keep only well-formed items
-    const items = stored.items.filter(
-      (x) =>
-        x &&
-        typeof x.exerciseKey === "string" &&
-        typeof x.duration === "number",
-    );
+    // keep only well-formed items (mirrors class.ts's zod validation, kept
+    // in sync by hand since there's no shared validator between the two)
+    const items = stored.items.filter((x): x is ClassItemInput => {
+      if (!x || typeof x !== "object" || typeof x.duration !== "number") {
+        return false;
+      }
+      if (x.kind === "library") return typeof x.exerciseKey === "string";
+      if (x.kind === "custom") {
+        return typeof x.name === "string" && typeof x.category === "string";
+      }
+      return false;
+    });
     return { name: stored.name, discipline: stored.discipline, items };
   } catch {
     return null;

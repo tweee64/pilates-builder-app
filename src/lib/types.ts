@@ -46,8 +46,9 @@ export type Exercise = {
   breath: string;
 };
 
-/** A single item in a working/saved class. */
-export type ClassItem = {
+/** A class item backed by a static library entry (mat or Reformer). */
+export type LibraryClassItem = {
+  kind: "library";
   /** Client-only stable id for list rendering & reorder. */
   id: number;
   exerciseKey: string;
@@ -56,6 +57,37 @@ export type ClassItem = {
   /** Spring code for this item (Reformer classes only, e.g. "RRR", "RY"). */
   spring?: string;
 };
+
+/**
+ * A one-off, user-authored class item that isn't in the static library
+ * (CUSTOM-EX-001). Scoped strictly to the class it was added to — never
+ * written to `EXERCISES`/`REFORMER_EXERCISES`.
+ */
+export type CustomClassItem = {
+  kind: "custom";
+  /** Client-only stable id for list rendering & reorder. */
+  id: number;
+  name: string;
+  /** Phase (mat) or ReformerCategory (reformer) value — same taxonomy the
+   *  library already uses, so balance/sequencing advisories work unmodified. */
+  category: Phase | ReformerCategory;
+  /** Mat only — feeds the flexion/extension balance meter directly, same
+   *  role as `Exercise.action` on a library item. Undefined for Reformer
+   *  custom items (Reformer advisories use `category`+`spring` instead). */
+  action?: Action;
+  duration: number;
+  spring?: string;
+  cue?: string;
+  breath?: string;
+};
+
+/** A single item in a working/saved class — either a library lookup or a custom entry. */
+export type ClassItem = LibraryClassItem | CustomClassItem;
+
+/** `ClassItem` minus the client-only `id` — the persisted/wire shape (DB row, tRPC input, localStorage). */
+export type LibraryItemInput = Omit<LibraryClassItem, "id">;
+export type CustomItemInput = Omit<CustomClassItem, "id">;
+export type ClassItemInput = LibraryItemInput | CustomItemInput;
 
 /** Which library/discipline a class belongs to — decided once, at creation. */
 export const DISCIPLINES = ["mat", "reformer"] as const;

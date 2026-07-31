@@ -40,6 +40,18 @@ export function RunOverlay({
   const steps = useMemo<RunStep[]>(() => {
     if (discipline === "reformer") {
       return items.flatMap((it) => {
+        if (it.kind === "custom") {
+          const spring = it.spring ?? "R";
+          return [
+            {
+              name: it.name,
+              label: it.category,
+              cue: it.cue ?? "",
+              breathLine: `Spring — ${spring}`,
+              duration: it.duration,
+            },
+          ];
+        }
         const ex = getReformerExercise(it.exerciseKey);
         if (!ex) return [];
         const spring = it.spring ?? ex.defaultSpring;
@@ -55,6 +67,17 @@ export function RunOverlay({
       });
     }
     return items.flatMap((it) => {
+      if (it.kind === "custom") {
+        return [
+          {
+            name: it.name,
+            label: it.category,
+            cue: it.cue ?? "",
+            breathLine: it.breath ? `Breath — ${it.breath}` : "",
+            duration: it.duration,
+          },
+        ];
+      }
       const ex = getExercise(it.exerciseKey);
       if (!ex) return [];
       return [
@@ -166,8 +189,10 @@ export function RunOverlay({
           <div className="ov-phase">{step.label}</div>
           <h2 className="ov-name">{step.name}</h2>
           <div className="ov-time mono">{fmt(timer.remainingSeconds)}</div>
-          <div className="ov-cue">{step.cue}</div>
-          <div className="ov-breath">{step.breathLine}</div>
+          {step.cue && <div className="ov-cue">{step.cue}</div>}
+          {step.breathLine && (
+            <div className="ov-breath">{step.breathLine}</div>
+          )}
           <div className="ov-next">
             {nextStep ? (
               <>

@@ -67,6 +67,90 @@ export function SequenceSpine({
   return (
     <div className="spine">
       {items.map((item) => {
+        if (item.kind === "custom") {
+          return (
+            <div
+              key={item.id}
+              id={spineItemAnchorId(item.id)}
+              className={`vert${item.id === flashId ? " vert-added" : ""}`}
+            >
+              <div className="stem">
+                <span className="node" />
+              </div>
+              <div className="pill">
+                <div className="pname">
+                  {item.name}
+                  <small>
+                    {item.category}
+                    {item.action ? ` · ${ACTION_META[item.action].label}` : ""}
+                  </small>
+                </div>
+                {discipline === "reformer" && (
+                  <SpringSelect
+                    label={item.name}
+                    value={item.spring ?? "R"}
+                    onChange={(spring) =>
+                      dispatch({ type: "setSpring", id: item.id, spring })
+                    }
+                  />
+                )}
+                <div className="dur-ctrl">
+                  <IconButton
+                    label={`Decrease ${item.name} duration`}
+                    onClick={() =>
+                      dispatch({
+                        type: "bump",
+                        id: item.id,
+                        delta: -DURATION_STEP,
+                      })
+                    }
+                  >
+                    −
+                  </IconButton>
+                  <span className="v mono">{fmt(item.duration)}</span>
+                  <IconButton
+                    label={`Increase ${item.name} duration`}
+                    onClick={() =>
+                      dispatch({
+                        type: "bump",
+                        id: item.id,
+                        delta: DURATION_STEP,
+                      })
+                    }
+                  >
+                    +
+                  </IconButton>
+                </div>
+                <div className="row-tools">
+                  <IconButton
+                    label={`Move ${item.name} up`}
+                    onClick={() =>
+                      dispatch({ type: "move", id: item.id, dir: -1 })
+                    }
+                  >
+                    ▲
+                  </IconButton>
+                  <IconButton
+                    label={`Move ${item.name} down`}
+                    onClick={() =>
+                      dispatch({ type: "move", id: item.id, dir: 1 })
+                    }
+                  >
+                    ▼
+                  </IconButton>
+                </div>
+                <IconButton
+                  label={`Remove ${item.name}`}
+                  className="del"
+                  onClick={() => dispatch({ type: "remove", id: item.id })}
+                >
+                  ×
+                </IconButton>
+              </div>
+            </div>
+          );
+        }
+
         if (discipline === "reformer") {
           const ex = getReformerExercise(item.exerciseKey);
           if (!ex) return null;
@@ -74,7 +158,7 @@ export function SequenceSpine({
             <div
               key={item.id}
               id={spineItemAnchorId(item.id)}
-              className={`vert${item.id === flashId ? "vert-added" : ""}`}
+              className={`vert${item.id === flashId ? " vert-added" : ""}`}
             >
               <div className="stem">
                 <span className="node" />
@@ -155,7 +239,7 @@ export function SequenceSpine({
           <div
             key={item.id}
             id={spineItemAnchorId(item.id)}
-            className={`vert${item.id === flashId ? "vert-added" : ""}`}
+            className={`vert${item.id === flashId ? " vert-added" : ""}`}
           >
             <div className="stem">
               <span className="node" />

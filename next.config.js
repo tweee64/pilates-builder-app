@@ -41,6 +41,12 @@ const securityHeaders = [
 
 /** @type {import("next").NextConfig} */
 const config = {
+  // Dev-only overlay defaults to bottom-left, which collides with the
+  // `.mobile-classbar` sticky bar (also bottom, near-full-width) on phone
+  // viewports - move it out of that corner.
+  devIndicators: {
+    position: "top-right",
+  },
   async headers() {
     return [
       {

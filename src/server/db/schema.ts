@@ -50,7 +50,15 @@ export const classItems = createTable(
       .uuid()
       .notNull()
       .references(() => pilatesClasses.id, { onDelete: "cascade" }),
-    exerciseKey: d.varchar({ length: 48 }).notNull(),
+    /** Null for custom items (CUSTOM-EX-001) — see the custom* columns below. */
+    exerciseKey: d.varchar({ length: 48 }),
+    /** Custom (ad-hoc, non-library) item fields — set only when `exerciseKey` is null. */
+    customName: d.varchar({ length: 80 }),
+    customCategory: d.varchar({ length: 40 }),
+    /** Mat only. */
+    customAction: d.varchar({ length: 16 }),
+    customCue: d.varchar({ length: 200 }),
+    customBreath: d.varchar({ length: 200 }),
     order: d.integer().notNull(),
     duration: d.integer().notNull(),
     /** Spring code, Reformer items only (e.g. "RRR", "RY"); null for mat items. */
