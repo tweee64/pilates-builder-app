@@ -91,7 +91,7 @@ function MatLibrary({
   return (
     <section>
       <div className="panel-h">
-        <h2>Library</h2>
+        <h2>Mat Library</h2>
         <span className="muted">{items.length} exercises</span>
       </div>
 
@@ -194,7 +194,7 @@ function ReformerLibrary({
   return (
     <section>
       <div className="panel-h">
-        <h2>Library</h2>
+        <h2>Reformer Library</h2>
         <span className="muted">{items.length} exercises</span>
       </div>
 

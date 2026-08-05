@@ -80,86 +80,100 @@ function BuilderInner() {
   };
 
   return (
-    <div className="grid">
+    <>
       <div aria-live="polite" className="sr-only">
         {announcement}
       </div>
 
-      <MobileTabSwitch
-        value={mobileTab}
-        onChange={setMobileTab}
-        classCount={state.items.length}
-      />
-
-      <Library
-        discipline={state.discipline}
-        items={state.items}
-        mobileHidden={mobileTab !== "library"}
-        onAdd={(exerciseKey, name) => {
-          const newItemId = state.nextId;
-          dispatch({ type: "add", exerciseKey });
-          const nextCount = state.items.length + 1;
-          setAnnouncement(
-            `Added ${name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
-          );
-          setLastAdded({ id: newItemId, name });
-        }}
-      />
-
-      <aside
-        className="seqcol"
-        data-mobile-hidden={mobileTab !== "class" ? "true" : undefined}
-      >
-        <div className="seqcard">
-          <div className="panel-h" style={{ marginBottom: 10 }}>
-            <h2>Your class</h2>
-            <DisciplineSwitch
-              value={state.discipline}
-              locked={state.items.length > 0}
-              onChange={(discipline) =>
-                dispatch({ type: "setDiscipline", discipline })
-              }
-            />
-          </div>
-
-          <Summary
-            items={state.items}
-            onRun={onRun}
-            onClear={() => dispatch({ type: "clear" })}
-          />
-
-          <BalanceMeter items={state.items} discipline={state.discipline} />
-
-          <AddCustomExercise
-            discipline={state.discipline}
-            onAdd={(fields) => {
-              const newItemId = state.nextId;
-              dispatch({ type: "addCustom", ...fields });
-              const nextCount = state.items.length + 1;
-              setAnnouncement(
-                `Added ${fields.name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
-              );
-              setLastAdded({ id: newItemId, name: fields.name });
-            }}
-          />
-
-          <SequenceSpine
-            items={state.items}
-            discipline={state.discipline}
-            dispatch={dispatch}
-            highlightId={lastAdded?.id}
-          />
-
-          <SavePanel
-            items={state.items}
-            discipline={state.discipline}
-            onLoad={(loaded, discipline) =>
-              dispatch({ type: "load", items: loaded, discipline })
+      <div className="discipline-head">
+        <div className="discipline-row">
+          <span className="eyebrow">Building a</span>
+          <DisciplineSwitch
+            value={state.discipline}
+            locked={state.items.length > 0}
+            onChange={(discipline) =>
+              dispatch({ type: "setDiscipline", discipline })
             }
           />
         </div>
-      </aside>
-    </div>
+        {/* Title-only tooltips don't work on touch, so also spell this out inline. */}
+        {state.items.length > 0 && (
+          <span className="muted discipline-lock-note">
+            Clear your class to switch discipline
+          </span>
+        )}
+      </div>
+
+      <div className="grid">
+        <MobileTabSwitch
+          value={mobileTab}
+          onChange={setMobileTab}
+          classCount={state.items.length}
+        />
+
+        <Library
+          discipline={state.discipline}
+          items={state.items}
+          mobileHidden={mobileTab !== "library"}
+          onAdd={(exerciseKey, name) => {
+            const newItemId = state.nextId;
+            dispatch({ type: "add", exerciseKey });
+            const nextCount = state.items.length + 1;
+            setAnnouncement(
+              `Added ${name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
+            );
+            setLastAdded({ id: newItemId, name });
+          }}
+        />
+
+        <aside
+          className="seqcol"
+          data-mobile-hidden={mobileTab !== "class" ? "true" : undefined}
+        >
+          <div className="seqcard">
+            <div className="panel-h" style={{ marginBottom: 10 }}>
+              <h2>Your class</h2>
+            </div>
+
+            <Summary
+              items={state.items}
+              onRun={onRun}
+              onClear={() => dispatch({ type: "clear" })}
+            />
+
+            <BalanceMeter items={state.items} discipline={state.discipline} />
+
+            <AddCustomExercise
+              discipline={state.discipline}
+              onAdd={(fields) => {
+                const newItemId = state.nextId;
+                dispatch({ type: "addCustom", ...fields });
+                const nextCount = state.items.length + 1;
+                setAnnouncement(
+                  `Added ${fields.name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
+                );
+                setLastAdded({ id: newItemId, name: fields.name });
+              }}
+            />
+
+            <SequenceSpine
+              items={state.items}
+              discipline={state.discipline}
+              dispatch={dispatch}
+              highlightId={lastAdded?.id}
+            />
+
+            <SavePanel
+              items={state.items}
+              discipline={state.discipline}
+              onLoad={(loaded, discipline) =>
+                dispatch({ type: "load", items: loaded, discipline })
+              }
+            />
+          </div>
+        </aside>
+      </div>
+    </>
   );
 }
 

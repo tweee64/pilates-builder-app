@@ -171,6 +171,24 @@ header.top {
   padding-bottom: 60px;
 }
 
+/* page-level discipline control — sits above the grid so it's visible
+   before either column (Library or Your class), on mobile and desktop. */
+.discipline-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.discipline-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.discipline-lock-note {
+  font-size: 12.5px;
+}
+
 /* panels */
 .panel-h {
   display: flex;
