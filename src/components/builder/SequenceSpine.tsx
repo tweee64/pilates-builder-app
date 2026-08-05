@@ -71,7 +71,7 @@ export function SequenceSpine({
             <div
               key={item.id}
               id={spineItemAnchorId(item.id)}
-              className={`vert${item.id === flashId ? "vert-added" : ""}`}
+              className={`vert${item.id === flashId ? " vert-added" : ""}`}
             >
               <div className="stem">
                 <span className="node" />
@@ -157,7 +157,7 @@ export function SequenceSpine({
             <div
               key={item.id}
               id={spineItemAnchorId(item.id)}
-              className={`vert${item.id === flashId ? "vert-added" : ""}`}
+              className={`vert${item.id === flashId ? " vert-added" : ""}`}
             >
               <div className="stem">
                 <span className="node" />
@@ -238,7 +238,7 @@ export function SequenceSpine({
           <div
             key={item.id}
             id={spineItemAnchorId(item.id)}
-            className={`vert${item.id === flashId ? "vert-added" : ""}`}
+            className={`vert${item.id === flashId ? " vert-added" : ""}`}
           >
             <div className="stem">
               <span className="node" />

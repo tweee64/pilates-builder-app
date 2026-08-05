@@ -50,6 +50,13 @@ Source docs — read these before planning larger changes:
   `key` (kebab-case slug) — never by array index.
 - **Timer accuracy.** Run-mode timers are timestamp-driven (`endsAt = Date.now()
   + remaining*1000`), never naive `setInterval` countdowns.
+- **Conditional className template literals need an explicit leading space.**
+  `` `base${cond ? "modifier" : ""}` `` silently collapses to the invalid
+  single token `"basemodifier"` when `cond` is true, matching neither `.base`
+  nor `.base.modifier` in CSS — this has caused repeated, hard-to-spot UI
+  bugs (unstyled/broken elements) across this repo. Always write
+  `` `base${cond ? " modifier" : ""}` `` (space before the modifier) or use
+  `clsx`/`classnames` instead of manual template concatenation.
 - **Tests live next to the logic** they cover (`*.test.ts` beside the module).
   Run `npm test` after touching anything in `src/lib` or `src/components/run`.
 - **Before calling a task done:** `npm run check` (lint + typecheck) and `npm
