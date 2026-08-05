@@ -17,17 +17,15 @@ import {
 import { fmt } from "~/lib/time";
 import { Chip } from "~/components/ui/Chip";
 import { ExerciseCard, PrenatalBadge } from "~/components/builder/ExerciseCard";
-import {
-  AddCustomExercise,
-  type CustomExerciseFields,
-} from "~/components/builder/AddCustomExercise";
 
 type LibraryProps = {
   discipline: Discipline;
   /** Current class items — used to show a persistent "already added" count per card. */
   items?: ClassItem[];
   onAdd: (exerciseKey: string, name: string) => void;
-  onAddCustom?: (fields: CustomExerciseFields) => void;
+  /** Hides this panel (via CSS) on the mobile "Your class" tab - see
+   * MOBILE-TABS-001. Panel stays mounted; only its visibility changes. */
+  mobileHidden?: boolean;
 };
 
 const ALL = "All" as const;
@@ -37,7 +35,7 @@ export function Library({
   discipline,
   items = [],
   onAdd,
-  onAddCustom = () => undefined,
+  mobileHidden = false,
 }: LibraryProps) {
   const counts = useMemo(() => {
     const m = new Map<string, number>();
@@ -49,8 +47,10 @@ export function Library({
   }, [items]);
 
   return (
-    <div className="lib-col">
-      <AddCustomExercise discipline={discipline} onAdd={onAddCustom} />
+    <div
+      className="lib-col"
+      data-mobile-hidden={mobileHidden ? "true" : undefined}
+    >
       {discipline === "reformer" ? (
         <ReformerLibrary onAdd={onAdd} counts={counts} />
       ) : (

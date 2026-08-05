@@ -14,8 +14,7 @@ export const DURATION_MIN = 30;
 export const DURATION_MAX = 600;
 export const DURATION_STEP = 30;
 
-/** DOM anchor id for a spine item, shared between `SequenceSpine` (renders
- * it) and `MobileClassBar` (links to it) so the two never drift apart. */
+/** DOM anchor id for a spine item, rendered by `SequenceSpine`. */
 export const spineItemAnchorId = (id: number) => `spine-item-${id}`;
 
 /** The prototype's sample 40-min arc (warm-up → core → spine → hips → ext → cool-down). */

@@ -19,8 +19,7 @@ type SequenceSpineProps = {
   dispatch: Dispatch<ClassAction>;
   /** id of the item most recently added via the Library — briefly flashed
    * so it's visible when already in view. Doesn't auto-scroll (would
-   * interrupt browsing the Library mid-add) — MobileClassBar's sticky link
-   * points here for an on-demand manual jump instead. */
+   * interrupt browsing the Library mid-add). */
   highlightId?: number | null;
 };
 
@@ -72,7 +71,7 @@ export function SequenceSpine({
             <div
               key={item.id}
               id={spineItemAnchorId(item.id)}
-              className={`vert${item.id === flashId ? " vert-added" : ""}`}
+              className={`vert${item.id === flashId ? "vert-added" : ""}`}
             >
               <div className="stem">
                 <span className="node" />
@@ -158,7 +157,7 @@ export function SequenceSpine({
             <div
               key={item.id}
               id={spineItemAnchorId(item.id)}
-              className={`vert${item.id === flashId ? " vert-added" : ""}`}
+              className={`vert${item.id === flashId ? "vert-added" : ""}`}
             >
               <div className="stem">
                 <span className="node" />
@@ -239,7 +238,7 @@ export function SequenceSpine({
           <div
             key={item.id}
             id={spineItemAnchorId(item.id)}
-            className={`vert${item.id === flashId ? " vert-added" : ""}`}
+            className={`vert${item.id === flashId ? "vert-added" : ""}`}
           >
             <div className="stem">
               <span className="node" />

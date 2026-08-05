@@ -40,8 +40,7 @@ export function ExerciseCard({
 }: ExerciseCardProps) {
   // Brief "added" flash on the `+` button itself (checkmark swap) so tapping
   // it gives immediate feedback regardless of where the class list is
-  // scrolled to — the actual added item can be off-screen on phone (see
-  // .mobile-classbar for the persistent phone-only indicator).
+  // scrolled to — the actual added item can be off-screen on phone.
   const [justAdded, setJustAdded] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 

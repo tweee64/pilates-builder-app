@@ -440,6 +440,7 @@ header.top {
   border: 1px solid var(--line-soft);
   border-radius: 13px;
   box-shadow: var(--shadow);
+  margin-top: 14px;
   margin-bottom: 12px;
 }
 .custom-ex-toggle {
@@ -706,6 +707,13 @@ header.top {
 }
 .vert .pill {
   flex: 1;
+  /* Without this, a flex item defaults to min-width: auto (its min-content
+   * size). .pname can shrink to 0 (it has its own min-width: 0), but the
+   * other children (dur-ctrl/row-tools/delete, plus SpringSelect on
+   * Reformer rows only) are flex: 0 0 auto and can't shrink at all - so
+   * without this, .pill (and everything above it) gets forced wider than
+   * the viewport on narrow phones once SpringSelect is in the mix. */
+  min-width: 0;
   background: var(--card);
   border: 1px solid var(--line-soft);
   border-radius: 11px;
@@ -1258,6 +1266,28 @@ header.top {
   .seqcol {
     position: static;
   }
+  /* .panel-h (heading + DisciplineSwitch) and .summary (time/count +
+   * Clear/Run) have no wrap by default, so their combined content can
+   * overflow narrow phone widths instead of shrinking - wrap them here
+   * rather than letting them clip against the page's overflow-x: hidden. */
+  .panel-h {
+    flex-wrap: wrap;
+  }
+  .summary {
+    flex-wrap: wrap;
+  }
+  .summary .actions {
+    flex-wrap: wrap;
+  }
+  /* Reformer rows add an extra SpringSelect control that Mat rows don't
+   * have - on narrow phones let the row wrap onto a second line (name on
+   * its own row, controls below) instead of squeezing/overflowing. */
+  .vert .pill {
+    flex-wrap: wrap;
+  }
+  .vert .pname {
+    flex-basis: 100%;
+  }
   .brand h1 {
     font-size: 32px;
   }
@@ -1282,56 +1312,64 @@ header.top {
     font-size: 46px;
   }
 }
-/* Sticky phone-only bar keeping the running class count + time in view
- * while browsing the Library, since ".seqcol" ("Your class") is stacked
- * below the fold at this breakpoint. Hidden by default; shown above via
- * the max-width: 880px query. */
-.mobile-classbar {
+/* Sticky phone-only Library / Your class tab switch (MOBILE-TABS-001) so
+ * "Your class" is always one tap away instead of scrolling the full stacked
+ * page. Hidden by default; shown via the max-width: 880px query below. */
+.mobile-tabs {
   display: none;
-  position: fixed;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
-  z-index: 20;
-  align-items: center;
-  gap: 14px;
-  background: var(--paper-2);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 10px 12px 10px 16px;
-  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  gap: 8px;
+  padding: 10px 0;
+  background: var(--paper);
 }
-.mobile-classbar .total {
-  font-size: 20px;
-  letter-spacing: -0.02em;
-}
-.mobile-classbar .count {
-  font-size: 12px;
-  color: var(--ink-soft);
-}
-.mobile-classbar-actions {
-  margin-left: auto;
+.mobile-tab {
+  flex: 1 1 0;
+  /* without this, flex items default to min-width: auto (their min-content
+   * size), so the wider "Your class" + badge button can't shrink to match
+   * "Library" and the pair overflows the row instead of splitting evenly. */
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 6px;
+  height: 44px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-soft);
+  transition: 0.15s;
 }
-.mobile-classbar-actions .navlink {
-  font-size: 12.5px;
-  white-space: nowrap;
+.mobile-tab.on {
+  background: var(--ink);
+  color: var(--card);
+  border-color: var(--ink);
 }
-.mobile-classbar .run {
-  padding: 10px 16px;
-  font-size: 13px;
-  white-space: nowrap;
+.mobile-tab-badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--sage-deep);
+  color: #fff;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
 }
-/* NOTE: this must come AFTER the base `.mobile-classbar { display: none }`
- * rule above — same specificity, so source order decides the winner when
- * both apply at <=880px. Putting this override first (as it originally
- * was, bundled into the other 880px block up top) meant `display: none`
- * always won and the bar never actually showed at any width. */
+/* Same base-rule-first/override-after ordering gotcha as any shared-
+ * specificity selector split across a base rule and its media-query
+ * override: this must come AFTER the base `.mobile-tabs { display: none }`
+ * rule since both selectors have identical specificity. */
 @media (max-width: 880px) {
-  .mobile-classbar {
+  .mobile-tabs {
     display: flex;
+  }
+  [data-mobile-hidden="true"] {
+    display: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {

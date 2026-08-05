@@ -17,9 +17,11 @@ import { SequenceSpine } from "~/components/builder/SequenceSpine";
 import { BalanceMeter } from "~/components/builder/BalanceMeter";
 import { Summary } from "~/components/builder/Summary";
 import { SavePanel } from "~/components/builder/SavePanel";
-import { MobileClassBar } from "~/components/builder/MobileClassBar";
-
-const YOUR_CLASS_ID = "your-class";
+import {
+  MobileTabSwitch,
+  type MobileTab,
+} from "~/components/builder/MobileTabSwitch";
+import { AddCustomExercise } from "~/components/builder/AddCustomExercise";
 
 function BuilderInner() {
   const router = useRouter();
@@ -29,6 +31,7 @@ function BuilderInner() {
   const hydrated = useRef(false);
   const loadedId = useRef<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
+  const [mobileTab, setMobileTab] = useState<MobileTab>("library");
   const [lastAdded, setLastAdded] = useState<{
     id: number;
     name: string;
@@ -82,9 +85,16 @@ function BuilderInner() {
         {announcement}
       </div>
 
+      <MobileTabSwitch
+        value={mobileTab}
+        onChange={setMobileTab}
+        classCount={state.items.length}
+      />
+
       <Library
         discipline={state.discipline}
         items={state.items}
+        mobileHidden={mobileTab !== "library"}
         onAdd={(exerciseKey, name) => {
           const newItemId = state.nextId;
           dispatch({ type: "add", exerciseKey });
@@ -94,18 +104,12 @@ function BuilderInner() {
           );
           setLastAdded({ id: newItemId, name });
         }}
-        onAddCustom={(fields) => {
-          const newItemId = state.nextId;
-          dispatch({ type: "addCustom", ...fields });
-          const nextCount = state.items.length + 1;
-          setAnnouncement(
-            `Added ${fields.name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
-          );
-          setLastAdded({ id: newItemId, name: fields.name });
-        }}
       />
 
-      <aside id={YOUR_CLASS_ID} className="seqcol">
+      <aside
+        className="seqcol"
+        data-mobile-hidden={mobileTab !== "class" ? "true" : undefined}
+      >
         <div className="seqcard">
           <div className="panel-h" style={{ marginBottom: 10 }}>
             <h2>Your class</h2>
@@ -126,6 +130,19 @@ function BuilderInner() {
 
           <BalanceMeter items={state.items} discipline={state.discipline} />
 
+          <AddCustomExercise
+            discipline={state.discipline}
+            onAdd={(fields) => {
+              const newItemId = state.nextId;
+              dispatch({ type: "addCustom", ...fields });
+              const nextCount = state.items.length + 1;
+              setAnnouncement(
+                `Added ${fields.name} — ${nextCount} exercise${nextCount > 1 ? "s" : ""} in class`,
+              );
+              setLastAdded({ id: newItemId, name: fields.name });
+            }}
+          />
+
           <SequenceSpine
             items={state.items}
             discipline={state.discipline}
@@ -142,14 +159,6 @@ function BuilderInner() {
           />
         </div>
       </aside>
-
-      <MobileClassBar
-        items={state.items}
-        targetId={YOUR_CLASS_ID}
-        lastAddedId={lastAdded?.id}
-        lastAddedName={lastAdded?.name}
-        onRun={onRun}
-      />
     </div>
   );
 }
