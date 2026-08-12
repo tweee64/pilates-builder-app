@@ -12,9 +12,18 @@ import { withSentryConfig } from "@sentry/nextjs";
 //   out here.
 // - No external image/font/API origins are loaded client-side today
 //   (avatars are rendered as text initials, fonts are self-hosted via
-//   next/font, Stripe Checkout/OAuth sign-in are full-page redirects, not
-//   fetch/XHR) so `img-src`/`connect-src` can stay 'self' + data:. Widen
-//   this list if a future change adds a client-side fetch to a new origin.
+//   next/font, Stripe Checkout is a full-page link redirect, not fetch/XHR)
+//   so `connect-src` can stay 'self'. Widen this if a future change adds a
+//   client-side fetch to a new origin.
+// - `img-src` allows `authjs.dev`: Auth.js's built-in default sign-in page
+//   loads its GitHub/Google button icons from that CDN, not same-origin.
+// - `form-action` allows the OAuth provider origins: the sign-in page's form
+//   POSTs same-origin to `/api/auth/signin/[provider]`, but that then
+//   302-redirects the browser to the provider's authorize URL — browsers
+//   enforce `form-action` against the WHOLE redirect chain of a form
+//   submission, not just the initial same-origin target, so the provider
+//   origins must be explicitly allowlisted here (unlike Stripe Checkout,
+//   which is a plain link redirect and isn't subject to `form-action`).
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
@@ -22,10 +31,10 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data:",
+      "img-src 'self' data: https://authjs.dev",
       "font-src 'self' data:",
       "connect-src 'self'",
-      "form-action 'self'",
+      "form-action 'self' https://github.com https://accounts.google.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
     ].join("; "),
