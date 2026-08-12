@@ -17,13 +17,14 @@ import { withSentryConfig } from "@sentry/nextjs";
 //   client-side fetch to a new origin.
 // - `img-src` allows `authjs.dev`: Auth.js's built-in default sign-in page
 //   loads its GitHub/Google button icons from that CDN, not same-origin.
-// - `form-action` allows the OAuth provider origins: the sign-in page's form
-//   POSTs same-origin to `/api/auth/signin/[provider]`, but that then
-//   302-redirects the browser to the provider's authorize URL — browsers
+// - `form-action` allows the OAuth provider origins and Stripe: both the
+//   sign-in page's form and the pricing page's checkout form POST
+//   same-origin (to `/api/auth/signin/[provider]` and `/api/checkout`
+//   respectively), but each then redirects the browser to a third-party URL
+//   (the provider's authorize URL, or Stripe's hosted Checkout) — browsers
 //   enforce `form-action` against the WHOLE redirect chain of a form
-//   submission, not just the initial same-origin target, so the provider
-//   origins must be explicitly allowlisted here (unlike Stripe Checkout,
-//   which is a plain link redirect and isn't subject to `form-action`).
+//   submission, not just the initial same-origin target, so all of these
+//   third-party origins must be explicitly allowlisted here.
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
@@ -34,7 +35,7 @@ const securityHeaders = [
       "img-src 'self' data: https://authjs.dev",
       "font-src 'self' data:",
       "connect-src 'self'",
-      "form-action 'self' https://github.com https://accounts.google.com",
+      "form-action 'self' https://github.com https://accounts.google.com https://checkout.stripe.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
     ].join("; "),
