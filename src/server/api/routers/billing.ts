@@ -11,11 +11,9 @@ import { getStripe } from "~/server/billing/stripe";
 /** Only allow checkout against prices we actually configured — never trust
  * an arbitrary client-supplied Stripe price id. */
 function allowedPriceIds(): string[] {
-  return [
-    env.STRIPE_PRICE_ID_PRO_MONTHLY,
-    env.STRIPE_PRICE_ID_PRO_ANNUAL,
-    env.STRIPE_PRICE_ID_TEST,
-  ].filter((id): id is string => !!id);
+  return [env.STRIPE_PRICE_ID_PRO_MONTHLY, env.STRIPE_PRICE_ID_PRO_ANNUAL].filter(
+    (id): id is string => !!id,
+  );
 }
 
 /** Best-effort origin for Stripe redirect URLs — the `origin` header (sent by

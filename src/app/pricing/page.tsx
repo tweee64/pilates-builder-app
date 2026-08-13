@@ -96,32 +96,6 @@ export default async function PricingPage({ searchParams }: PricingPageProps) {
             )
           }
         />
-        {/* Temporary: exercises the checkout flow end-to-end. Remove by
-        deleting STRIPE_PRICE_ID_TEST (env var only, no redeploy needed) or
-        deleting this whole block + the Stripe test product/price. */}
-        {env.STRIPE_PRICE_ID_TEST && (
-          <PricingCard
-            planName="Test Product"
-            price="$1"
-            billingPeriod="/mo"
-            features={[
-              "For exercising the checkout flow only",
-              "Not a real plan — cancel any time",
-            ]}
-            cta={
-              <form action="/api/checkout" method="POST">
-                <input
-                  type="hidden"
-                  name="priceId"
-                  value={env.STRIPE_PRICE_ID_TEST}
-                />
-                <button className="signin ghost" type="submit">
-                  Checkout — $1/mo
-                </button>
-              </form>
-            }
-          />
-        )}
       </div>
     </main>
   );
