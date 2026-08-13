@@ -14,6 +14,7 @@ function allowedPriceIds(): string[] {
   return [
     env.STRIPE_PRICE_ID_PRO_MONTHLY,
     env.STRIPE_PRICE_ID_PRO_ANNUAL,
+    env.STRIPE_PRICE_ID_TEST,
   ].filter((id): id is string => !!id);
 }
 

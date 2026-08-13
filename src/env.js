@@ -28,6 +28,8 @@ export const env = createEnv({
     STRIPE_WEBHOOK_SECRET: z.string().optional(),
     STRIPE_PRICE_ID_PRO_MONTHLY: z.string().optional(),
     STRIPE_PRICE_ID_PRO_ANNUAL: z.string().optional(),
+    // Low-cost test-mode price for exercising the checkout flow end-to-end.
+    STRIPE_PRICE_ID_TEST: z.string().optional(),
     // Upstash Redis (LAUNCH-001) — optional; rate limiting fails open
     // (allows the request) when unset, see src/lib/rate-limit.ts.
     UPSTASH_REDIS_REST_URL: z.string().url().optional(),
@@ -66,6 +68,7 @@ export const env = createEnv({
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     STRIPE_PRICE_ID_PRO_MONTHLY: process.env.STRIPE_PRICE_ID_PRO_MONTHLY,
     STRIPE_PRICE_ID_PRO_ANNUAL: process.env.STRIPE_PRICE_ID_PRO_ANNUAL,
+    STRIPE_PRICE_ID_TEST: process.env.STRIPE_PRICE_ID_TEST,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     SENTRY_DSN: process.env.SENTRY_DSN,

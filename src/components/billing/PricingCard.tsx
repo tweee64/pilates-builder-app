@@ -22,7 +22,7 @@ export function PricingCard({
   cta,
 }: PricingCardProps) {
   return (
-    <div className={`pricing-card${recommended ? "recommended" : ""}`}>
+    <div className={`pricing-card${recommended ? " recommended" : ""}`}>
       {recommended && <span className="pricing-badge">Recommended</span>}
       <h3 className="pricing-plan-name">{planName}</h3>
       <p className="pricing-price">
