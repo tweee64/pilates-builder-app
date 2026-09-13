@@ -24,7 +24,7 @@ Because this is a mixed-level group, every block gives you a **base setting** pl
 
 | # | Section | Focus | Time | Spring |
 |---|---------|-------|------|--------|
-| — | Warm-up / mobility | Breath, spine, wake up the legs | ~5 min | �🔴R |
+| — | Warm-up / mobility | Breath, spine, wake up the legs | ~5 min | 🔴R |
 | 1 | Footwork foundations | Feet on footbar, bilateral legs | ~9 min | 🔴🔴🔴R |
 | 2 | Feet in straps | Long-lever hamstrings & hips | ~8 min | 🔴🔴R |
 | 3 | Standing lower body | Unilateral legs, balance & glutes | ~8 min | 🔴R (🔵B to advance) |
@@ -55,7 +55,7 @@ Because this is a mixed-level group, every block gives you a **base setting** pl
 
 | Exercise | Base | Notes |
 |----------|------|-------|
-| Cat/Cow | �🔴R | Same setting as the rest of warm-up — no spring change to start the class. |
+| Cat/Cow | 🔴R | Same setting as the rest of warm-up — no spring change to start the class. |
 | Bridge + ball | 🔴🔴R | Enough load to feel the glutes without gripping. |
 | Double leg press | 🔴🔴R | Warm-up load — heavier reds come in Section 1. |
 
