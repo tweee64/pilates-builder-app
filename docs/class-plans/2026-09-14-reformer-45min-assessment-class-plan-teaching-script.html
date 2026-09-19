@@ -1,0 +1,420 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Teaching Script — Reformer Assessment Class (45 min)</title>
+<style>
+@page { size: 90mm 160mm; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; background:#fff; }
+body {
+  font-family: "Avenir Next", Avenir, "Gill Sans", Helvetica, sans-serif;
+  color:#1b1b1b; font-size:10.5pt; line-height:1.45;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  padding: 7mm 6.5mm 8mm;
+  orphans: 2; widows: 2;
+}
+h1, h2, h3, h4 { break-inside: avoid; page-break-inside: avoid; }
+p, li { orphans: 2; widows: 2; }
+p { margin:0 0 2.2mm; }
+code { font-family: inherit; }
+
+/* ---------- cover ---------- */
+.cover { page-break-after: always; text-align:left; padding-top:14mm; }
+.cover .kicker { background:#F5C19E; color:#fff; font-weight:700; font-size:10pt;
+  letter-spacing:.4pt; text-transform:uppercase; display:inline-block;
+  padding:1.6mm 3.2mm; border-radius:1mm; }
+.cover h1 { font-family: Charter, Georgia, serif; color:#758DE5; background:none;
+  font-weight:700; font-size:26pt; line-height:1.06; letter-spacing:-.4pt;
+  margin:6mm 0 0; border:0; padding:0; page-break-before:auto; }
+.cover .sub { font-family: Charter, Georgia, serif; color:#758DE5; font-style:italic;
+  font-weight:700; font-size:13pt; margin:2mm 0 8mm; }
+.cover .meta { border-top:.8pt solid #EEBCA8; padding-top:4mm; font-size:9.6pt; color:#444; }
+.cover .meta b { color:#1b1b1b; }
+.cover .meta div { margin-bottom:2.2mm; }
+
+/* ---------- time sections ---------- */
+h1 {
+  page-break-before: always; page-break-after: avoid;
+  font-family: Charter, Georgia, serif; color:#fff; background:#758DE5;
+  font-size:14.5pt; line-height:1.2; font-weight:700; letter-spacing:-.2pt;
+  margin:0 -6.5mm 0; padding:3.4mm 6.5mm;
+}
+h1.first { page-break-before: avoid; }
+.setup { background:#FBF3EE; color:#8a6a55; font-size:9.2pt; font-weight:600;
+  margin:0 -6.5mm 4mm; padding:1.8mm 6.5mm; letter-spacing:.2pt; page-break-after:avoid;
+  border-bottom:.6pt solid #EEBCA8; }
+h1 + p, .setup + p { margin-top:0; }
+
+h2 { color:#E18866; font-size:12pt; font-weight:700; text-transform:uppercase;
+  letter-spacing:.2pt; margin:6mm 0 1mm; page-break-after:avoid; }
+h3 { color:#1b1b1b; font-size:10.8pt; font-weight:700; letter-spacing:-.1pt;
+  margin:5.5mm 0 2mm; padding-bottom:1.2mm; border-bottom:.8pt solid #EEBCA8;
+  page-break-after:avoid; }
+h4 { font-size:10pt; margin:4mm 0 1.5mm; page-break-after:avoid; }
+
+/* ---------- spoken script ---------- */
+.script { border-left:2.4pt solid #F5C19E; padding:.4mm 0 .4mm 3.4mm; margin:0 0 3mm; }
+.script .say { font-size:11.4pt; line-height:1.42; margin:0 0 2.6mm; color:#111; }
+.script .say:last-child { margin-bottom:0; }
+.script .say strong { font-weight:700; }
+
+/* ---------- cue notes ---------- */
+.note { font-size:9.5pt; line-height:1.4; color:#3d3d3d; margin:0 0 2.6mm;
+  page-break-inside:avoid; }
+.chip { display:inline-block; color:#fff; font-size:7.4pt; font-weight:700;
+  letter-spacing:.5pt; text-transform:uppercase; padding:.7mm 1.6mm; border-radius:.9mm;
+  margin-right:1.8mm; vertical-align:2%; white-space:nowrap; }
+.chip.do { background:#758DE5; }
+.chip.scan { background:#E18866; }
+.chip.silence { background:#8E8E8E; }
+.chip.assessed { background:#3C8A78; }
+.note.silence { color:#6b6b6b; font-style:italic; }
+.note.silence:not(:has(*+*)) { margin-bottom:3.4mm; }
+.note.assessed { background:#F1F8F6; border-left:2pt solid #3C8A78; padding:2mm 2.4mm; }
+
+/* ---------- spring change ---------- */
+.springbar { background:#758DE5; color:#fff; font-size:9.6pt; font-weight:700;
+  line-height:1.35; margin:4mm -6.5mm; padding:3mm 6.5mm; page-break-inside:avoid;
+  display:flex; gap:2.4mm; }
+.springbar .cog { font-size:11pt; }
+.springbar code { font-weight:700; }
+
+/* ---------- lists ---------- */
+ul, ol { margin:0 0 2.6mm; padding:0 0 0 5mm; }
+li { margin-bottom:1.6mm; }
+ul { list-style:none; padding-left:4.6mm; }
+ul li { position:relative; }
+ul li::before { content:"\2022"; position:absolute; left:-3.4mm; color:#E18866; font-weight:700; }
+
+/* ---------- tables ---------- */
+table { width:100%; border-collapse:collapse; margin:0 0 3mm; font-size:8.4pt;
+  page-break-inside:avoid; }
+th { text-align:left; background:#758DE5; color:#fff; font-weight:700; font-size:7.6pt;
+  text-transform:uppercase; letter-spacing:.3pt; padding:1.4mm 1.6mm; }
+td { padding:1.4mm 1.6mm; border-bottom:.5pt solid #E9E9E9; vertical-align:top;
+  line-height:1.3; }
+tr:nth-child(even) td { background:#FBF3EE; }
+table td:first-child { white-space:nowrap; font-weight:700; color:#758DE5; }
+
+hr { border:0; border-top:.7pt solid #E4E4E4; margin:4.5mm 0; }
+.lnk { color:#758DE5; font-weight:600; }
+.muted { color:#999; }
+em { font-style:italic; }
+.src { font-size:8.2pt; color:#9a8577; letter-spacing:.1pt; margin:-.6mm 0 2.4mm; }
+</style></head>
+<body>
+
+<div class="cover">
+  <span class="kicker">Teaching script</span>
+  <h1>Reformer<br>Assessment Class</h1>
+  <div class="sub">45 minutes · door to door</div>
+  <div class="meta">
+    <div><b>Level</b> &nbsp;Mixed level · Group reformer</div>
+    <div><b>Props</b> &nbsp;one small soft ball per reformer · shoulder-rest blocks · knee pad or folded towel · wedge on standby</div>
+    <div><b>Springs</b> &nbsp;<code>RR</code> → <code>R</code> — one change, one bar change. The room sets its own.</div>
+    <div style="margin-top:5mm;color:#777;font-size:8.8pt">Quoted lines are what you say. Chips are what you do.</div>
+  </div>
+</div>
+<h2>How to use this script</h2>
+<ul><li><strong>Lines in quotes are what you say.</strong> Say them in your own mouth-shape — don’t read them. If a sentence feels like someone else’s, cut it.</li><li><strong><code>[DO]</code></strong> = what your hands and feet are doing: set-up, demo, spring calls, walking the room.</li><li><strong><code>[SCAN]</code></strong> = the one or two things to look for. Not a list to recite — a thing to find on one or two bodies and fix by name.</li><li><strong><code>[SILENCE]</code></strong> = stop talking. Deliberate. A class where the teacher never stops talking never lets anyone feel anything.</li><li><strong><code>[ASSESSED]</code></strong> = a scored criterion lands here. Don’t perform it — just don’t skip it.</li><li><strong>Count down, never up.</strong> “Three, two, one” tells people the end is real.</li><li><strong>The one spring change is called by colour and count, demonstrated on your own reformer, then checked.</strong> One stop, not two. After 7:30, nothing on the springs moves again.</li><li><strong>Cues follow the Reformer manual.</strong> Each exercise names the manual page its set-up, directional and alignment cues come from. Anything marked <em>in-house</em> isn’t in the manual.</li></ul>
+<p><strong>Glance at the clock at these five moments only:</strong></p>
+<table><thead><tr><th>Clock</th><th>You should be</th></tr></thead><tbody><tr><td><strong>2:00</strong></td><td>Screening done, warm-up starting (RR, bar up, ball in hands)</td></tr><tr><td><strong>7:30</strong></td><td>Springs on one red, bar still up, straps in hands</td></tr><tr><td><strong>14:30</strong></td><td>Same red, bar up, first leg side starting</td></tr><tr><td><strong>26:00</strong></td><td><strong>Second leg side starting</strong> — the checkpoint that matters</td></tr><tr><td><strong>39:30</strong></td><td><strong>Mermaid</strong> — cooldown starting</td></tr></tbody></table>
+<p>Behind at 26:00 or 39:30? Drop Section 4’s three optional exercises first, then cut reps there — never in the second leg side, never in the cooldown.</p>
+<hr>
+<h1 class="first">0:00 — INTRODUCTION &amp; SCREENING (2 min)</h1>
+<div class="setup">springs <code>RR</code> · footbar <strong>up</strong></div>
+<div class="note do"><span class="chip do">DO</span>Stand where the whole room can see you, not behind your own machine. Knee pads visible on the floor, a small ball on every carriage.</div>
+<div class="note assessed"><span class="chip assessed">ASSESSED</span>Introduction and screening. Keep it to two minutes but do not clip it — it’s a scored item and it’s the safety basis for everything after.</div>
+<div class="script"><p class="say">“Hi everyone, I’m Thuy — and today i’m going to walk you through 45 minutes of Reformer Pilates.”</p><p class="say">“Quick check before we start: anyone brand new to Reformer? Anyone pregnant, or working around an injury — back, shoulder, wrist, knee, ankle? Just give me a show of hand, or I will also tell you the modification during the exercise”</p><p class="say">“For anyone who’s new, some direction around the class, this is also the front of the reformer, the footbar direction,. This is the  back of the reformer, shoulder block direction.”</p><p class="say">For some direction, this is the forest side, and the window side of the reformer.</p></div>
+<div class="note do"><span class="chip do">DO</span><strong>Wait.</strong> Actually wait. Make eye contact with anyone new. Note who told you what — you’ll use it at the bridges, the leg extensions, the lunges and the plank block.</div>
+<div class="script"><p class="say">“A few things about how today runs.”</p></div>
+<div class="script"><p class="say">“ <strong>grab a small ball for your reformer</strong> — we’ll use it throughout the class.”</p><p class="say">“There is a consent token at the top the reformer, if you’re comfortable with hands-on adjustment, flip it to yes. if not, i will try to adjust you verbally.”</p><p class="say">“For today’s class, we’ll do a full body workout, with some leg exercises, some stretching, as well as some back exercises. Now, let’s get ready for warmup.”</p><p class="say">“Springs to start: <strong>two reds, footbar up.</strong> Set that now and I’ll come round.”</p></div>
+<div class="note do"><span class="chip do">DO</span>Walk the room. Check every carriage. This is the last easy check of the class.</div>
+<div class="script"><p class="say">“Let’s take one breath together before we move. <strong>Inhale wide into the sides of the ribs… and exhale, everything out.</strong>”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span>One full breath. That’s the arrival.</div>
+<hr>
+<h1>2:00 — WARM-UP (5.5 min)</h1>
+<div class="setup">🔴🔴 <code>RR</code> · footbar <strong>up</strong> · ball in hands</div>
+<p><strong>Purpose:</strong> dynamic, simple repeated language, building intensity. All three planes live in this block. <strong>The ball is in the hands for the footwork</strong> — the arms come off the frame, so the trunk has to stabilise on its own. <strong>Order:</strong> Pilates V → toes → balls of the feet → one leg → heels for the bridges → Roll Up to sitting for the spring change.</p>
+<div class="note assessed"><span class="chip assessed">ASSESSED</span>Warm-up. Simple language on purpose — it frees you to make eye contact instead of over-explaining. <strong>Learn two or three names in this block.</strong></div>
+<div class="note do"><span class="chip do">DO</span><strong>Pregnancy flag:</strong> lying on the back only for a few minutes at a time, wedge from the second trimester, and less spring. Stop if there’s any dizziness.</div>
+<h3>Leg Press — Pilates V · 8 + 8 pulses · ~45 sec</h3>
+<p class="src">Manual: Double Leg Press, p.101</p>
+<div class="script"><p class="say">“Lie all the way back. <strong>Toes on the footbar. Heels touching, toes apart — Pilates V.</strong> “</p><p class="say">“<strong>Take your ball and hold it up over your chest.</strong> Arms stay still.”</p><p class="say">“<strong>Wrap the backs of the legs together</strong> as you press. <strong>Exhale — straighten the legs and press the carriage away. Inhale — bend the knees and bring it home.</strong>”</p><p class="say">“<strong>Control, not momentum.</strong> Soft knees at the end — don’t lock them. <strong>Even weight through both sides of the pelvis.</strong>”</p><p class="say">“Eight of these. Three, two, one. <strong>Press all the way out… now bring the carriage back just halfway and stop there.</strong>”</p><p class="say">“<strong>From here, small pulses in the top half — out towards straight, back to halfway.</strong> Don’t let it come any further home than that. Knees soft. Eight, seven, six, five, four, three, two, one.”</p><p class="say">“Bend the knees, carriage all the way home.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Heels coming apart in the V, or knees rolling in. Cue: <em>”knees over the middle toes, heels stay touching.”</em> And shoulders creeping up to hold the ball — <em>”ball is light, shoulders are heavy.”</em> On the pulses, watch for the carriage creeping all the way home — <em>”stay in the top half.”</em></div>
+<h3>Leg Press — toes, parallel · 8 + 8 pulses · ~45 sec</h3>
+<p class="src">Manual: Double Leg Press, p.101</p>
+<div class="script"><p class="say">“<strong>Feet to parallel, hip-width — toes on the footbar, heels lifted high.</strong>”</p><p class="say">“<strong>Inhale to prepare, Exhale — press out. Inhale — bring it home.</strong> Heels stay lifted the whole way.”</p><p class="say">“Eight. Three, two, one. <strong>Press out, and come back to halfway.</strong>”</p><p class="say">“<strong>Same as before — pulse in the upper half.</strong> Little movements, heels still high. Eight, seven, six, five, four, three, two, one.”</p><p class="say">“Carriage home. <strong>Stay on the toes.</strong>”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Heels dropping as the carriage comes home. Cue: <em>”heels stay high, like standing on tiptoe.”</em></div>
+<h3>Heel Raises — 6 full + 6 pulses · ~30 sec</h3>
+<p class="src">Manual: Heel Raises, p.102</p>
+<div class="script"><p class="say">“<strong>Press the carriage out — legs straight, knees soft.</strong> Ball stays still in the hands.”</p><p class="say">“<strong>Inhale — let the heels roll under the footbar. Exhale — lift both heels high.</strong> Legs stay straight.”</p><p class="say">“<strong>The only thing moving is the ankle.</strong> Fluid, not bouncy.”</p><p class="say">“<strong>Even pressure through the big toe and the little toe</strong> — don’t roll out onto the edges of the feet.”</p><p class="say">“Six. Three, two, one. <strong>Stay at the top — six small pulses.</strong> Six, five, four, three, two, one.”</p><p class="say">“And <strong>enjoy the stretch as the heels lower under the bar.</strong>”</p></div>
+<h3>Prances — 20 alternating · ~45 sec</h3>
+<p class="src">Manual: Prances, p.103</p>
+<div class="script"><p class="say">“<strong>Legs straight, still holding the ball.</strong>”</p><p class="say">“<strong>Inhale — bend one knee and roll the other heel under the bar. Exhale — lift both heels high, legs straight.</strong> Then the other side.”</p><p class="say">“<strong>Pause for a moment when both legs are long.</strong>”</p><p class="say">“Fluid, not bouncy. <strong>Knees over feet, even through big toe and little toe.</strong>”</p></div>
+<div class="note do"><span class="chip do">DO</span>Let the music carry this one. Count only the last few.</div>
+<div class="script"><p class="say">“Ten more… and five, four, three, two, one. Bend the knees, carriage home.”</p></div>
+<h3>Double Leg Press — balls of the feet · 8 · ~30 sec</h3>
+<p class="src">Manual: Double Leg Press, p.101</p>
+<div class="script"><p class="say">“<strong>Feet settle onto the balls of the feet — parallel, hip-width.</strong> Ball still over the chest.”</p><p class="say">“<strong>Exhale — press away, and reach the ball up to the ceiling. Inhale — ball back over your chest, and take your time coming home.</strong> The way back is the work.”</p><p class="say">“<strong>Press out, ball up. Come home, ball in.</strong>”</p><p class="say">“More: <strong>three counts out, three counts home.</strong>”</p><p class="say">“Eight. Three, two, one — <strong>and on the last one, press out, ball up, and stay there.</strong>”</p></div>
+<h3>Single Leg Extension + ball thread — 6 each side · ~1 min</h3>
+<p class="src">Manual: Single Leg Press, p.104 · ball passed under the knee, full class plan p.233 · straight-leg-over-the-bar pattern in-house</p>
+<div class="note do"><span class="chip do">DO</span>Straight on from the double leg press — the carriage is already out. Teach option 1 first, add option 2 when the room has it. Side two goes straight in.</div>
+<p><strong>Set-up</strong></p>
+<div class="script"><p class="say">“<strong>Left foot stays exactly where it is. Ball into your hands. Right leg up to tabletop</strong> — knee over the hip.”</p><p class="say">“<strong>Find neutral</strong> — natural arch in the low back, pelvis grounded.”</p></div>
+<p><strong>Option 1 — thread the ball, knee stays at tabletop</strong></p>
+<div class="script"><p class="say">“<strong>Inhale to prepare. Exhale — press the carriage all the way out with the left leg, and thread the ball straight under the right leg, hand to hand.</strong> Knee stays at tabletop.”</p><p class="say">“<strong>Carriage home — ball comes back to your chest.</strong>”</p><p class="say">“Struggling to thread it? <strong>Take the knee slightly past tabletop.</strong> Just don’t let the hip grip.”</p></div>
+<p><strong>Option 2 — add the leg</strong></p>
+<div class="script"><p class="say">“<strong>Next time the carriage comes in, extend the right leg long over the footbar. Then bend the knee back to tabletop as you press the carriage away.</strong>”</p><p class="say">“<strong>Flex the right toes and press the heel away</strong> — firm through the back of that leg.”</p><p class="say">“<strong>Weight even through both sides of the pelvis.</strong> Left knee over the left hip.”</p><p class="say">“Six. Three, two, one. <strong>Carriage home, both feet on the bar.</strong>”</p><p class="say">“<strong>Other side — press out with both feet, then lift the left leg to tabletop.</strong> Six. Three, two, one.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>As it loads, people start to tuck under and overcompensate — cue <em>”ribs soft, find neutral again.”</em> The pelvis tipping to chase the thread, and the hip of the tabletop leg gripping. A light hand on the hip is worth more than three sentences here.</div>
+<h3>Glute Bridge — neutral → 3 articulating → 8 lift &amp; lower · ~1 min</h3>
+<p class="src">Manual: Bridge 1, p.110 · bridge roll + ball squeeze, full class plan p.233 · pulses and hold in-house</p>
+<p><strong>Find neutral first</strong></p>
+<div class="script"><p class="say">“<strong>Heels on the footbar, hip-width. Ball between the knees.</strong> Arms long by your sides.”</p><p class="say">“<strong>Tuck… arch… and settle in the middle.</strong> That’s neutral. <strong>Squeeze the ball a few times while you’re there</strong> — inner thighs on, spine still. Remember that feeling.”</p></div>
+<p><strong>Articulate — 3</strong></p>
+<div class="script"><p class="say">“<strong>Inhale. Exhale — tuck the tail and peel the spine off the carriage, bone by bone by bone.</strong>”</p><p class="say">“<strong>At the top, wrap the ribs down towards the hips</strong> — don’t thrust the pelvis. <strong>Squeeze the ball — and hold the squeeze as you roll back down.</strong>”</p><p class="say">“<strong>Ripple down — upper back, middle back, lower back. Find neutral at the bottom.</strong>”</p><p class="say">“<strong>The carriage stays parked.</strong> Three of those.”</p></div>
+<p><strong>Lift &amp; lower — 8</strong></p>
+<div class="script"><p class="say">“<strong>Now smaller. Exhale — lift the hips and squeeze the ball. Inhale — lower.</strong>”</p><p class="say">“Gentle lift and lower — <strong>this one is glutes and hamstrings.</strong> The hamstrings are what keep the bed parked.”</p><p class="say">“Eight. Three, two, one — <strong>and this time stay up at the top.</strong>”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Knees rolling out and feet flaring. Cue: <em>”knees over the middle toes.”</em> The carriage creeping home — <em>”hamstrings hold the bed parked.”</em> The neck jamming at the top — <em>”space between chin and chest.”</em></div>
+<h3>Glute Bridge 2 — press out &amp; return — 6 · then pulses &amp; hold · ~45 sec</h3>
+<p class="src">Manual: Bridge 2, p.111 · pulses, 10% lift and hold in-house</p>
+<div class="script"><p class="say">“<strong>Stay high, keep the squeeze. Press the carriage away — that’s bridge 2 — then pull it back in and park the bed.</strong>”</p><p class="say">“<strong>As the carriage presses out the hips lower an inch or two. As it comes in, they lift back up.</strong> The body stays in one long line.”</p><p class="say">“<strong>Squeeze the ball the whole time</strong> — that’s what keeps the pelvis square. <strong>Watch the feet don’t roll out</strong> — knees tracking over the middle toes.”</p><p class="say">“Six. Three, two, one — <strong>and on the last one, carriage all the way in, and park it there.</strong>”</p><p class="say">“<strong>Squeeze the ball like you want to pop it in half. Little pulses</strong> — six, five, four, three, two, one.”</p><p class="say">“<strong>Hold the squeeze — now lower about ten percent, and lift.</strong> Six, five, four, three, two, one.”</p><p class="say">“<strong>And hold. Breath in… and slowly roll the spine all the way down.</strong>”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span>One breath in the hold.</div>
+<div class="note scan"><span class="chip scan">SCAN</span>Hips dropping as the carriage travels. Cue: <em>”hips stay level — only the legs move.”</em></div>
+<h3>Pilates Roll Up — 4, last one stays seated · ~30 sec</h3>
+<p class="src">In-house · ball down, legs long · heavy springs keep the carriage still</p>
+<div class="note do"><span class="chip do">DO</span><strong>Pregnancy / low-back / osteoporosis flag:</strong> no roll up. They stay lying down, then roll onto their side and press up to sitting for the last one.</div>
+<div class="script"><p class="say">“<strong>Ball down beside you. Legs long over the footbar, feet together, flexed.</strong> Arms reach up to the ceiling.”</p><p class="say">“<strong>Inhale — tuck your chin, and start to curl the head and shoulders up. Exhale — peel the spine off the carriage one bone at a time</strong> and reach forward over the legs.”</p><p class="say">“<strong>Inhale — sit tall. Exhale — tuck the tailbone and roll back down</strong>, one bone at a time, the head is last.”</p><p class="say">“<strong>The carriage stays parked.</strong> Belly scoops away from the thighs. Legs stay heavy.”</p><p class="say">“Easier: <strong>bend the knees, hands behind the thighs, and walk yourself up</strong> — or just roll halfway back and return. More: <strong>take longer on the way down.</strong>”</p><p class="say">“Four. Three, two… <strong>and last one — roll up and stay sitting at the top.</strong>”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Legs lifting or feet popping up as they roll up. Cue: <em>”heels heavy — bend the knees if you need to.”</em> Look for people pulling with the neck or throwing the arms. Cue: <em>”nod first, then peel.”</em></div>
+<hr>
+<div class="springbar"><span class="cog">⚙</span><span>THE ONLY SPRING CHANGE — RR → R. Footbar STAYS UP. Everyone is already seated from the last Roll Up. Call it from your own reformer so the room sees the colour.</span></div>
+<div class="script"><p class="say">“<strong>Stay sitting — spring change.</strong> <strong>Take one red off. One red only</strong> — and that’s the only change today. Footbar stays up — don’t touch it.”</p><p class="say">“Then <strong>roll back down, shoulders just away from the shoulder rests, and take your short loops</strong>, and I’ll check as I come round.”</p></div>
+<div class="note do"><span class="chip do">DO</span>Walk. Scan every carriage. <strong>Do not start cueing again until the last one is set.</strong> This is one stop, not two.</div>
+<hr>
+<h1>7:30 — SECTION 1 · CORE, HANDS IN STRAPS (7 min)</h1>
+<div class="setup">🔴 <code>R</code> · footbar <strong>up</strong> <em>(carried)</em></div>
+<p><strong>Purpose:</strong> a simple arm press down to settle the straps and the ribcage, then the same press with a curl on top — arms first, then arms plus spine. The legs come in one at a time, then together, and the footbar becomes the target. <strong>No rotation and no arm circles in this block:</strong> the neck is loaded the whole way through, so the time goes into the curl and the legs, and the transverse plane is covered in the Pilates V, the Flying Lunge and the rows. <strong>One red asks more of the shoulders than a blue</strong> — regress with a smaller arm range and head down, not a lighter spring.</p>
+<div class="note do"><span class="chip do">DO</span><strong>Pregnancy flag:</strong> no spinal flexion — <strong>head and shoulders stay down for every curl in this block</strong>, wedge under the shoulders. <strong>Neck flag:</strong> head rest up, head down. <strong>Low-back flag:</strong> if neutral isn’t possible, work in imprint and stay in the over-the-bar set only.</div>
+<h3>Arm Press Down — 8 · ~30 sec</h3>
+<p class="src">Manual: Hands in Straps (arm press down)</p>
+<div class="script"><p class="say">“<strong>Hands in the straps, arms straight above the shoulders, palms facing the footbar.</strong> Legs lift one at a time to tabletop — or keep the feet down on the carriage.”</p><p class="say">“<strong>Head stays down for these.</strong> This one is just the arms.”</p><p class="say">“<strong>Exhale — press the arms long, all the way down to the hips.</strong> Inhale — <strong>resist them back up</strong>, only as far as above the shoulders.”</p><p class="say">“<strong>Ribs stay heavy.</strong> The shoulders stay away from the ears.”</p><p class="say">“Eight. Three, two, one. Arms back above the shoulders.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Ribs flaring as the arms come back up. Cue: <em>”ribs wrapped in and down — stop the arms above the shoulders.”</em></div>
+<h3>Abdominal Curl — 8 · ~30 sec</h3>
+<p class="src">Manual: Hands in Straps – Abdominal Curls, p.155</p>
+<div class="note do"><span class="chip do">DO</span>Same press as before, with the curl added on top. Say that out loud — it’s the same movement, one layer on.</div>
+<div class="script"><p class="say">“<strong>Same press. This time the head and chest come with it.</strong>”</p><p class="say">“<strong>Inhale to prepare. Exhale — press the arms down to the hips AND curl the head and chest up.</strong> Inhale — lower the head, float the arms back above the shoulders.”</p><p class="say">“<strong>Arms and curl move together, and the arms stay long.</strong> No bending at the elbow.”</p><p class="say">“<strong>Lift from your abdominals, not your neck.</strong> Eyes gaze over the knees, space between chin and chest.”</p><p class="say">“Easier: <strong>press only, head stays down</strong>, or feet down on the carriage. More: <strong>legs to tabletop.</strong>”</p><p class="say">“Eight. Three, two, one. And head down.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Chin jamming into the chest, or elbows bending to get the curl up. Cue: <em>”space between chin and chest — broaden across the chest, arms stay long.”</em></div>
+<h3>Curl + Single Leg Extension → Double Leg Extension — 6 each side, then 6 · ~1.5 min</h3>
+<p class="src">Manual: Abdominal Curls, p.155 (single / double leg extension variation)</p>
+<div class="script"><p class="say">“<strong>Legs to tabletop. Arms long, reaching towards the footbar. Exhale — curl up, and stay up.</strong>”</p><p class="say">“<strong>Now one leg at a time — extend the right leg long, draw it back to tabletop. Left leg extends, and back.</strong> The other knee stays exactly where it is.”</p><p class="say">“<strong>Only the leg travels. The pelvis doesn’t rock.</strong>”</p><p class="say">“Six each side. Three, two, one.”</p><p class="say">“<strong>Now both legs together — extend, and draw them back to tabletop.</strong> Six.”</p><p class="say">“Easier: <strong>head down</strong>, or <strong>single leg only</strong> — that’s a complete exercise, stay there. More: <strong>take the legs lower.</strong>”</p><p class="say">“Three, two, one. And head down for a breath.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>The supporting knee drifting towards the chest on the single leg reps — that’s the hip flexor taking over. Cue: <em>”hold the bent knee still — one leg goes on a journey, one stays home.”</em></div>
+<h3>Set 1 — over → under the footbar → hold → legs only → Scissors → return · ~1.75 min</h3>
+<p class="src">Manual: Abdominal Curls, p.155 (single / double leg extension, holds and scissors variations)</p>
+<div class="note do"><span class="chip do">DO</span>One long set. Tell the room at the start that it’s one set with layers, so nobody thinks they’ve missed a rest.</div>
+<div class="script"><p class="say">“<strong>This is one set. We build it, we hold it, and then we come out of it.</strong>”</p><p class="say">“<strong>Legs to tabletop. Exhale — curl up, and extend both legs OVER the footbar.</strong> The bar is your target. <strong>Inhale — draw them back to tabletop.</strong>”</p><p class="say">“Over the bar is higher, and kinder on the low back. Four.”</p><p class="say">“Now <strong>same curl — extend UNDER the footbar.</strong> Lower legs, harder work. Four.”</p><p class="say">“<strong>Under the bar only if the spine stays neutral.</strong> If it can’t, <strong>stay over the bar</strong> — or work in imprint. That’s the right answer, not the easy one.”</p><p class="say">“Four. Three, two, one — <strong>and on this last one, extend and STAY.</strong>”</p></div>
+<div class="note do"><span class="chip do">DO</span>Hold. Count it once, not the whole way.</div>
+<div class="script"><p class="say">“<strong>Hold. Arms reaching long towards the footbar, curl lifted from the abdominals.</strong> Breathing.”</p><p class="say">“<strong>Now the legs only — bend the knees to tabletop, extend them long again. Four.</strong> The arms stay where they are, the curl stays where it is.”</p><p class="say">“<strong>Legs long again — and now scissor. One leg reaches ALL the way up towards the ceiling, the other reaches ALL the way down. And switch.</strong> Full range, both directions.”</p><p class="say">“<strong>The legs move. The pelvis stays neutral.</strong>”</p><p class="say">“Easier: <strong>smaller scissor, or head down.</strong> More: <strong>slow it right down.</strong>”</p><p class="say">“Four each side. Three, two, one. <strong>Both legs together — bend the knees to tabletop, and head down.</strong> That’s the set.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>The low back arching off the carriage on the under-the-bar reps and on the full scissor. Send that person back over the bar, by name. Cue: <em>”ribs wrapped in and down — only the legs travel.”</em></div>
+<h3>Set 2 — extend → hold → Tricep Press → hold → Flutter Kick → return · ~1.75 min</h3>
+<p class="src">Manual: Abdominal Curls, p.155 (holds variation) · Hands in Straps – Tricep Press, elbow extension</p>
+<div class="note do"><span class="chip do">DO</span>Same shape as Set 1 — curl, extend, hold. This time the layer happens at the <strong>arms</strong>, not the hips.</div>
+<div class="script"><p class="say">“<strong>Same start. Legs to tabletop, exhale — curl up, and extend both legs long.</strong>”</p><p class="say">“<strong>And hold.</strong> Arms long, legs long, curl lifted.”</p><p class="say">“<strong>Staying exactly there — bend the elbows, and press them straight again.</strong> The upper arms don’t move, only the forearms. <strong>Six.</strong>”</p><p class="say">“<strong>Elbows point towards the footbar, not out to the sides.</strong> Feel the back of the arm.”</p><p class="say">“Six. Three, two, one. <strong>Arms long again — and hold.</strong>”</p><p class="say">“<strong>Now flutter the legs — small, quick, one up one down.</strong> Legs stay long. <strong>Twenty beats.</strong>”</p><p class="say">“<strong>Small and quick. The pelvis stays still — the flutter is at the hips, not in the low back.</strong>”</p><p class="say">“Easier: <strong>head down</strong>, <strong>legs higher</strong>, or <strong>feet down on the carriage for the tricep press.</strong> More: <strong>legs lower, and slow the tricep press down.</strong>”</p><p class="say">“Twenty. Three, two, one. <strong>Bend the knees to tabletop, arms above the shoulders, head down.</strong> That’s the set.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Shoulders creeping up to the ears during the tricep press, and the low back arching on the flutter. Cue: <em>”shoulders heavy, upper arms still”</em> and <em>”flutter smaller — keep the back long on the carriage.”</em></div>
+<h3>The Hundred — 100 beats · ~1 min</h3>
+<p class="src">Manual: Abdominal Curls, p.155 (Hundreds variation)</p>
+<div class="note do"><span class="chip do">DO</span>Straight in from the flutter kick — no rest between. Same curl, same long arms, the beat just gets bigger.</div>
+<div class="script"><p class="say">“<strong>Stay curled, arms long by your sides, legs where you need them.</strong> Tabletop, or extended if you want the work.”</p><p class="say">“Easier and completely fine: <strong>head and shoulders down, legs at tabletop.</strong>”</p><p class="say">“<strong>Pump the arms. Five beats in… two, three, four, five. Five beats out… two, three, four, five.</strong>”</p><p class="say">“<strong>Lift from the abdominals, not the neck.</strong> Gaze over the knees.”</p></div>
+<div class="note do"><span class="chip do">DO</span>Count the tens, not the beats. Out loud: “That’s twenty… that’s fifty… that’s eighty.”</div>
+<div class="script"><p class="say">“Last twenty. <strong>Ribs wrapped in, space between chin and chest.</strong> Ten more… and rest everything down.”</p></div>
+<div class="note assessed"><span class="chip assessed">ASSESSED</span>Breath. This is where the principle is most visibly taught — say it plainly: <em>”five in, five out — that’s the breath the whole class runs on.”</em></div>
+<hr>
+<div class="note do"><span class="chip do">DO</span>NO SPRING CHANGE. NO BAR CHANGE. Say so out loud so nobody reaches for a spring out of habit.</div>
+<div class="script"><p class="say">“<strong>Roll up to sitting and step off to the side</strong> for me. <strong>Same spring — one red. Bar stays up.</strong> Nothing to change.”</p></div>
+<div class="note do"><span class="chip do">DO</span>Pre-cue what’s coming.</div>
+<div class="script"><p class="say">“We’re going to the legs now — <strong>all four exercises on one side, then we leave it.</strong> You’ll get the second side later in class, so don’t rush this one. <strong>Bring your ball with you.</strong>”</p></div>
+<hr>
+<h1>14:30 — SECTION 2a · LEGS, FIRST SIDE (5.5 min)</h1>
+<div class="setup">🔴 <code>R</code> · footbar <strong>up</strong></div>
+<p><strong>Purpose:</strong> peak energy. This is the loudest, warmest block of the class — humour belongs here. <strong>One red is the lighter, less stable setting</strong> — the carriage is looser, so the standing work is wobblier and asks more of the balance and the deep core. Regress with range, or by putting the ball down and holding the footbar — never by adding spring (that would cost two more changes). <strong>Four exercises, 5.5 minutes</strong> — the extra time goes into longer sets and the manual’s pulses and holds, not more exercises.</p>
+<div class="note do"><span class="chip do">DO</span><strong>The ball stays in the hands through the Long Lunge and the Scooter</strong> — it comes down before the Flying Lunge. <strong>Pregnancy flag:</strong> Flying Lunge foot stays grounded.</div>
+<h3>Long Lunge + ball pass — 8 + 8 with the reach + 6 passes + 8 in the hold · ~2 min</h3>
+<p class="src">Manual: Long Lunge, p.125 (pulses and holds variation)</p>
+<div class="note do"><span class="chip do">DO</span><strong>Demonstrate the ball pass fully</strong> — one of your three demos for the whole class. The rhythm of “1 lunge, 1 pass, return” has to be clear before anyone starts.</div>
+<div class="script"><p class="say">“<strong>Front foot on the floor next to the carriage, just behind the footbar. Back foot against the closest shoulder block. Ball in your hands.</strong> Stand tall.”</p><p class="say">“<strong>Exhale — bend the front knee and press the carriage back, back leg long, body inclining forward. Inhale — straighten the front knee, draw the carriage in and grow tall.</strong>”</p><p class="say">“<strong>Ball stays at your chest for these — no reach yet.</strong> Just find the lunge. Eight. Three, two, one.”</p><p class="say">“<strong>Now the arms come with it. Same lunge — and as the carriage presses back, reach the ball up above your head.</strong> Inhale — carriage home, ball back to your chest.”</p><p class="say">“<strong>Ribs stay down as the arms go up.</strong> Eight. Three, two, one.”</p><p class="say">“<strong>Now the pass. One lunge — press the carriage away. One pass — the ball goes under the front thigh, hand to hand — and return.</strong> Lunge… pass… return.”</p><p class="say">“<strong>A diagonal line from your head to your back heel.</strong> Back knee stays off the carriage. <strong>Hip bones square to the front.</strong>”</p><p class="say">“Six. Three, two, one.”</p><p class="say">“<strong>Now stay down in the lunge and hold it.</strong> Only the ball moves — <strong>under the thigh, and back over.</strong> Eight passes.”</p><p class="say">“Easier: <strong>shorter range — back knee can rest on the carriage, or hold the ball still.</strong> Eight, seven, six, five, four, three, two, one. <strong>Carriage home.</strong>”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Front knee rolling in or shooting past the ankle. Cue: <em>”knee over the middle toes, stacked over the ankle.”</em> And sitting into the standing hip — <em>”don’t sit into that hip.”</em></div>
+<h3>Scooter — 8 + 8 heel raise + 8 hold · ~1.25 min</h3>
+<p class="src">Manual: Scooter, p.124 (hands off the bar = balance challenge; pulses and holds variation)</p>
+<div class="script"><p class="say">“<strong>Standing foot on the floor next to the carriage, just behind the footbar. Other foot against the closest shoulder rest. Ball held at your chest.</strong>”</p><p class="say">“<strong>Bend through both knees and incline the body forward.</strong> Long spine, pelvis square.”</p><p class="say">“<strong>Exhale — extend the back leg and press the carriage back. Inhale — bend the knee and bring it home.</strong> Back knee stays off the carriage.”</p><p class="say">“<strong>Keep your weight back in the standing heel.</strong> Standing knee stacked over the ankle, pressing slightly out towards the little toe.”</p><p class="say">“<strong>You’ll feel this in the side of the standing glute.</strong> Need the bar? <strong>Ball down, hands on — that’s fine.</strong>”</p><p class="say">“Eight. Three, two, one — <strong>carriage home.</strong>”</p><p class="say">“<strong>Now add a heel raise. Press back — lift the standing heel — lower it — bring it home.</strong> One heel raise every rep. Eight.”</p><p class="say">“Easier: <strong>keep the heel down, just keep pressing.</strong> Three, two, one.”</p><p class="say">“<strong>Press back and stay there, back leg long. Now just the heel — lift and lower.</strong> Carriage stays still, pelvis square. Eight, seven, six, five, four, three, two, one.”</p><p class="say">“And carriage home.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>The standing knee rolling in, and the pelvis. Hands-on moment: one flat hand on each hip, <em>”hip bones square.”</em> Highest-value adjustment in the class.</div>
+<h3>Flying Lunge — knee tuck — 10 · ~1 min</h3>
+<p class="src">Manual: Flying Lunge, p.129 · knee tuck is the leg layer variation</p>
+<div class="note do"><span class="chip do">DO</span><strong>Demonstrate this fully.</strong> The orientation is genuinely confusing from the floor and a demo saves you forty seconds of words.</div>
+<div class="script"><p class="say">“<strong>Ball down — set it beside the carriage. Hands on the footbar, shoulder-width. Front foot on the floor next to the carriage, back foot against the shoulder rest.</strong> Incline forward, spine long.”</p><p class="say">“<strong>Inhale — bend the front knee and push the carriage away. Exhale — press into your hands and sweep the front leg long behind you</strong> — a one-legged plank.”</p><p class="say">“<strong>Now the layer: draw that flying knee in under you, then sweep it long behind again.</strong> The core brings the carriage in — not momentum.”</p><p class="say">“<strong>Start with a small lift and build.</strong> Soft elbows. Hip bones square.”</p><p class="say">“Easier: <strong>keep the foot on the ground.</strong> More: <strong>lift the flying leg higher.</strong>”</p><p class="say">“Ten. <strong>This is the hardest thing we do today</strong> — and you’re doing it.”</p><p class="say">“Three, two, one. <strong>And place the foot back beside the footbar.</strong>”</p></div>
+<h3>Flying Lunge — knee left / right / centre — 6 cycles · ~1 min</h3>
+<p class="src">Manual: Flying Lunge, p.129 (leg variations) · the knee pattern is in-house</p>
+<div class="script"><p class="say">“<strong>Same shape — the flying knee now travels.</strong> Knee to the outside… to the inside… then centre.”</p><p class="say">“Outside, inside, centre. That’s one.”</p><p class="say">“Six cycles. <strong>Slow it down to find the control.</strong>”</p><p class="say">“Three, two, one. <strong>Foot back beside the footbar, and step off the carriage.</strong>”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Hip squareness as the knee travels. Cue: <em>”hip bones stay square to the front.”</em> Second-highest-value hands-on moment.</div>
+<hr>
+<div class="note do"><span class="chip do">DO</span>NO SPRING CHANGE. NO BAR CHANGE. Keep talking — this junction should be invisible.</div>
+<div class="script"><p class="say">“<strong>Step onto the carriage and kneel — pad under your knees if you want it. Pick up your ball and set it between your knees.</strong> Springs stay exactly as they are — one red, bar up. Nothing to change.”</p></div>
+<hr>
+<h1>20:00 — SECTION 3 · CORE, PLANK FAMILY (6 min)</h1>
+<div class="setup">🔴 <code>R</code> <em>(carried)</em> · footbar <strong>up</strong> · ball between the knees</div>
+<p><strong>Purpose:</strong> five consecutive wrist- and shoulder-loaded exercises. <strong>The ball stays between the knees from Down Stretch through the push-up</strong> — the squeeze switches on the inner thighs and the deep core and keeps the legs together as one line. It comes out for both Elephants. <strong>The block carries the leg spring rather than taking its own</strong> — one red makes Long Stretch and Down Stretch harder to control on the way home, and that is the point. <strong>Knees down is the first regression</strong> for anyone who can’t hold the line.</p>
+<div class="note do"><span class="chip do">DO</span><strong>Offer the wrist option BEFORE the first one</strong> — not after someone is already uncomfortable. <strong>Pregnancy flag:</strong> no full plank — Down Stretch instead of Long Stretch, push-ups on hands and knees, Elephant in a neutral spine only.</div>
+<div class="script"><p class="say">“Quick word before we start this block: <strong>the next five all load the wrists and shoulders.</strong> If wrists are unhappy, <strong>make fists — or for the plank, come down onto your forearms.</strong> Take it now rather than pushing through.”</p></div>
+<h3>Down Stretch — 8 · ~1.25 min</h3>
+<p class="src">Manual: Down Stretch, p.150</p>
+<div class="script"><p class="say">“<strong>Hands on the footbar, shoulder-width. Feet up against the shoulder blocks, knees down on the carriage, carriage slightly pressed out — half plank.</strong> <strong>Keep the ball in between your knees.</strong>”</p><p class="say">“<strong>Press the pelvis forward.</strong> The challenge here is <strong>to open up through the spine</strong> — we’re moving into our Down Stretch.”</p><p class="say">“<strong>Inhale — arms stay straight, exhale - press the shoulders away from the carriage. inhale — pull the triceps back towards the ribs, and open up through the chest.</strong>”</p><p class="say">“<strong>The movement comes from the shoulders only.</strong> Hips always stay forward of the knees.”</p><p class="say">“<strong>Broaden through the chest as the carriage comes in.</strong> Straight arms, soft elbows.”</p><p class="say">“Easier: <strong>a smaller extension — lift the chest less.</strong> More: <strong>full range, press further away — the lower you go, the harder it is.</strong>”</p><p class="say">“Eight. Three, two, one. Carriage home.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>The low back dipping, or hips sitting back behind the knees. Cue: <em>”long spine and neck — hips forward of the knees.”</em></div>
+<h3>Long Stretch — 6 · ~1.25 min</h3>
+<p class="src">Manual: Long Stretch, p.149</p>
+<div class="note do"><span class="chip do">DO</span><strong>Straight out of Down Stretch — no re-set.</strong> Hands, feet and ball are already where they need to be. Call the knee lift from your own reformer so the room sees the line.</div>
+<p><strong>The transition — Down Stretch → high plank</strong></p>
+<div class="script"><p class="say">“<strong>Stay exactly where you are — hands stay shoulder-width on the footbar, fingers and thumbs wrapped over the top. Feet stay against the shoulder blocks. Ball stays between the knees.</strong>”</p><p class="say">“<strong>Exhale — lift the knees up off the carriage into a high plank.</strong> One long line, head to heels.”</p><p class="say">“<strong>The movement is more or less the same</strong> — it just costs you more now. <strong>Shoulders stay over the wrists</strong>, and <strong>it should feel like something is pulling the crown of your head forward.</strong>”</p><p class="say">“<strong>Move as one line. No piking the hips up.</strong>”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span>Two breaths in the plank before the first press. Let them find the line.</div>
+<div class="script"><p class="say">“<strong>Knees down is a real option</strong> — that’s Down Stretch, and it’s the same work.”</p><p class="say">“<strong>Inhale — arms long, press the carriage away. Exhale — bring it home, shoulders back over the wrists.</strong>”</p><p class="say">“<strong>Only the shoulders move.</strong> Press through the tiptoes, legs strong. Slide smoothly along the rails.”</p><p class="say">“Six only. They’re long ones. Three, two, one. And knees down for a moment.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Hips dipping — or piking up towards the ceiling on the way home. Cue: <em>”squeeze the ball — one line, no dipping and no piking.”</em></div>
+<h3>Push-up — 3 breaths + 8 · ~1.25 min</h3>
+<p class="src">Manual: Front Plank, p.141 → Push Up, p.181</p>
+<div class="script"><p class="say">“<strong>Knees down, hands just wider than shoulders, feet against the shoulder rests. Carriage slightly pressed out, chest over the footbar. Ball squeezed.</strong>”</p><p class="say">“<strong>Want the full plank? Exhale — lift the knees and hold.</strong> Eyes forward of the footbar. <strong>Toes gently pulling the carriage in, heels pressing away.</strong> Three breaths.”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span>Three breaths. Say nothing. Let them feel it.</div>
+<div class="script"><p class="say">“<strong>Now inhale — bend the elbows wide on a diagonal and lower the chest towards the bar. Exhale — press away.</strong>”</p><p class="say">“<strong>Carriage stays still. Head and chest move as one</strong> — the chest lowers between the hands, not the head.”</p><p class="say">“Easier: <strong>knees down.</strong> More: <strong>slow the lowering right down.</strong>”</p><p class="say">“Eight. <strong>Three, two, one.</strong> And come back to kneeling.”</p></div>
+<h3>Elephant — 8 · ~1 min</h3>
+<p class="src">Manual: Elephant, p.106 (R = mobility spring)</p>
+<div class="script"><p class="say">“<strong>Ball down — set it beside the carriage.</strong>”</p><p class="say">“<strong>Stand on the carriage. Hands shoulder-width on the footbar, spine rounded. Feet flat against the shoulder rests, legs long, shoulders over the wrists.</strong>”</p><p class="say">“<strong>Inhale — press the carriage back from the hip joint. Exhale — draw it in with control.</strong> Upper body stays still.”</p><p class="say">“<strong>A very small movement — only a couple of inches.</strong> Heels down if they’ll go.”</p><p class="say">“<strong>Eyes towards your thighs, head between your arms. Scoop the core to bring the carriage in.</strong>”</p><p class="say">“Easier: <strong>soft knees, and a smaller carriage travel.</strong> More: <strong>heels down, and a longer range.</strong>”</p><p class="say">“Eight. Three, two, one.”</p></div>
+<h3>One-Leg Elephant stretch — 5 each side · ~1.25 min</h3>
+<p class="src">Manual: Arabesque, p.106 (one-leg Elephant)</p>
+<div class="script"><p class="say">“<strong>Ball stays down.</strong> Hands shoulder-width on the bar, <strong>spine neutral this time.</strong>”</p><p class="say">“<strong>Right foot flat just in front of the shoulder rest, leg long. Left leg reaches long behind you, slightly turned out.</strong>”</p><p class="say">“<strong>Inhale — press the carriage back from the hip. Exhale — draw it in.</strong> Nothing moves above the hips.”</p><p class="say">“<strong>Keep both shoulders square and facing forward — don’t let one side lift or hitch up as the leg reaches back.</strong> Collarbones level, weight even through both hands.”</p><p class="say">“Soft elbows and knees. <strong>The standing leg gets the stretch.</strong>”</p><p class="say">“Easier: <strong>lifted foot stays low.</strong> More: <strong>a longer carriage travel.</strong>”</p><p class="say">“Five. Three, two, one. <strong>And change legs.</strong> Five. Three, two, one.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>The upper body rocking with the carriage, and <strong>one shoulder riding up</strong> with the lifted leg. Cues: <em>”the movement comes from the hip joint, nowhere else”</em> · <em>”shoulders square and level — press evenly through both hands.”</em></div>
+<div class="note silence"><span class="chip silence">SILENCE</span>Two seconds. Then pre-cue.</div>
+<hr>
+<div class="note do"><span class="chip do">DO</span>STILL NO CHANGE. Pre-cue the second side before anyone has to ask.</div>
+<div class="script"><p class="say">“<strong>Pick up your ball and step off to the side — we’re back to the legs, other side this time. Same springs, nothing to change.</strong>”</p></div>
+<hr>
+<h1>26:00 — SECTION 2b · LEGS, SECOND SIDE (5.5 min)</h1>
+<div class="setup">🔴 <code>R</code> <em>(carried)</em> · footbar <strong>up</strong> · ball in hands</div>
+<p><strong>THIS IS YOUR OBSERVATION BLOCK.</strong></p>
+<div class="note assessed"><span class="chip assessed">ASSESSED</span>Observation · hands-on adjustments · active teaching. The exercises are already known — <strong>cut your set-up cueing in half and spend the recovered time walking, watching and adjusting.</strong> Five and a half minutes where nobody needs you to explain anything. Use it.</div>
+<div class="note do"><span class="chip do">DO</span><strong>Mark the music change here.</strong> The lift in energy is what stops this feeling like a repeat.</div>
+<div class="script"><p class="say">“Second side. <strong>You know all four of these now — I’m going to talk less and watch more.</strong>”</p></div>
+<h3>Long Lunge + ball pass — 8 + 8 with the reach + 6 passes + 8 in the hold</h3>
+<div class="script"><p class="say">“<strong>Other foot on the floor, back foot on the shoulder rest, ball in your hands. Hip bones square — ball at the chest, just the lunge.</strong> Eight.”</p></div>
+<div class="note do"><span class="chip do">DO</span>Walk. Don’t count out loud until the last three.</div>
+<div class="script"><p class="say">“Three, two, one — <strong>now reach the ball up as you press the carriage back.</strong> Eight.”</p><p class="say">“Three, two, one — <strong>one lunge, one pass under the thigh, and return.</strong> Six.”</p><p class="say">“Three, two, one — <strong>and hold the lunge low. Ball passes only.</strong> Eight… three, two, one. Carriage home.”</p></div>
+<h3>Scooter — 8 + 8 heel raise + 8 hold</h3>
+<div class="script"><p class="say">“<strong>Other foot down, ball at your chest. Weight in the standing heel — press back.</strong> Eight.”</p><p class="say">“Three, two, one — <strong>add the heel raise. Press, lift, lower, home.</strong> Eight.”</p><p class="say">“Three, two, one — <strong>press back and hold. Heel only.</strong> Eight… three, two, one. Carriage home.”</p></div>
+<div class="note do"><span class="chip do">DO</span><strong>Two hands-on pelvis checks this block, by name.</strong> <em>”[Name] — hip bones square. That’s it.”</em></div>
+<h3>Flying Lunge — knee tuck — 10</h3>
+<div class="script"><p class="say">“<strong>Ball down. Hands on the bar, other foot on the floor. Push away, sweep the leg long — knee in, and long again.</strong>”</p><p class="say">“Ten. Three, two, one.”</p></div>
+<h3>Flying Lunge — knee left / right / centre — 6 cycles</h3>
+<div class="script"><p class="say">“<strong>Knee travels — outside, inside, centre.</strong> Six.”</p><p class="say">“Last exercise standing today. Three, two, one. <strong>Foot down, carriage home, and step off to the side.</strong>”</p></div>
+<hr>
+<div class="springbar"><span class="cog">⚙</span><span>BAR CHANGE — footbar DOWN, the only bar change of the class. Spring stays on one red. Nothing else is called here — the whole set-up is the first thing in Section 4.</span></div>
+<div class="script"><p class="say">“<strong>Footbar down. Spring stays on one red</strong> — <strong>after this, nothing on your reformer moves again.</strong>”</p><p class="say">“<strong>Grab your ball and come onto the carriage — I’ll set you up from the top.</strong>”</p></div>
+<hr>
+<h1>31:30 — SECTION 4 · BACK CHAIN &amp; ARMS (8 min)</h1>
+<div class="setup">🔴 <code>R</code> <em>(carried)</em> · footbar <strong>down</strong> · high kneeling · ball high between the thighs · ropes crossed</div>
+<p><strong>Purpose:</strong> flow. Everyone stays in high kneeling facing the straps for the whole block, <strong>ball held high between the thighs</strong> — the squeeze squares the pelvis, stops the hips swinging in the rows and is the reason the single-arm rotation can stay in the spine instead of the hips. The only set-up changes are uncrossing the ropes after the rows and putting the straps away for the optional Mountain Climber, and neither is a spring change. <strong>Two optional exercises come straight after the uncross, and the optional Mountain Climber closes the block</strong> — all three are your time buffer. <strong>One red matches the manual’s R for rows, but it’s heavy for arm work</strong> after Section 1 and the plank block. Set the load with position, not springs: <strong>everyone sits closer to the straps</strong> and moves back only if the rows feel easy. The heaviest moments are the single-arm row, the Reverse Fly and the overhead press. <strong>Shoulders lifting to the ears = shorten the range.</strong></p>
+<div class="note do"><span class="chip do">DO</span><strong>This block is your buffer.</strong> If you’re behind, drop the optionals first, then cut reps here and only here (see the bottom of the script).</div>
+<div class="note do"><span class="chip do">DO</span><strong>Shoulder / neck flag:</strong> sit closer, keep the High Row elbows low, skip the optional Reverse Fly, and keep the press-up small or skip it. <strong>Wrist / knee flag:</strong> fists, or the kneeling version with a pad, for the Mountain Climber.</div>
+<h3>Set-up — high kneeling, ball high, ropes crossed</h3>
+<div class="note do"><span class="chip do">DO</span><strong>This is the first thing you say in the block — before a single row.</strong> Set the whole room, then start. <strong>Demonstrate the crossing fully</strong> — third and final full demo of the class. Nobody should row with them set wrong.</div>
+<div class="script"><p class="say">“<strong>Kneel up on the carriage and face the back of the reformer.</strong> Knees behind the shoulder rests, pad under the knees if you want it.”</p><p class="say">“<strong>High kneeling — hips up over the knees, not sitting back on your heels.</strong>”</p><p class="say">“<strong>Pop the ball in between your thighs — but higher up this time</strong>, up near the top of the thighs, and hold it there. <strong>That’s what helps to stablise ur hips for this whole block.</strong>”</p><p class="say">“<strong>Sit a little closer to the straps than you think</strong> — one red is heavy for arms.”</p><p class="say">“<strong>Now pick up your straps and cross the ropes</strong> — watch mine. <strong>The ropes cross. Your hands don’t.</strong> Right hand stays on the right, left hand stays on the left — it’s the ropes that swap over in front of you.”</p><p class="say">“<strong>And hold all the way down to the silver knots.</strong>”</p></div>
+<div class="note do"><span class="chip do">DO</span>Walk. Check the ball height <strong>and</strong> the crossing — **look for crossed <em>hands</em>, that’s the common one.<strong> Then start. </strong>Knee flag:** double pad, or sit back on the heels with the ball still between the thighs — or sit on the box instead.</div>
+<h3>Low Row — the narrow row — 10 · ~1.25 min</h3>
+<p class="src">Manual: Seated Row, p.171 (crossed ropes and narrow row variations)</p>
+<div class="script"><p class="say">“<strong>Ropes crossed, hands down at the silver knots. Tall through the spine, pelvis neutral, ball squeezed.</strong>”</p><p class="say">“<strong>We’re going to start with a narrow row. Inhale — arms straight, palms facing in.</strong>”</p><p class="say">“<strong>Exhale — pull the elbows back, hands towards your waist, and retract the shoulder blades.</strong>”</p><p class="say">“<strong>And a slow return.</strong>”</p><p class="say">“<strong>We want to work with control in both directions</strong> — so those muscles are working on the way back <em>and</em> on the way forward. The return isn’t a rest.”</p></div>
+<div class="script"><p class="say">think of it as contract and resist instead of contract and release</p><p class="say">do not flare your ribs out</p><p class="say">“<strong>Draw the shoulder blades together — without pinching.</strong> Feel it in the middle of your back.”</p><p class="say">“<strong>Keep the resistance in the straps the whole time.</strong> Wrists long. Ribs in and down.”</p><p class="say">“<strong>You’ve spent twenty-five minutes facing forward and pressing.</strong> This is the other half of your body getting a say.”</p><p class="say">“Easier: <strong>smaller range.</strong> Ten. Three, two, one.”</p></div>
+<h3>High Row — the wide row — 10 · ~1.25 min</h3>
+<p class="src">Manual: Seated Row, p.171 (wide arm row variation)</p>
+<div class="script"><p class="say">“<strong> Now let’s go to the wide row — lift the elbows up to just below shoulder height.</strong>”</p><p class="say">“<strong>Exhale — draw the elbows wide and back. Inhale — release with control.</strong> Same control on the way out as on the way in.”</p><p class="say">“<strong>The narrow row was the middle of your back — this one takes it higher, more into your upper traps.</strong>”</p><p class="say">“<strong>Relax the shoulders, long neck.</strong> Chest and collarbones stay open.”</p><p class="say">“Easier: <strong>elbows lower, smaller range — or shuffle closer to the straps.</strong> Ten. Three, two, one.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Shoulders rolling forward as the elbows come back. Cue: <em>”open collarbones — elbows back, not up.”</em></div>
+<h3>Single-Arm Row with Rotation — 8 each side · ~1.75 min</h3>
+<p class="src">Manual: Seated Row, p.171 (single arm with rotation variation)</p>
+<div class="script"><p class="say">“<strong>If you want more again — single arm row. One strap only, tall through the spine, ball still high between the thighs.</strong>”</p><p class="say">“<strong>And you can take it either way — a high row, elbow up at shoulder height, or a low row, hand down by the waist. Your choice.</strong>”</p><p class="say">“<strong>Exhale — row the elbow back, and let your body rotate to follow it. Inhale — return with control.</strong>”</p><p class="say">“<strong>That rotation brings us into the transverse plane</strong> — you’ll feel it through your waist and along your spine. <strong>But your hips stay facing forward the whole time</strong> — and that’s what the ball between your thighs is for. <strong>Squeeze it and the hips can’t go anywhere.</strong>”</p><p class="say">“<strong>Mid back does the work — no momentum.</strong>”</p><p class="say">“Easier: <strong>shuffle closer, smaller rotation — or just row, no rotation.</strong> More: <strong>free hand reaches the opposite way.</strong>”</p><p class="say">“Eight. Three, two, one. <strong>And change.</strong>”</p><p class="say">“Eight. Three, two, one. And release.”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>The hips turning with the ribs, and the ball slipping down or dropping out — that’s the tell. Cue: <em>”squeeze the ball — hips face forward, the ribs turn.”</em> Hands-on moment: light hands on the hips, <em>”these stay, the ribs go.”</em></div>
+<div class="note do"><span class="chip do">DO</span><strong>Uncross the straps.</strong> Call it — it holds for the rest of the strap work.</div>
+<div class="script"><p class="say">“<strong>Uncross your ropes</strong> — right strap back in the right hand, left in the left. <strong>Stay up in high kneeling, ball stays between the thighs.</strong>”</p></div>
+<h3>Optional — Shoulder Retractions — 8 · ~30 sec</h3>
+<p class="src">Manual: Shoulder Retractions, p.173</p>
+<div class="script"><p class="say">“<strong>Short loops in the hands, arms straight by your sides, just in front of the hips. Palms facing forward.</strong>”</p><p class="say">“<strong>Exhale — move the arms behind you, drawing the shoulder blades to the midline. Inhale — return.</strong>”</p><p class="say">“<strong>Broaden across the chest.</strong> Don’t let the shoulders roll forward. Ribs hug in.”</p><p class="say">“Eight. <strong>Three, two, one.</strong>”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Shoulders shrugging up instead of blades drawing together. Hands-on moment: light fingers on the lower traps.</div>
+<h3>Optional — Reverse Fly, open out (→ V layer) — 8 · ~1 min</h3>
+<p class="src">Manual: Horizontal Abduction, p.174 · V layer: Frontal Raise, p.175</p>
+<div class="script"><p class="say">“<strong>Hold the straps at the knots, arms straight, palms facing in. Inhale — lift the arms to shoulder height or a little lower.</strong>”</p><p class="say">“<strong>Exhale — draw the arms back in line with the shoulders. Inhale — release forward without losing the tension.</strong>”</p><p class="say">“<strong>Ribs hug in so the back doesn’t arch.</strong> Relax the shoulders.”</p><p class="say">“Easier: <strong>a smaller opening, and sit closer.</strong>”</p><p class="say">“<strong>If it’s there for you — palms down, and lift the arms up towards the ceiling in a slight V.</strong> Lift from the back, not the neck or the hands. <strong>Open-out is a complete exercise on its own.</strong>”</p><p class="say">“Eight. Three, two, one.”</p></div>
+<h3>Bicep Curl → hold → Press Up — 10 + hold + 6 · ~1.25 min</h3>
+<p class="src">Manual: Biceps Curl, kneeling, p.184 · the hold and press-up are in-house</p>
+<div class="script"><p class="say">“<strong>Hands inside the loops, arms straight at shoulder height, palms to the sky.</strong>”</p><p class="say">“<strong>Exhale — bend the elbows, bringing the little fingers to your eyeline. Inhale — straighten the arms.</strong>”</p><p class="say">“<strong>Elbows stay lifted, just below the shoulders.</strong> Broad and open across the chest.”</p><p class="say">“More: <strong>shuffle further from the shoulder rests.</strong> Easier: <strong>lower the elbows a little.</strong>”</p><p class="say">“Ten. Three, two, one — <strong>and on the last one, bend and HOLD.</strong>”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span>Two breaths in the hold.</div>
+<div class="script"><p class="say">“<strong>From here — exhale, press the arms up overhead. Inhale — back to the hold.</strong> Ribs stay down, shoulders stay away from the ears.”</p><p class="say">“Easier: <strong>a small press, just to forehead height — or skip the press and keep curling.</strong> Six. Three, two, one — <strong>and hold it up there.</strong>”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Ribs flaring as the arms go overhead, or shoulders hiking on one red. Cue: <em>”ribs wrapped in — the arms go up, the ribs don’t.”</em></div>
+<div class="note do"><span class="chip do">DO</span><strong>Pre-cue the last set-up change before anyone lowers the arms.</strong></div>
+<div class="script"><p class="say">“<strong>Now put the straps away and come onto your hands on the frame, feet on the carriage — still facing this way.</strong> Footbar stays down, same spring. Fists, or knees down on a pad, if you want them.”</p></div>
+<h3>Optional — Mountain Climber — 10 · ~1 min</h3>
+<p class="src">In-house — facing the straps, footbar down</p>
+<div class="note do"><span class="chip do">DO</span><strong>Only if you’re on time.</strong> Otherwise the Press Up hold is the end of the block — straps away, straight into the Mermaid.</div>
+<div class="note do"><span class="chip do">DO</span><strong>Skipping all three optionals?</strong> You’ll be about 2½ minutes early. Spend it on longer cooldown holds — 8 breaths instead of 5. Don’t add exercises.</div>
+<div class="script"><p class="say">“<strong>Hands on the frame at the strap end, shoulders over the wrists. Feet on the carriage — long plank.</strong> One red keeps the carriage steady.”</p><p class="say">“<strong>Exhale — draw both knees in towards your chest. Inhale — press back out to a long plank.</strong>”</p><p class="say">“<strong>Shoulders stay over the wrists. Hips stay low</strong> — the knees come in from the deep abdominals.”</p><p class="say">“Easier: <strong>knees down on the carriage, smaller range.</strong> More: <strong>one knee at a time, a little quicker.</strong>”</p><p class="say">“Ten. Three, two, one. <strong>Carriage home.</strong>”</p><p class="say">“<strong>Release, sit back on the heels. That’s the work done.</strong>”</p></div>
+<div class="note scan"><span class="chip scan">SCAN</span>Hips piking up, or the shoulders sinking behind the wrists. Cue: <em>”shoulders over the wrists — hips stay in line.”</em></div>
+<hr>
+<h1>39:30 — COOLDOWN (4.5 min)</h1>
+<div class="setup">🔴 <code>R</code> <em>(carried)</em> · footbar <strong>down</strong></div>
+<div class="note assessed"><span class="chip assessed">ASSESSED</span>Cooldown. Static holds only, 5–8 breaths each, calm voice, minimal cueing — the manual’s cooldown guide (p.203).</div>
+<div class="note do"><span class="chip do">DO</span><strong>Drop your voice noticeably at the Mermaid.</strong> The contrast is what makes four and a half minutes feel like a proper cooldown. <strong>Music down.</strong> The sequence descends seated → kneeling → supine so nobody has to get back up.</div>
+<div class="note do"><span class="chip do">DO</span><strong>If you arrive here at 40:30, drop the final twist. Do not speed the rest up.</strong></div>
+<div class="note do"><span class="chip do">DO</span><strong>The manual shows these stretches in photos only (on a blue), with no cue text</strong> — the cues below are in-house. <strong>We stay on one red</strong> — no change for the cooldown.</div>
+<h3>Mermaid — 5 breaths each side</h3>
+<p class="src">Manual: Mermaid, p.196 (photos only)</p>
+<div class="script"><p class="say">“<strong>Springs stay on one red. Nothing changes for the rest of class.</strong>”</p><p class="say">“<strong>Turn to sit sideways on the carriage.</strong> One hand down beside you.”</p><p class="say">“<strong>Inhale — reach the outside arm up. Exhale — up and over.</strong>”</p><p class="say">“<strong>Lengthen the ribs apart.</strong> Open, don’t collapse.”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span>Five breaths.</div>
+<div class="script"><p class="say">“And come up to tall. <strong>Other side.</strong> Reach up… and over.”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span></div>
+<div class="script"><p class="say">“And come back up.”</p></div>
+<h3>Hip opener → quad stretch — 5 breaths each side</h3>
+<p class="src">Manual: Hip Opener and Hip Opener with Quad Stretch, p.192 (photos only)</p>
+<div class="script"><p class="say">“<strong>Come round to face the footbar end. Back knee down on the carriage — pad if you want it — front foot forward on the floor.</strong>”</p><p class="say">“<strong>Tuck the tailbone under first. Before you go anywhere.</strong> Then sink the hips forward.”</p><p class="say">“<strong>Without the tuck you’ll just arch your back instead of stretching.</strong>”</p><p class="say">“Five breaths.”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span></div>
+<div class="script"><p class="say">“<strong>And if you’d like more — reach back and catch the back foot.</strong> Same position, now it’s the front of the thigh. Only if it’s there for you.”</p><p class="say">“And come out. <strong>Other side.</strong> Tuck… then sink.”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span></div>
+<div class="script"><p class="say">“And come out — <strong>come and lie down on the carriage</strong>, head up by the shoulder blocks.”</p></div>
+<h3>Supine Figure 4 — 5 breaths each side</h3>
+<p class="src">In-house (named with Mermaid in the full class plan, p.232)</p>
+<div class="script"><p class="say">“<strong>Cross one ankle over the opposite thigh — that knee opens out to the side.</strong>”</p><p class="say">“<strong>Draw the thigh in towards you — hands behind it, or use the strap.</strong> Let the knee widen.”</p><p class="say">“Breathe. <strong>Exhale to soften a little deeper.</strong> Nothing to force.”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span></div>
+<div class="script"><p class="say">“And release. <strong>Other side.</strong>”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span></div>
+<div class="script"><p class="say">“And release. Both feet down.”</p></div>
+<h3>Final twist — 5 breaths each side</h3>
+<p class="src">In-house</p>
+<div class="script"><p class="say">“<strong>Knees together and up. Arms out wide.</strong>”</p><p class="say">“<strong>Exhale — let the knees fall to one side. Keep both shoulders heavy.</strong>”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span></div>
+<div class="script"><p class="say">“<strong>Inhale — knees back to centre. Exhale — over to the other side.</strong>”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span></div>
+<div class="script"><p class="say">“And back to centre. <strong>Legs long, arms by your sides.</strong>”</p></div>
+<h3>Final breath — 20 seconds</h3>
+<div class="script"><p class="say">“<strong>Hands on your ribs.</strong> Eyes closed if that’s comfortable.”</p><p class="say">“<strong>Inhale wide into the sides of the ribs… and exhale, everything out.</strong>”</p><p class="say">“<strong>Same breath we started with, forty-four minutes ago.</strong> It’s been there the whole time.”</p></div>
+<div class="note silence"><span class="chip silence">SILENCE</span><strong>A full 20 seconds. Do not fill it.</strong></div>
+<hr>
+<h1>44:00 — OUTRO (1 min)</h1>
+<div class="note assessed"><span class="chip assessed">ASSESSED</span>Class outro — and closing the screening loop. The screening at the top only earns its marks if you close it at the end.</div>
+<div class="script"><p class="say">“In your own time — roll to one side and come up to sitting.”</p><p class="say">“<strong>Beautiful work — that was a big one in forty-five minutes.</strong> Take one more breath and notice how different your body feels from when you walked in.”</p><p class="say">“<strong>If you have any questions, feedback, feel free to come and have a chat, i will be here</strong>”</p><p class="say">“<strong>Before you leave the class, please make sure to do housekeeping, all springs back on the reformer, wipe all the equipment that you have used. Thanks for moving with me.</strong>”</p></div>
+<div class="note do"><span class="chip do">DO</span><strong>Stand by the door. Make eye contact as people leave.</strong> Check in individually — by name — with everyone who flagged something at the start. <em>”How was the [knee / wrist / back] today?”</em></div>
+<hr>
+<h1>Cheat sheet — stick this on the footbar</h1>
+<table><thead><tr><th>Clock</th><th>Block</th><th>Spring</th><th>Bar</th></tr></thead><tbody><tr><td>0:00</td><td>Welcome · screening · consent to touch · “you set your own springs — one change” · grab a ball</td><td>🔴🔴</td><td>up</td></tr><tr><td>2:00</td><td>Leg press Pilates V + pulses · leg press toes + pulses · heel raises · prances · DL press balls of feet (ball in hands) · SL extension + ball thread · glute bridge (neutral → articulate → lift &amp; lower) · bridge 2 press out &amp; return + pulses &amp; hold · Pilates Roll Up (last one stays seated)</td><td>🔴🔴</td><td>up</td></tr><tr><td><strong>7:30</strong></td><td><strong>⚙ THE ONLY CHANGE → 🔴 · ONE RED OFF · BAR STAYS UP.</strong> Arm press down · abdominal curl · curl + single → double leg ext · Set 1: over → under bar → hold → legs only → scissors · Set 2: hold → tricep press → flutter kick · Hundred</td><td>🔴</td><td>up</td></tr><tr><td><strong>14:30</strong></td><td><strong>No change — “same spring, one red.”</strong> <strong>Side 1:</strong> long lunge (plain → reach → pass → hold &amp; pass) · scooter + heel raises (ball) · flying lunge · knee L/R/C</td><td>🔴</td><td>up</td></tr><tr><td>20:00</td><td>Ball between knees: down stretch · long stretch · plank → push-up — then ball down: elephant · one-leg elephant</td><td>🔴</td><td>up</td></tr><tr><td><strong>26:00</strong></td><td><strong>Side 2 — WALK AND WATCH, don’t teach.</strong> Same four</td><td>🔴</td><td>up</td></tr><tr><td><strong>31:30</strong></td><td><strong>⚙ BAR DOWN · SPRING STAYS 🔴 · HIGH KNEELING · BALL HIGH BETWEEN THIGHS · SIT CLOSER · CROSS ROPES, NOT HANDS · HOLD AT THE SILVER KNOTS.</strong> Narrow (low) row · wide (high) row · single-arm row + rotation · uncross → <em>opt:</em> retractions · reverse fly → V · bicep curl → hold → press up · <em>opt:</em> mountain climber (still facing straps)</td><td>🔴</td><td><strong>down</strong></td></tr><tr><td>39:30</td><td>Mermaid · hip opener/quad · figure-4 · twist · final breath</td><td>🔴</td><td>down</td></tr><tr><td>44:00</td><td>Outro · door · close the screening loop</td><td>—</td><td>—</td></tr></tbody></table>
+<p><strong>The one spring call, in full:</strong> 7:30 — <em>”take one red off — one red only, and that’s the only change today. Footbar stays up.”</em> · 31:30 is a bar change only — <em>”footbar down, spring stays on one red — pick up your ball, kneel up, ball high between the thighs, sit closer, then cross your ropes”</em>.</p>
+<p><strong>Fallback:</strong> if the room is mostly beginners or several people flag shoulders, go to a blue at 31:30 with the bar change. Still only two changes.</p>
+<p><strong>Three demos only — mirror everything else:</strong> Flying Lunge · Long Lunge ball pass · crossing the straps.</p>
+<p><strong>Six things to watch all class:</strong> hips level and square (single leg extension, lunges, scooter) · ribs wrapped in (hands-in-straps block) · no dipping through the lower back (leg extensions under the bar, long stretch) · chin off the chest (every curl) · shoulders relaxed, collarbones open (holding the ball, every strap exercise) · knee over the middle toes (every lunge and the scooter).</p>
+<p><strong>Four hands-on moments worth having:</strong> pelvis in the Scooter · hip squareness in the Flying Lunge · hips staying still in the Single-Arm Row with Rotation · a light hand at the sacrum in Bridges. <strong>Consent was taken at screening — use their name.</strong></p>
+<p><strong>If you’re running over, cut in this order:</strong></p>
+<ol><li>Drop the optional Mountain Climber</li><li>Drop the optional Reverse Fly</li><li>Drop the optional Shoulder Retractions</li><li>Bicep Curl 10 → 8</li><li>Single-Arm Row with Rotation 8 → 6 per side</li></ol>
+<p>That’s up to ~3¼ minutes and nobody notices. Still over at 40:30? Drop the final twist.</p>
+<p><strong>Never cut:</strong> the second leg side · Down Stretch · the screening · the outro.</p>
+<p><strong>If you’re under:</strong> keep all three optionals in, then add reps, not exercises — the Long Lunge ball-pass hold and Low Row take another 4 each, and cooldown holds go from 5 breaths to 8 without changing shape.</p>
+<p><strong>If the assessor asks “why this order?” — three answers:</strong></p>
+<ol><li><strong>The legs are split around the plank block</strong> so the shoulder girdle gets a real recovery before eight minutes of pulling — and it costs nothing, because everything after 7:30 sits on one 🔴.</li><li><strong>The Flying Lunge knee pattern grows out of the knee tuck</strong> — same shape, and it adds the transverse and frontal planes with no set-up change.</li><li><strong>The ball is one prop that builds</strong> — from a pass (coordination) in the warm-up and lunges, to a squeeze (adductors and deep core) in the bridges and plank block, to a squeeze held high between the thighs in the rows, where it’s what keeps the pelvis square through the rotation.</li></ol>
+<hr>
+<p class="src">Set-up, directional and alignment cues come from NEW REFORMER MANUAL (Version 6) — the page is given under each exercise. The manual has no cues for the bridge pulses, hold and press-out, the Pilates Roll Up, the knee left/right/centre pattern, the Bicep Curl hold and press-up, the Mountain Climber facing the straps or the cooldown stretches, so those are marked in-house. Timings, transitions and the teaching script around the cues are written for this plan.</p>
+
+</body></html>

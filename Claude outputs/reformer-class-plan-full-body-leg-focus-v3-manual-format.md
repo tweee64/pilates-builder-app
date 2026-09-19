@@ -2,7 +2,7 @@
 
 **with [your name]**
 
-PROPS: BALL, SHORT BOX
+PROPS: BALL
 
 ---
 
@@ -20,7 +20,7 @@ Heel lifts at the top of the bridge x 5-8
 Ball away
 Double Leg Press, easy flowing tempo x 10-12
 
-**Spring: RRR, drop to RR for single leg**
+**Spring: RR — unchanged**
 
 Double Leg Press - heels x 10-12
 Double Leg Press - toes/prehensile x 10-12
@@ -80,27 +80,26 @@ Single Knee Tuck, alternating x 10-12
 Full Pike, hips high x 8-10
 Hold the last one and breathe x 20 sec
 
-Footbar down, spring to B, straps in your hands. Last change of the class.
+Footbar down, spring to B, turn to face the risers, straps in your hands. Last change of the class.
 
 ---
 
 ## UPPER BODY:
 
 **Spring: B, or Y to regress**
-*Footbar down. Kneeling facing the footbar, straps from behind.*
+*Footbar down. Kneeling, facing the risers, straps in hand. No box.*
 
-Arms Pull Back, straight arms x 10-12
-Chest Expansion + head turns on the hold x 8-10
-Tricep Press Back, elbows pinned x 10-12
+Shoulder Retractions, straight arms x 10-12
+Reverse Fly, open out x 10-12
+Reverse Fly, raise/open up overhead x 10-12
 
-Box out, turn, seated on the short box facing the risers
+Sit down onto the carriage, legs through the shoulder rests, still facing the risers. No box.
 
-Seated Row x 12-16
-Reverse Fly x 10-12
-Bicep Curls x 10-12 + pulses
-Teaser off the box x 5-8 - optional, strong groups only
-
-Box stays out for the mermaid
+Low Row x 12-16
+High Row, cross straps x 10-12
+One-Sided Row with rotation x 8-10 each side
+Bicep Curls x 90 sec
+Teaser off the carriage to advance - optional, strong groups only
 
 ---
 
@@ -108,11 +107,10 @@ Box stays out for the mermaid
 
 **Spring: B - unchanged**
 
-Mermaid, seated on the box x 3-5 each side
-Box away
+Mermaid, seated on the carriage (no box) x 3-5 each side
 Kneeling Hip Flexor / Quad Stretch, back knee on carriage, hands on footbar posts x 3-5 breaths each side
 Lie back on the carriage
 Supine Figure-4 x 3-5 breaths each side
-Supine Spinal Twist x 3-5 breaths each side
+Final Twist, knees to one side x 3-5 breaths each side
 Ball resting on the belly
 Breathwork

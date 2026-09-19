@@ -1,7 +1,7 @@
 # Teaching Script — Full Body, Leg Focus (v3 · The Circle)
 
 **~48 min door to door** (2 min settle + 46 min class) · Mixed level · Group reformer
-**Props:** small ball · short box · straps (hands only)
+**Props:** small ball · straps (hands only)
 
 ---
 
@@ -29,11 +29,11 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 
 # 0:00 — Welcome & setup (~2 min)
 
-`[DO]` Stand where the whole room can see you. Ball already on the floor by your shoulder blocks. Short box stacked wherever it lives — you don't need it for 32 minutes.
+`[DO]` Stand where the whole room can see you. Ball already on the floor by your shoulder blocks.
 
 > "Welcome in, everybody. Come and sit on your carriage for me — you don't need anything yet."
 
-> "Today is a full body class with a leg focus. Two props: a small ball, which you'll find on the floor by your shoulder blocks, and the short box, which we don't touch until the very end."
+> "Today is a full body class with a leg focus. One prop: a small ball, which you'll find on the floor by your shoulder blocks. Everything else today comes straight off the machine."
 
 > "Before we start — anything I should know? Anything sore, anything new, anyone pregnant or recovering from anything?"
 
@@ -589,10 +589,10 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 
 ---
 
-# 32:00 — SECTION 5 · BACK + TRICEPS (~11 min)
-### 🔵 B · footbar **down** · straps + short box
+# 32:00 — SECTION 5 · BACK + ARMS (~11 min)
+### 🔵 B · footbar **down** · straps only — no box
 
-**Purpose:** the postural counter. The pike just loaded the front of the shoulders, the triceps and the wrists — so this block *pulls*.
+**Purpose:** the postural counter. The pike just loaded the front of the shoulders, the triceps and the wrists — so this block *pulls*. One orientation the whole way through — nobody turns, nobody fetches a prop.
 
 **Say this once and mean it:**
 
@@ -600,17 +600,17 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 
 > "And lighten to **yellow** any time you want. Lighter is not losing — sloppy is losing."
 
-## Position A — kneeling, facing the footbar (~5 min)
+## Position A — kneeling, facing the risers (~5 min)
 
-`[DO]` They stay exactly where the pike left them. Straps come from behind. **No box yet.**
+`[DO]` They stay exactly where the pike left them, straps already in hand, facing the risers. No box — there won't be one today.
 
-> "Kneel on the carriage, facing the footbar — knees roughly hip width, back towards the risers."
+> "Kneel on the carriage, facing the risers — knees roughly hip width."
 
-> "Straps in your hands, coming from behind you. Sit up tall — **ribs stacked over hips**, don't arch."
+> "Straps in your hands. Sit up tall — **ribs stacked over hips**, don't arch."
 
 > "Pad under your knees if you want one, grab it now."
 
-### Arms pull back — straight arms · x10–12
+### Shoulder retractions — straight arms · x10–12
 
 > "Arms long in front of you at about shoulder height. Straight arms — they stay straight the whole time."
 
@@ -624,55 +624,47 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 
 > "Ten. Last three… three, two, one."
 
-### Chest expansion + head turns · x8–10
+### Reverse fly, open out · x10–12
 
-> "Arms come down long by your sides, palms facing back."
+> "Arms lift to shoulder height in front of you, straight, palms facing down or in — your choice."
 
-> "**Exhale** — press both arms straight back behind you. Open the collarbones wide. **And hold.**"
+> "**Exhale** — open the arms **wide** out to the sides. Feel the back of the shoulders, between the blades."
 
-> "Stay there. Now — **turn your head to look over your right shoulder.** Centre. **Left shoulder.** Centre."
+> "**Inhale** — bring them back together in front. Slowly."
 
-> "And release the arms forward."
+> "Open… and together. Open… and together."
 
-> "Again — press back, hold, lengthen the collarbones wide, breathe into the front of your chest…"
+> "**Lengthen through the crown of the head as the arms lift** — don't let the ribs flare to get the range."
 
-> "This should feel enormous. You've been facing forward and pressing things away from you for thirty minutes."
+> "Ten. Last three… three, two, one."
 
-> "Eight. Last three… three, two, one."
+### Reverse fly, raise/open overhead · x10–12
 
-### Tricep press back — elbows pinned · x10–12
+**Zero transition. Same arm line, just take it higher.**
 
-**Zero transition. Same arm line, just add the elbow bend.**
+> "Don't reset. Same shape — but this time, as the arms open, **let them rise into a V overhead.**"
 
-> "Don't move. **Same position** — press the arms back to that hold."
+> "**Exhale** — open and lift, up into that V. **Inhale** — arms come back together in front, slowly."
 
-> "Now **pin your elbows exactly where they are** and bend them. Hands come forward towards your shoulders."
+> "Open and up… and together. Open and up… and together."
 
-> "**Exhale** — straighten the arms back. **Inhale** — bend."
+> "This is the biggest range of the whole block. Feel it between the shoulder blades, not in the neck."
 
-> "**Only the forearm moves.** Elbows stay pinned. That's the whole exercise."
+> "Ten. Last three… three, two, one. And release the straps down. Come off your knees."
 
-> "Press… and bend. Press… and bend."
+## Position B — seated on the carriage, legs through the shoulder rests (~6 min)
 
-> "Ten. Last four… three, two, one. And release the arms forward. Come off your knees."
+`[DO]` No turn, no box — they're already facing the risers. Straight down onto the carriage, legs through the shoulder blocks. Sitting after kneeling reads as a break even though the work continues, and the wider base gives real stability for the rotation work coming up.
 
-## Position B — seated on the short box (~6 min)
+> "Come off your knees and **sit straight down onto the carriage** — legs through the shoulder rests, still facing the risers. No turning, nothing to fetch."
 
-`[DO]` Box out, one turn, sit down. Sitting after kneeling reads as a break even though the work continues.
+> "Feet flexed against the shoulder blocks, sit tall. Straps back in your hands."
 
-> "Straps down for a second. **Grab your short box** and set it on the carriage."
-
-> "Sit on the box **facing the risers** — so facing your straps. Feet down on the frame or the floor, wherever's stable. Sit tall."
-
-> "**Box stays out after this** — we use it again in the stretch. Don't put it away."
-
-> "Straps back in your hands."
-
-### Seated row · x12–16
+### Low row · x12–16
 
 > "Arms long in front, about chest height. Palms facing each other or down, your choice."
 
-> "**Exhale** — pull the elbows straight back past your ribs. **Squeeze the shoulder blades together** behind you."
+> "**Exhale** — pull the elbows straight back past your ribs, down towards your waist. **Squeeze the shoulder blades together** behind you."
 
 > "**Inhale** — reach the arms long again, slowly."
 
@@ -682,41 +674,61 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 
 > "Twelve. Last four… three, two, one."
 
-### Reverse fly · x10–12
+### High row — cross straps · x10–12
 
-> "Arms come up to shoulder height in front of you, straight, palms facing down."
+> "**Cross the ropes in your hands before you row** — right hand takes the left strap, left hand takes the right."
 
-> "**Exhale** — open the arms **wide** out to the sides, like you're opening a big pair of curtains. Feel the back of the shoulders."
+> "Arms long in front, up around shoulder height this time — a wider, higher path than the low row."
 
-> "**Inhale** — bring them back together in front. Slowly."
+> "**Exhale** — pull the elbows out wide and back, level with your shoulders. **Inhale** — reach long again, slowly."
 
-> "Open… and together. Open… and together."
+> "Pull wide… and reach. Pull wide… and reach."
 
-> "Shoulders down. If they're creeping, **go to yellow** — this is the one that needs lighter."
+> "Different plane from the low row — this one's rear delts and the muscles between your shoulder blades."
 
-> "Ten. Last three… three, two, one."
+> "Ten. Last three… three, two, one. And uncross the straps."
 
-### Bicep curls · x10–12 + pulses
+`[SCAN]` Elbows dropping below shoulder height — that collapses the whole point of the cross. Cue by name if you see it.
 
-**The dessert. ~90 seconds. Ends the working part of class on a pump.**
+### One-sided row, with rotation · x8–10 each side
 
-> "Last one of the arm block. Turn the palms up to face the ceiling, elbows into your sides."
+**The hardest move of the block. The wide seated base keeps it honest.**
+
+> "One strap in your right hand, arm long in front."
+
+> "**Exhale** — pull the elbow back **and rotate through your ribcage** to look behind you. **Inhale** — untwist and reach the arm long again, back to centre."
+
+> "Pull and rotate… and reach back to centre."
+
+> "**Rotate from the ribcage, not the hips — the pelvis stays square.** That's the whole exercise."
+
+> "Eight. Last three… three, two, one. And change sides."
+
+`[DO]` Repeat left. Talk less — walk the room and check one pelvis with your hands instead.
+
+> "Last three. Three, two, one. And release both straps."
+
+### Bicep curls · 90 sec + pulses
+
+**The dessert. Ends the working part of class on a pump.**
+
+> "Last one of the arm block. Straps in both hands, palms up to face the ceiling, elbows into your sides."
 
 > "**Exhale** — curl the hands in towards your shoulders. **Inhale** — lower, slowly. Elbows stay glued to your ribs."
 
 > "Curl… and lower. Curl… and lower."
 
-> "Ten. Last four, three, two, one — **and hold halfway.**"
+> "Keep going with your own count — ninety seconds of this."
 
-> "**Pulses.** Small. Ten. Ten, nine, eight, seven, six, five, four, three, two, one."
+> "And hold halfway. **Pulses.** Small. Ten, nine, eight, seven, six, five, four, three, two, one."
 
 > "And release the straps. Shake the arms out. **That's the work done.**"
 
-### *Optional — Teaser off the box · x5–8 · strong groups only*
+### *Optional — Teaser off the carriage · x5–8 · strong groups only*
 
 `[DO]` **Cut this freely.** The class does not need it. Only offer it if the room is strong and the clock is kind — you should be at 41:00 or earlier.
 
-> "If you've got one more in you, and only if you do: **teaser off the box.** Sit tall, lean back, float the legs up to a V, arms reaching long."
+> "If you've got one more in you, and only if you do: **teaser off the carriage.** Sit tall, lean back, float the legs up to a V, arms reaching long."
 
 > "Five. Legs are done for the day anyway, so there's nothing left to protect."
 
@@ -725,15 +737,15 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 ---
 
 # 43:00 — COOL DOWN (~5 min)
-### 🔵 B · footbar **down** · box (then away) · ball
+### 🔵 B · footbar **down** · ball
 
 **Descend through the positions — seated, kneeling, supine. End horizontal.**
 
 > "Springs stay blue. Nothing changes for the rest of class. The spring is just support now."
 
-### Mermaid, seated on the box · x3–5 each side
+### Mermaid, seated on the carriage · x3–5 each side
 
-> "Stay on your box. Turn to sit sideways on it — face the long side of your reformer."
+> "Stay seated where you are. Turn to sit sideways on the carriage — face the long side of your reformer."
 
 > "One hand down on the carriage or the frame beside you, the other arm long by your side."
 
@@ -751,7 +763,7 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 
 `[SILENCE]`
 
-> "And come back up to tall. **Box away** — pop it off to the side."
+> "And come back up to tall."
 
 ### Kneeling hip flexor / quad stretch · 3–5 breaths each side
 
@@ -837,7 +849,7 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 
 > "Drink water, eat something with protein in it, and expect to feel your inner thighs tomorrow — you've earned that."
 
-> "Thank you all. Boxes back, springs off, balls in the basket on your way out. See you next week."
+> "Thank you all. Springs off, balls in the basket on your way out. See you next week."
 
 ---
 
@@ -852,8 +864,8 @@ If you're more than 90 seconds behind at any of those, trim reps in the block yo
 | 20:00 | Hundred · chest lift+oblique · roll back & hover · bridge+ball | 🔴 | up | ball |
 | 25:00 | **L:** long lunge → scooter → fly lunge → sink & hold | 🔴 | up | — |
 | 30:00 | Plank → knee tuck → pike → hold | 🔴 | up | — |
-| 32:00 | **CHANGE.** Pull back · chest exp · tricep · ‖ row · rev fly · curls | 🔵 | **down** | straps, box |
-| 43:00 | Mermaid · kneeling hip flexor · figure-4 · twist · breath | 🔵 | down | box→away, ball |
+| 32:00 | **CHANGE.** Shoulder retract · rev fly ×2 · low row · high row · one-sided row · curls | 🔵 | **down** | straps |
+| 43:00 | Mermaid · kneeling hip flexor · figure-4 · twist · breath | 🔵 | down | ball |
 
 **Three things to say that make this class:**
 1. *"The movement is the same for all of us; your spring and your range are yours."* — at the top.

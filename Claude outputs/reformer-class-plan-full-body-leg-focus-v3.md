@@ -2,9 +2,9 @@
 
 **Duration:** ~46 min · **Level:** Mixed / all levels · **Style:** Group reformer
 
-**Props:** Small ball (all class) · Straps, hands only (final block) · Short box (final block + cooldown)
+**Props:** Small ball (all class) · Straps, hands only (final block)
 
-**Setup note:** Footbar stays **up** for the first 30 minutes and comes **down once**, at the same moment as the last spring change. The ball lives on the floor by the shoulder blocks from the start. The box comes out **once**, for the seated arm work, and stays out for the mermaid.
+**Setup note:** Footbar stays **up** for the first 30 minutes and comes **down once**, at the same moment as the last spring change. The ball lives on the floor by the shoulder blocks from the start. No box this version — the final block and cooldown both run straight off the carriage.
 
 > **This is v3.** The squat section is cut. The leg series is now split around a mid-class core block — right side → core → left side → pike — so the class runs as a circle. Teaser is out. See *What changed and why* at the end.
 
@@ -31,8 +31,8 @@ Because this is a mixed-level group, every block gives you a **base setting** pl
 | 2 | Leg series — **right** | Unilateral legs, balance, glute | ~5 min | 🔴R | up | — |
 | 3 | **Core** | Supine reset, feet on the bar | ~5 min | 🔴R | up | ball |
 | 4 | Leg series — **left** + pike | Match the side, bilateral close | ~7 min | 🔴R | up | — |
-| 5 | Back + triceps | Pull work, postural counter | ~11 min | 🔵B | **down** | straps, box |
-| — | Cooldown / stretch | Open hips, lengthen, breathe | ~5 min | 🔵B | down | box, ball |
+| 5 | Back + arms | Pull work, postural counter | ~11 min | 🔵B | **down** | straps |
+| — | Cooldown / stretch | Open hips, lengthen, breathe | ~5 min | 🔵B | down | ball |
 
 ### The circle
 
@@ -238,52 +238,54 @@ Both feet come onto the carriage. Hands stay on the footbar. Same spring.
 **Why pike is here and not in the arm block:**
 
 - **It's bilateral.** After twelve minutes of one-side-at-a-time, a symmetrical move resolves the body. It closes the circle.
-- **It's the hinge.** They finish it kneeling-ready, facing the footbar — exactly where the arm block starts. They don't turn around.
+- **It's the hinge.** They finish it kneeling-ready — one turn away from where the arm block starts.
 
 **Watch-point:** wrists and anterior shoulder. Offer forearms on the footbar, or a standing calf raise, for anyone who needs out.
 
-**Transition out:** *"Footbar down, springs to blue, straps in your hands — take a breath, we're changing gears."* One breath cycle. **This is the last change of the class.**
+**Transition out:** *"Footbar down, springs to blue, turn to face the risers, straps in your hands — take a breath, we're changing gears."* One breath cycle. **This is the last change of the class.**
 
 ---
 
-## Section 5 · Back + Triceps · ~11 min · 🔵B · footbar **down** · straps + box
+## Section 5 · Back + Arms · ~11 min · 🔵B · footbar **down** · straps
 
-**Purpose:** The postural counter. The pike just loaded anterior shoulders, triceps and wrists — so this block pulls. Back is the backbone of the section, triceps rides along in the same position, biceps is a short finisher.
+**Purpose:** The postural counter. The pike just loaded anterior shoulders, triceps and wrists — so this block pulls. Scapular retraction sets the pattern, rowing loads it, biceps closes it out.
 
-### Position A — kneeling, facing the footbar (~5 min)
+### Block 1 — kneeling, facing the risers (~5 min)
 
-They stay exactly where the pike left them. Straps come from behind. No box yet.
+Straps in hand, turn to face the risers (see the pike's transition out). No box.
 
-1. **Arms pull back** — straight arms, draw down and back. Lats.
-2. **Chest expansion** — arms by the sides, press back and hold; option to turn the head side to side on the hold. Feels enormous after thirty minutes of facing forward and pressing.
-3. **Tricep press back** — same arm line, just add the elbow bend. **Zero transition** from chest expansion.
+1. **Shoulder retractions** — straight arms, draw back to the hips. Lats and mid-back — re-teaches "blades down and back" after thirty minutes of facing forward and pressing.
+2. **Reverse fly, open out** — arms lift to shoulder height and open wide. More range, more rear-delt and rhomboid demand.
+3. **Reverse fly, raise/open up** — arms lift higher into a V overhead. Peak range of this family. **Zero transition** from the open-out version — same arm line, more height.
 
-### Position B — seated on the short box, facing the risers (~6 min)
+### Block 2 — seated, legs through the shoulder rests, facing the risers (~6 min)
 
-Box out, one turn, sit down. Sitting after kneeling reads as a break even though the work continues, and the box gives a taller, better-supported spine for the pulls than sitting on the carriage does.
+Sit down onto the carriage, legs through the shoulder blocks — still facing the risers, no turn, no box. Sitting after kneeling reads as a break even though the work continues, and the wider base gives real stability for the rotation work coming up.
 
-4. **Seated row** — rhomboids and mid back.
-5. **Reverse fly** — arms wide, rear delts.
-6. **Biceps curl** — 90 seconds, the dessert. Ends the working part of the class on a pump.
+4. **Low row** — elbows draw to the waist. Lats-dominant, narrow path.
+5. **High row (cross straps)** — cross the straps in your hands, elbows draw wide at shoulder height. Rear delts and rhomboids, a different plane from the low row.
+6. **One-sided row** — same pattern, one arm, with rotation. The hardest move of the block — the wide seated base keeps the rotation controlled instead of compensating through the low back.
+7. **Biceps curl** — 90 seconds, the dessert. Ends the working part of the class on a pump.
 
 **Variations & cues**
 
 - *"Melt the shoulder blades down into your back pockets before you pull."* Say it once per exercise — scapula creep is the failure mode in every move here.
-- Chest expansion: *"lengthen the collarbones wide, breathe into the front of the chest."*
-- Tricep press back: *"elbows stay pinned where they are — only the forearm moves."*
+- Reverse fly: *"lengthen through the crown of the head as the arms lift — don't let the ribs flare."*
+- Cross straps: cue the re-grip explicitly — *"cross the ropes in your hands before you row."*
+- One-sided row: *"rotate from the ribcage, not the hips — the pelvis stays square."*
 - Control the eccentric everywhere. *"The straps want to pull you back. Don't let them win."*
-- **Two positions for six exercises.** Don't add a third; the flow is the point.
-- **The box stays out** — the mermaid uses it.
+- **Two positions for seven exercises, one orientation throughout.** Only the sit-down changes; nobody turns, nobody fetches a prop.
+- **Knee or ankle discomfort kneeling?** Sit back onto the carriage any time — same straps, same exercises, individual choice rather than a group-wide change.
 
 **Spring options**
 
 | Level | Setting | Why |
 |-------|---------|-----|
-| Base | 🔵B | One setting for all six exercises. |
+| Base | 🔵B | One setting for all seven exercises. |
 | Easier | 🟡Y, or shorten the range | Lighter load, especially for reverse fly and curls. |
 | Advance | Slow the tempo, pause at end range | Cheaper than a spring change this late in class. |
 
-> **Optional for strong groups only:** a full **teaser** off the box or carriage at the very end of this block. The legs are done by now, so hip flexor fatigue no longer costs you anything. Cut it freely — the class does not need it.
+> **Optional for strong groups only:** a full **teaser** off the carriage at the very end of this block. The legs are done by now, so hip flexor fatigue no longer costs you anything. Cut it freely — the class does not need it.
 
 ---
 
@@ -293,10 +295,10 @@ Box out, one turn, sit down. Sitting after kneeling reads as a break even though
 
 **Exercises**
 
-1. **Mermaid** — seated on the box, which is already out. Side-body opening, both sides.
-2. **Kneeling hip flexor / quad stretch** — box away. Back knee on the carriage, front foot on the platform, hands on the footbar posts; sink forward and let the carriage travel a little. **Non-negotiable after the lunge series** — the back leg's hip flexor worked hard on both sides. (Floor version is fine if the group is unsteady.)
-3. **Supine figure-4** — lie back on the carriage.
-4. **Supine spinal twist** — knees to one side, breathe.
+1. **Mermaid** — seated directly on the carriage (no box), side-body opening, both sides. Cue a light anchor hand on the frame — the carriage can shift a little under the lateral stretch where a box wouldn't.
+2. **Kneeling hip flexor / quad stretch** — back knee on the carriage, front foot on the platform, hands on the footbar posts; sink forward and let the carriage travel a little. **Non-negotiable after the lunge series** — the back leg's hip flexor worked hard on both sides. (Floor version is fine if the group is unsteady.)
+3. **Figure-4** — lie back on the carriage.
+4. **Final twist** — knees to one side, breathe.
 5. **Final breaths** — ball resting on the belly, feel it rise and fall. Closes both motifs: the breathwork that opened class, and the ball.
 
 **Variations & cues**
