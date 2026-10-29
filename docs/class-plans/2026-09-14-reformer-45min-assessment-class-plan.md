@@ -32,7 +32,7 @@ the screening — it's a scored item and it's the safety basis for everything th
 | Pregnancy | §4 Core (supine), §5/§7 Legs, §6 plank block | Shorten supine work, wedge under the shoulders, reduce spring, substitute bridges with a side-lying option |
 | Wrist | §6 entire plank block, Elephant, Down Stretch, §8 Mountain Climber (optional) | Fists instead of flat palms, or forearms on the plank/push-up |
 | Shoulder | §4 straps block, §8 Back block (both on one red), Long Stretch, push-up | Sit closer to the straps in §8, keep the High Row low, skip the optional Reverse Fly, small press (or none) on the Press Up, push-up from knees |
-| Knee | Scooter, Down Stretch, kneeling hip flexor stretch, ball squeeze | Knee pad, shorter range, carriage closer to home; ball between the thighs rather than at the knee |
+| Knee | Scooter, Down Stretch, standing quad stretch, ball squeeze | Knee pad, shorter range, carriage closer to home; ball between the thighs rather than at the knee; keep the quad stretch shallow and hold the frame |
 | Low back | Bridges and bridge press-out, Section 1 leg extensions & scissors, Hundred, Down Stretch | Smaller bridge range and a small press-out, stay in the over-the-bar set only, legs higher in the Hundred, less extension in Down Stretch |
 
 ---
@@ -252,20 +252,24 @@ starts, and a knee pad for anyone taking the kneeling version.
 ## 9. Cooldown — 4.5 min · R *(carried)* · footbar down *(39:30 → 44:00)*
 
 Static holds only, 5 breaths each, calm voice, minimal cueing, music noticeably down.
-The sequence descends seated → kneeling → supine in one direction, so nobody has to get back up.
+One Mermaid on the carriage, then everyone steps off and the rest is standing — a single
+transition, and the class finishes on its feet, already up for the outro.
 
 | Exercise | Note | Hold |
 |---|---|---|
-| **Mermaid** | Side-seated, reach up and over | 5 breaths / side |
-| **Kneeling hip flexor stretch → Quad stretch** | The quad stretch is the same position with the back foot caught — offer it as a layer, not a separate set-up | 5 breaths / side |
-| **Figure 4** | Supine. Use the strap or the bar to draw the leg in | 5 breaths / side |
-| **Final twist** | Knees drop side to side, arms wide | 5 breaths / side |
-| **Final breath** | Long, still, hands on the ribs | 20 sec |
+| **Mermaid** | Side-seated on the carriage, reach up and over | 5 breaths / side |
+| *Step off — stand at the side of the reformer* | One hand on the frame or footbar for anyone who wants it. Everything from here is standing | — |
+| **Figure 4** | Standing. Ankle across the opposite thigh, sit the hips back and down | 5 breaths / side |
+| **Quad stretch** | Same standing position — catch the foot behind, knees together, tailbone tucked. Hold the frame if balance is the limiter | 5 breaths / side |
+| **Tricep stretch** | Elbow up by the ear, hand down the spine, gentle press on the elbow | 5 breaths / side |
+| **Deep breath** | Arms sweep wide and up on the inhale, float down on the exhale | 3 breaths |
+| **Forward fold** | Roll down, knees soft, head and arms heavy | 5 breaths |
+| **Swing left to right** | Sway gently in the fold, then roll up one bone at a time to stand tall | 20 sec |
 
 This is the section most likely to get eaten if you run late, which is exactly why it's protected:
 "included a cooldown that provided a slow end to class" is its own scored criterion, and a rushed
-cooldown reads worse than a short one. If you arrive at 40:30 instead of 39:30, drop the final
-twist — don't speed up the rest.
+cooldown reads worse than a short one. If you arrive at 40:30 instead of 39:30, drop the tricep
+stretch — don't speed up the rest.
 
 ---
 
@@ -334,7 +338,7 @@ one):
 **Props:** one **small soft ball per reformer**. It's held in the arms in the warm-up and in the
 Long Lunge/Scooter, passed under the knee or thigh, squeezed between the knees in the Bridges
 and the plank block. It isn't used in Section 4. Have it on the carriage before class starts. Also: shoulder-rest blocks; a knee pad or folded towel for Down Stretch
-and the kneeling hip flexor stretch — offer it during screening, not mid-class; a wedge or cushion
+— offer it during screening, not mid-class; a wedge or cushion
 on hand if anyone flags pregnancy.
 
 ---
@@ -373,10 +377,11 @@ on hand if anyone flags pregnancy.
 | *Optional:* Reverse Fly (+ V layer) | Posterior deltoid, rhomboids, mid-trap; the V adds lower trap and serratus | "Arms forward at shoulder height" | "Open wide — and if it's available, keep lifting into a V" |
 | Bicep Curl → hold → Press Up (uncrossed) | Biceps brachii, brachialis; the press adds deltoids, triceps, serratus anterior and lower trap | "Elbows fixed at the waist" | "Only the forearm moves — hold the last one, then press the arms up overhead, ribs stay down" |
 | *Optional:* Mountain Climber (facing the straps) | Rectus abdominis, transversus, hip flexors, shoulder stabilisers, serratus anterior, triceps | "Straps away, still facing them. Hands on the frame, feet on the carriage, long plank" | "Shoulders stay over the wrists — draw the knees in from the deep abdominals, hips stay low" |
-| Mermaid | Quadratus lumborum, obliques, intercostals, lats | "Side-seated, one hand on the bar" | "Reach up first, then over — lengthen the ribs apart" |
-| Kneeling hip flexor / quad stretch | Iliopsoas, rectus femoris, vastus group | "Back knee down, front foot forward" | "Tuck the tailbone under before you lean in" |
-| Figure 4 | Piriformis, deep hip external rotators, glute medius | "Ankle across the opposite thigh" | "Draw the thigh in, let the knee widen" |
-| Final twist | Spinal rotators, QL, obliques; thoracic mobility | "Knees together, arms wide" | "Let the knees fall, keep both shoulders heavy" |
+| Mermaid | Quadratus lumborum, obliques, intercostals, lats | "Side-seated, one hand down beside you" | "Reach up first, then over — lengthen the ribs apart" |
+| Standing Figure 4 | Piriformis, deep hip external rotators, glute medius | "Ankle across the opposite thigh, one hand on the frame" | "Sit the hips back and down — let the knee widen" |
+| Standing quad stretch | Rectus femoris, vastus group, iliopsoas | "Catch the foot behind you, knees together" | "Tuck the tailbone under before you press the hip forward" |
+| Tricep stretch | Triceps brachii, latissimus dorsi, posterior deltoid | "Elbow up by the ear, hand down the spine" | "Gentle press on the elbow — ribs stay down" |
+| Forward fold → swing | Hamstrings, erector spinae, thoracolumbar fascia | "Knees soft, fold from the hips" | "Head and arms heavy — sway side to side, then roll up one bone at a time" |
 
 ---
 
@@ -461,7 +466,7 @@ answers.
 | Pilates principles | §13 — all seven mapped to named exercises |
 | Time management | §2 — running clock, two checkpoints, §17 contingencies |
 | Warm-up | §3 — 5.5 min, dynamic only, all three planes, no static holds |
-| Cooldown | §9 — 4.5 min, static holds, descending to supine |
+| Cooldown | §9 — 4.5 min, static holds, seated on the carriage to standing |
 | Selection of exercises | §3–§9 — sagittal, frontal and transverse; push and pull; flexion and extension |
 | Layering and modifications | Every table has a base plus at least one layer; four progressions are structural |
 | Anatomy | §12 — muscles, set-up cue and execution cue per exercise |
@@ -488,7 +493,7 @@ answers.
 **Over (most likely).** Take it out of Section 4, in this order: drop the optional Mountain Climber,
 then the optional Reverse Fly, then the optional Shoulder Retractions, then Bicep Curl 10 → 8 and Single-Arm Row with Rotation
 8 → 6 per side. That's up to about 3¼ minutes, and nobody notices. If you're
-still over at 40:30, drop the final twist from the cooldown.
+still over at 40:30, drop the tricep stretch from the cooldown.
 
 **Never cut:** the second leg side, Down Stretch, the screening, or the outro. Each is either a
 safety issue, a scored item, or leaves the class visibly unbalanced.
